@@ -1,0 +1,2105 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#1c1916">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+<meta name="googlebot" content="noindex, nofollow">
+<meta name="GPTBot" content="noindex, nofollow">
+<meta name="ClaudeBot" content="noindex, nofollow">
+<title>TOEIC用語彙 100問</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #f5f1e8;
+    --paper-warm: #ebe5d6;
+    --ink: #1c1916;
+    --ink-soft: #3a3530;
+    --muted: #6b6456;
+    --rule: #d4cdba;
+    --rule-soft: #e3ddcc;
+    --accent: #8b2332;
+    --accent-soft: #a84658;
+    --correct: #2f5d2f;
+    --correct-soft: #d9e5d5;
+    --wrong: #8b2332;
+    --wrong-soft: #ead5d8;
+    --shadow: 0 1px 2px rgba(28,25,22,.04), 0 4px 16px rgba(28,25,22,.06);
+    --serif-en: 'Fraunces', 'Noto Serif JP', Georgia, serif;
+    --serif-jp: 'Noto Serif JP', 'Yu Mincho', serif;
+    --sans-jp: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, 'Hiragino Sans', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans-jp);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: transparent;
+    min-height: 100vh;
+  }
+
+  body {
+    background-image:
+      radial-gradient(circle at 20% 10%, rgba(139,35,50,.03), transparent 40%),
+      radial-gradient(circle at 80% 90%, rgba(47,93,47,.03), transparent 40%);
+  }
+
+  .app {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 24px 20px 80px;
+    min-height: 100vh;
+  }
+
+  /* === HEADER === */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-bottom: 16px;
+    margin-bottom: 24px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .brand {
+    font-family: var(--serif-en);
+    font-weight: 500;
+    font-style: italic;
+    font-size: 1.1rem;
+    letter-spacing: .02em;
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .brand-session {
+    display: inline-block;
+    padding: 3px 10px 4px;
+    background: var(--ink);
+    color: var(--paper);
+    font-family: var(--serif-jp);
+    font-size: .78rem;
+    font-style: normal;
+    font-weight: 500;
+    letter-spacing: .08em;
+    line-height: 1;
+    vertical-align: 2px;
+  }
+
+  .brand-main {
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-weight: 500;
+  }
+
+  .brand-sub {
+    font-family: var(--sans-jp);
+    font-size: .75rem;
+    color: var(--muted);
+    font-style: normal;
+    letter-spacing: .05em;
+  }
+
+  @media (max-width: 520px) {
+    .brand { font-size: .95rem; gap: 8px; }
+    .brand-session { font-size: .72rem; padding: 2px 8px 3px; }
+  }
+
+  .meta {
+    font-family: var(--serif-en);
+    font-size: .85rem;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* === PROGRESS BAR === */
+  .progress-wrap {
+    margin-bottom: 32px;
+  }
+
+  .progress-bar {
+    height: 3px;
+    background: var(--rule-soft);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--ink);
+    transition: width .4s cubic-bezier(.4,0,.2,1);
+  }
+
+  .progress-stats {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 8px;
+    font-family: var(--serif-en);
+    font-size: .8rem;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .progress-stats strong {
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  /* === START SCREEN === */
+  .start {
+    padding: 40px 0;
+    text-align: left;
+  }
+
+  .start-eyebrow {
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--accent);
+    margin-bottom: 8px;
+    letter-spacing: .02em;
+  }
+
+  .start-title {
+    font-family: var(--serif-jp);
+    font-size: clamp(1.8rem, 5vw, 2.4rem);
+    font-weight: 700;
+    line-height: 1.25;
+    margin-bottom: 4px;
+    letter-spacing: -.01em;
+  }
+
+  .start-title-en {
+    font-family: var(--serif-en);
+    font-size: clamp(1.3rem, 4vw, 1.8rem);
+    font-weight: 400;
+    font-style: italic;
+    color: var(--ink-soft);
+    margin-bottom: 28px;
+    letter-spacing: -.01em;
+  }
+
+  .start-desc {
+    font-size: .95rem;
+    color: var(--ink-soft);
+    max-width: 540px;
+    margin-bottom: 32px;
+    line-height: 1.75;
+  }
+
+  .start-specs {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    margin-bottom: 40px;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .spec {
+    padding: 16px 14px;
+    border-right: 1px solid var(--rule);
+  }
+  .spec:last-child { border-right: none; }
+
+  .spec-label {
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-size: .7rem;
+    color: var(--muted);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .spec-value {
+    font-family: var(--serif-en);
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 28px;
+    font-family: var(--sans-jp);
+    font-size: 1rem;
+    font-weight: 500;
+    background: var(--ink);
+    color: var(--paper);
+    border: none;
+    cursor: pointer;
+    letter-spacing: .02em;
+    transition: transform .15s, background .15s;
+  }
+
+  .btn:hover { background: var(--ink-soft); }
+  .btn:active { transform: translateY(1px); }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--ink);
+    border: 1px solid var(--ink);
+    padding: 13px 27px;
+  }
+  .btn-ghost:hover { background: var(--ink); color: var(--paper); }
+
+  .btn-arrow {
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-size: 1.05rem;
+  }
+
+  .btn-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .resume-note {
+    background: var(--paper-warm);
+    padding: 14px 16px;
+    margin-bottom: 20px;
+    font-size: .85rem;
+    color: var(--ink-soft);
+    border-left: 3px solid var(--accent);
+    line-height: 1.7;
+  }
+
+  /* === NAME FORM === */
+  .name-form {
+    margin-bottom: 28px;
+    padding: 20px 22px;
+    background: rgba(255,255,255,.4);
+    border: 1px solid var(--rule);
+  }
+
+  .name-field {
+    margin-bottom: 14px;
+  }
+  .name-field:last-of-type { margin-bottom: 0; }
+
+  .name-label {
+    display: block;
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-size: .78rem;
+    color: var(--muted);
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .name-label .jp {
+    font-family: var(--sans-jp);
+    font-style: normal;
+    font-size: .72rem;
+    color: var(--ink-soft);
+    margin-left: 8px;
+    letter-spacing: .02em;
+    text-transform: none;
+  }
+
+  .name-input {
+    width: 100%;
+    padding: 11px 14px;
+    font-family: var(--sans-jp);
+    font-size: 1rem;
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    color: var(--ink);
+    transition: border-color .15s, background .15s;
+    border-radius: 0;
+  }
+
+  .name-input:focus {
+    outline: none;
+    border-color: var(--ink);
+    background: #fff;
+  }
+
+  .name-error {
+    font-family: var(--sans-jp);
+    font-size: .82rem;
+    color: var(--wrong);
+    margin-top: 10px;
+    min-height: 1em;
+    font-weight: 500;
+  }
+
+  /* === STUDENT BANNER (Result Screen) === */
+  .student-banner {
+    padding: 16px 20px;
+    margin-bottom: 28px;
+    background: var(--ink);
+    color: var(--paper);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .student-name-jp {
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-size: .7rem;
+    color: var(--paper);
+    opacity: .65;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    margin-right: 10px;
+  }
+
+  .student-name {
+    font-family: var(--serif-jp);
+    font-size: 1.2rem;
+    color: var(--paper);
+    font-weight: 500;
+    letter-spacing: .01em;
+  }
+
+  .student-id {
+    font-family: var(--serif-en);
+    font-size: .95rem;
+    color: var(--paper);
+    opacity: .75;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .student-datetime {
+    font-family: var(--serif-en);
+    font-size: .85rem;
+    color: var(--paper);
+    opacity: .7;
+    font-variant-numeric: tabular-nums;
+    font-style: italic;
+  }
+
+  @media (max-width: 520px) {
+    .student-banner {
+      padding: 14px 16px;
+      gap: 8px;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .student-name { font-size: 1.05rem; }
+    .student-datetime { font-size: .8rem; }
+  }
+
+  /* === SUBMIT NOTICE === */
+  .submit-notice {
+    padding: 16px 20px;
+    margin-bottom: 32px;
+    background: #fffaf0;
+    border: 2px solid var(--accent);
+    border-left-width: 6px;
+  }
+
+  .submit-notice-label {
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-size: .72rem;
+    color: var(--accent);
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+
+  .submit-notice-body {
+    font-family: var(--sans-jp);
+    font-size: .92rem;
+    color: var(--ink);
+    line-height: 1.75;
+  }
+
+  .submit-notice-body strong {
+    color: var(--ink);
+    font-weight: 700;
+    font-size: 1rem;
+  }
+
+  .submit-notice-caution {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px dashed var(--rule);
+    font-size: .82rem;
+    color: var(--ink-soft);
+    line-height: 1.6;
+  }
+
+  .submit-notice-caution u {
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    text-underline-offset: 3px;
+    font-weight: 500;
+  }
+
+  @media (max-width: 520px) {
+    .submit-notice { padding: 14px 16px; }
+    .submit-notice-body { font-size: .88rem; }
+    .submit-notice-body strong { font-size: .95rem; }
+    .submit-notice-caution { font-size: .78rem; }
+  }
+
+  /* === QUIZ SCREEN === */
+  .question-num {
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-size: .85rem;
+    color: var(--muted);
+    letter-spacing: .05em;
+    margin-bottom: 12px;
+  }
+
+  .question-num::before {
+    content: "—— ";
+    color: var(--rule);
+  }
+
+  .question {
+    font-family: var(--serif-en);
+    font-size: clamp(1.15rem, 3.5vw, 1.4rem);
+    line-height: 1.6;
+    margin-bottom: 28px;
+    color: var(--ink);
+    font-weight: 400;
+    letter-spacing: -.005em;
+  }
+
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+
+  .option {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 14px 18px;
+    background: transparent;
+    border: 1px solid var(--rule);
+    text-align: left;
+    cursor: pointer;
+    font-family: var(--serif-en);
+    font-size: 1.02rem;
+    color: var(--ink);
+    transition: all .15s;
+    width: 100%;
+    line-height: 1.4;
+  }
+
+  .option:hover:not(:disabled) {
+    border-color: var(--ink);
+    background: var(--paper-warm);
+  }
+
+  .option:disabled { cursor: default; }
+
+  .option-letter {
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-weight: 500;
+    color: var(--muted);
+    min-width: 20px;
+    flex-shrink: 0;
+  }
+
+  .option-text {
+    flex: 1;
+  }
+
+  .option.correct {
+    border-color: var(--correct);
+    background: var(--correct-soft);
+    color: var(--correct);
+  }
+  .option.correct .option-letter { color: var(--correct); }
+
+  .option.wrong {
+    border-color: var(--wrong);
+    background: var(--wrong-soft);
+    color: var(--wrong);
+  }
+  .option.wrong .option-letter { color: var(--wrong); }
+
+  .option.dimmed {
+    opacity: .55;
+  }
+
+  /* === FEEDBACK === */
+  .feedback {
+    margin-top: 8px;
+    padding: 20px 22px;
+    border-left: 3px solid var(--ink);
+    background: var(--paper-warm);
+    animation: slideIn .3s ease-out;
+  }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(-6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .feedback.correct { border-left-color: var(--correct); }
+  .feedback.wrong { border-left-color: var(--wrong); }
+
+  .feedback-verdict {
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 10px;
+    letter-spacing: .02em;
+  }
+
+  .feedback.correct .feedback-verdict { color: var(--correct); }
+  .feedback.wrong .feedback-verdict { color: var(--wrong); }
+
+  .feedback-verdict-jp {
+    font-family: var(--sans-jp);
+    font-size: .75rem;
+    font-weight: 500;
+    font-style: normal;
+    color: var(--muted);
+    margin-left: 8px;
+    letter-spacing: .05em;
+  }
+
+  .feedback-body {
+    font-size: .92rem;
+    line-height: 1.75;
+    color: var(--ink-soft);
+  }
+
+  .feedback-sentence {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 14px;
+    margin-bottom: 14px;
+    background: rgba(47,93,47,.06);
+    border: 1px solid rgba(47,93,47,.15);
+    font-family: var(--serif-en);
+    font-size: .98rem;
+    line-height: 1.55;
+    color: var(--correct);
+  }
+
+  .feedback-sentence.wrong-sentence {
+    background: rgba(139,35,50,.04);
+    border-color: rgba(139,35,50,.12);
+    color: var(--ink-soft);
+  }
+
+  .feedback-sentence-text {
+    flex: 1;
+    font-style: italic;
+  }
+
+  /* feedback-sentence 内の下線語は文の色（緑/赤）に合わせる */
+  .feedback-sentence .clickable-word {
+    color: inherit;
+    border-bottom: 1px dotted currentColor;
+    opacity: .92;
+  }
+  .feedback-sentence .clickable-word:hover,
+  .feedback-sentence .clickable-word:active {
+    background-color: rgba(0,0,0,.08);
+    opacity: 1;
+  }
+  .feedback-sentence .clickable-word.active {
+    background-color: rgba(0,0,0,.15);
+  }
+
+  .accent-btns {
+    display: flex;
+    gap: 6px;
+    flex-shrink: 0;
+    align-items: center;
+  }
+
+  .accent-btn {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 5px 10px;
+    background: var(--correct);
+    color: var(--paper);
+    border: none;
+    cursor: pointer;
+    font-size: .72rem;
+    font-family: var(--sans-jp);
+    font-weight: 500;
+    letter-spacing: .03em;
+    transition: transform .12s, opacity .12s;
+    white-space: nowrap;
+  }
+
+  .accent-btn:hover { opacity: .85; }
+  .accent-btn:active { transform: scale(.93); }
+
+  .accent-label {
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-size: .7rem;
+  }
+
+  .wrong-sentence .accent-btn {
+    background: var(--muted);
+  }
+
+  @media (max-width: 520px) {
+    .feedback-sentence { font-size: .9rem; padding: 8px 12px; flex-wrap: wrap; }
+    .accent-btns { margin-top: 6px; }
+    .accent-btn { padding: 4px 8px; font-size: .68rem; }
+  }
+
+  .feedback-correct-answer {
+    font-family: var(--serif-en);
+    color: var(--ink);
+    font-weight: 500;
+    font-style: italic;
+  }
+
+  /* === NAV === */
+  .nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 28px;
+    gap: 12px;
+  }
+
+  .nav-quit {
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-size: .85rem;
+    color: var(--muted);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px 4px;
+    text-decoration: underline;
+    text-decoration-color: var(--rule);
+    text-underline-offset: 4px;
+  }
+  .nav-quit:hover { color: var(--ink); }
+
+  /* === RESULTS === */
+  .results {
+    padding: 20px 0;
+  }
+
+  .results-eyebrow {
+    font-family: var(--serif-en);
+    font-style: italic;
+    color: var(--accent);
+    font-size: 1rem;
+    margin-bottom: 8px;
+  }
+
+  .results-title {
+    font-family: var(--serif-jp);
+    font-size: clamp(1.8rem, 5vw, 2.4rem);
+    font-weight: 700;
+    margin-bottom: 32px;
+    line-height: 1.25;
+  }
+
+  .score-display {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 8px;
+  }
+
+  .score-big {
+    font-family: var(--serif-en);
+    font-size: clamp(4rem, 14vw, 6rem);
+    font-weight: 300;
+    line-height: 1;
+    color: var(--ink);
+    letter-spacing: -.02em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .score-big sup {
+    font-size: .4em;
+    font-style: italic;
+    color: var(--muted);
+    font-weight: 400;
+    margin-left: 4px;
+  }
+
+  .score-label {
+    font-family: var(--serif-en);
+    font-style: italic;
+    color: var(--muted);
+    font-size: 1rem;
+  }
+
+  .score-breakdown {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    margin: 32px 0;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .score-cell {
+    padding: 16px 12px;
+    border-right: 1px solid var(--rule);
+  }
+  .score-cell:last-child { border-right: none; }
+
+  .score-cell-label {
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-size: .7rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    margin-bottom: 4px;
+  }
+
+  .score-cell-value {
+    font-family: var(--serif-en);
+    font-size: 1.4rem;
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .score-cell.correct .score-cell-value { color: var(--correct); }
+  .score-cell.wrong .score-cell-value { color: var(--wrong); }
+
+  .results-msg {
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-size: 1.1rem;
+    color: var(--ink-soft);
+    margin-bottom: 32px;
+    line-height: 1.6;
+  }
+
+  /* === REVIEW LIST === */
+  .review-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .review-title {
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-size: 1.1rem;
+    color: var(--ink);
+  }
+
+  .review-title-jp {
+    font-family: var(--sans-jp);
+    font-size: .8rem;
+    color: var(--muted);
+    margin-left: 8px;
+    letter-spacing: .05em;
+  }
+
+  .review-count {
+    font-family: var(--serif-en);
+    font-size: .85rem;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* === UTILITIES === */
+  .hidden { display: none !important; }
+
+  .footer {
+    margin-top: 60px;
+    padding-top: 20px;
+    border-top: 1px solid var(--rule);
+    text-align: center;
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-size: .75rem;
+    color: var(--muted);
+    letter-spacing: .03em;
+  }
+
+  /* Mobile tweaks */
+  @media (max-width: 520px) {
+    .app { padding: 20px 16px 60px; }
+    .start-specs, .score-breakdown {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    .spec, .score-cell { padding: 12px 8px; }
+    .spec-value, .score-cell-value { font-size: 1.15rem; }
+    .question { font-size: 1.1rem; }
+    .option { font-size: .98rem; padding: 12px 14px; }
+    .btn { padding: 12px 22px; font-size: .95rem; }
+  }
+
+  /* Print-like paper texture subtle */
+  .app::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background-image: radial-gradient(circle at 1px 1px, rgba(28,25,22,.015) 1px, transparent 0);
+    background-size: 3px 3px;
+    z-index: 0;
+  }
+  .app > * { position: relative; z-index: 1; }
+
+  /* === Header right toolbar (rate selector + teacher badge) === */
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .rate-control {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .rate-control-label {
+    font-family: var(--sans-jp);
+    font-size: .75rem;
+    color: var(--muted);
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  .rate-segment {
+    display: inline-flex;
+    border: 1px solid var(--ink);
+    background: var(--paper);
+  }
+
+  .rate-segment-btn {
+    padding: 4px 10px;
+    background: transparent;
+    border: none;
+    color: var(--ink);
+    font-family: var(--sans-jp);
+    font-size: .8rem;
+    font-weight: 500;
+    cursor: pointer;
+    border-right: 1px solid var(--ink);
+    transition: all .12s;
+    line-height: 1.4;
+  }
+  .rate-segment-btn:last-child { border-right: none; }
+  .rate-segment-btn:hover:not(.active) {
+    background: var(--rule-soft);
+  }
+  .rate-segment-btn.active {
+    background: var(--ink);
+    color: var(--paper);
+    font-weight: 700;
+  }
+
+  @media (max-width: 520px) {
+    .rate-control-label { font-size: .7rem; }
+    .rate-segment-btn { padding: 4px 8px; font-size: .75rem; }
+  }
+
+  .teacher-badge {
+    display: inline-block;
+    padding: 3px 9px;
+    background: linear-gradient(90deg, #c026d3, #a855f7);
+    color: white;
+    font-family: var(--serif-en);
+    font-size: .68rem;
+    font-style: italic;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    line-height: 1.1;
+    vertical-align: middle;
+  }
+
+  /* === Teacher mode answer hint === */
+  .teacher-hint {
+    margin-top: 12px;
+    padding: 8px 12px;
+    border: 2px solid #a855f7;
+    background: #fdf4ff;
+    color: #a01daf;
+    font-family: var(--serif-en);
+    font-size: .85rem;
+    font-style: italic;
+    font-weight: 500;
+    letter-spacing: .02em;
+  }
+
+  /* === Score comparison block === */
+  .score-comparison {
+    margin: 24px 0 0;
+    padding: 16px 18px;
+    background: var(--paper-warm);
+    border-left: 4px solid var(--accent);
+  }
+
+  .score-comparison-label {
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-size: .72rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    margin-bottom: 8px;
+  }
+
+  .score-comparison-row {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    flex-wrap: wrap;
+    font-family: var(--serif-en);
+    font-size: .95rem;
+    color: var(--ink-soft);
+  }
+
+  .score-comparison-row strong {
+    font-family: var(--serif-en);
+    font-size: 1.15rem;
+    font-weight: 500;
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .score-delta {
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 1rem;
+    padding: 2px 10px;
+    border-radius: 0;
+  }
+  .score-delta.up {
+    background: var(--correct-soft);
+    color: var(--correct);
+  }
+  .score-delta.down {
+    background: var(--wrong-soft);
+    color: var(--wrong);
+  }
+  .score-delta.same {
+    background: var(--rule-soft);
+    color: var(--ink-soft);
+  }
+
+  /* === Retry mode banner === */
+  .retry-banner {
+    margin-bottom: 24px;
+    padding: 14px 18px;
+    background: #fef3c7;
+    border-left: 4px solid var(--accent);
+    font-family: var(--sans-jp);
+    font-size: .9rem;
+    color: var(--ink);
+  }
+  .retry-banner strong {
+    color: var(--accent);
+    font-weight: 700;
+  }
+  .retry-banner-label {
+    display: inline-block;
+    padding: 2px 8px;
+    background: var(--accent);
+    color: var(--paper);
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-size: .72rem;
+    font-weight: 500;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    margin-right: 8px;
+    vertical-align: 1px;
+  }
+
+  /* === Start screen notes === */
+  .start-notes {
+    margin-top: 28px;
+    margin-bottom: 16px;
+    padding: 16px 18px;
+    background: var(--paper-warm);
+    border-left: 3px solid var(--ink-soft);
+  }
+  .start-notes-label {
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-size: .72rem;
+    color: var(--muted);
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .start-notes p {
+    font-family: var(--sans-jp);
+    font-size: .88rem;
+    line-height: 1.75;
+    color: var(--ink-soft);
+    margin-bottom: 4px;
+  }
+  .start-notes p:last-child { margin-bottom: 0; }
+  .start-notes .underline-demo {
+    border-bottom: 1px dotted var(--accent);
+    color: var(--accent);
+    padding: 0 1px;
+  }
+
+  /* === Dictionary popup (clickable words) === */
+  .clickable-word {
+    border-bottom: 1px dotted var(--accent);
+    cursor: pointer;
+    color: var(--accent);
+    padding: 0 1px;
+    -webkit-tap-highlight-color: transparent;
+    transition: background-color .15s;
+  }
+  .clickable-word:hover, .clickable-word:active {
+    background-color: rgba(139,35,50,.12);
+  }
+  .clickable-word.active {
+    background-color: rgba(139,35,50,.2);
+  }
+
+  .target-blank-word {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 1px 6px;
+    font-style: italic;
+    font-weight: 500;
+  }
+
+  .word-popup {
+    position: fixed;
+    z-index: 200;
+    background: var(--ink);
+    color: var(--paper);
+    padding: 12px 16px;
+    min-width: 200px;
+    max-width: 320px;
+    box-shadow: 0 4px 20px rgba(0,0,0,.25);
+    border: 1px solid var(--ink);
+    animation: popupFadeIn .15s ease-out;
+  }
+  @keyframes popupFadeIn {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .word-popup-headword {
+    font-family: var(--serif-en);
+    font-size: 1.2rem;
+    font-style: italic;
+    font-weight: 500;
+    color: var(--paper);
+    margin-bottom: 4px;
+  }
+  .word-popup-meaning {
+    font-family: var(--sans-jp);
+    font-size: .9rem;
+    color: var(--paper);
+    line-height: 1.5;
+    opacity: .95;
+  }
+  .word-popup-close {
+    position: absolute;
+    top: 6px;
+    right: 8px;
+    background: none;
+    border: none;
+    color: var(--paper);
+    opacity: .6;
+    cursor: pointer;
+    font-family: var(--serif-en);
+    font-size: 1.1rem;
+    line-height: 1;
+    padding: 2px 6px;
+  }
+  .word-popup-close:hover { opacity: 1; }
+
+  @media (max-width: 520px) {
+    .word-popup {
+      left: 12px !important;
+      right: 12px !important;
+      max-width: none !important;
+      min-width: 0 !important;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="app" id="app"></div>
+
+<script>
+// =============================================================================
+// QUESTION DATA (100 questions)
+// =============================================================================
+const QUESTIONS = [];
+const QUESTIONS_DATA = [{"q":"The customer wanted to see the _____ document, not a photocopy.","opts":["opposite","outside","ordinary","original"],"ans":4,"exp":"original document は「原本、原文書」の定型で、コピーと対比される。opposite は「反対の」（the opposite direction）、outside は「外側の」（the outside wall）、ordinary は「普通の」（an ordinary day）で、コピーとの対比に立たない。","sMatches":[{"start":4,"end":12,"term":"customer","meaning":"顧客","original":"customer"},{"start":23,"end":26,"term":"see","meaning":"見る、会う","original":"see"},{"start":40,"end":48,"term":"document","meaning":"書類、文書","original":"document"},{"start":56,"end":65,"term":"photocopy","meaning":"コピー","original":"photocopy"}]},{"q":"The bookstore offers a wide _____ of foreign language novels.","opts":["selection","station","signal","section"],"ans":1,"exp":"a wide selection of ～ は「幅広い品揃えの～」の定型。station は「駅」、signal は「信号」、section は「区画、課」（a section of the report）で「商品の種類の幅」の意味にならない。","sMatches":[{"start":4,"end":13,"term":"bookstore","meaning":"書店","original":"bookstore"},{"start":41,"end":64,"term":"foreign language novels","meaning":"外国語の小説","original":"foreign language novels"}]},{"q":"The new shopping mall is expected to _____ tourists from all over the country.","opts":["avoid","attract","approve","arrange"],"ans":2,"exp":"attract tourists は「観光客を引き寄せる」の定型動詞。avoid は「避ける」（avoid traffic）、approve は「承認する」（approve a plan）、arrange は「手配する」（arrange a meeting）で「引き寄せる」の意味にならない。","sMatches":[{"start":4,"end":7,"term":"new","meaning":"新しい","original":"new"},{"start":8,"end":21,"term":"shopping mall","meaning":"ショッピングモール","original":"shopping mall"},{"start":22,"end":36,"term":"is expected to","meaning":"～すると見込まれる","original":"is expected to"},{"start":63,"end":67,"term":"over","meaning":"〜以上、越えて","original":"over"}]},{"q":"Our customer service team can _____ all complaints within 24 hours.","opts":["handle","hurry","hesitate","hand"],"ans":1,"exp":"handle complaints は「苦情を処理する」の定型動詞。hurry は「急ぐ」（hurry to the station）、hesitate は「ためらう」（hesitate to ask）、hand は「手渡す」（hand a document to ～）で「処理・対応する」の意味にならない。","sMatches":[{"start":4,"end":25,"term":"customer service team","meaning":"カスタマーサービス部","original":"customer service team"},{"start":52,"end":67,"term":"within 24 hours","meaning":"24時間以内に","original":"within 24 hours"}]},{"q":"The manager sent a _____ to all staff about the new dress code.","opts":["menu","media","memo","movie"],"ans":3,"exp":"send a memo は「通達を出す」の定型で、社内連絡を指す。menu は「献立」、media は「報道機関」（複数扱い）、movie は「映画」で「社内文書」の意味にならない。","sMatches":[{"start":4,"end":11,"term":"manager","meaning":"管理者","original":"manager"},{"start":31,"end":36,"term":"staff","meaning":"職員、スタッフ","original":"staff"},{"start":47,"end":50,"term":"new","meaning":"新しい","original":"new"},{"start":51,"end":61,"term":"dress code","meaning":"服装規定","original":"dress code"}]},{"q":"Please _____ your résumé to the application form before submitting it.","opts":["approve","attend","arrange","attach"],"ans":4,"exp":"attach A to B は「AをBに添付する」の標準構文で、to を伴うのが定型。approve は「承認する」、attend は「出席する」（attend a meeting）、arrange は「手配する」で「添付する」の意味にならない。","sMatches":[{"start":19,"end":25,"term":"résumé","meaning":"履歴書","original":"résumé"},{"start":33,"end":49,"term":"application form","meaning":"申込書","original":"application form"}]},{"q":"Please make sure your contact information is _____ before submitting the form.","opts":["correct","capable","curious","cautious"],"ans":1,"exp":"correct information は「正しい情報」の定型で、誤りがないことを示す。capable は「能力がある」（capable of doing）、curious は「好奇心の強い」（curious about ～）、cautious は「慎重な」で人の態度・判断・方法に使う語のため、連絡先情報の正誤を表す語としては合わない。","sMatches":[{"start":12,"end":16,"term":"sure","meaning":"確信して","original":"sure"},{"start":22,"end":41,"term":"contact information","meaning":"連絡先情報","original":"contact information"}]},{"q":"The city _____ approved the new park construction project last night.","opts":["council","counter","couple","court"],"ans":1,"exp":"city council は「市議会」の定型で、自治体の議決機関を指す。counter は「カウンター、計数器」、couple は「夫婦、二つ」、court は「法廷、コート」で「議決機関」の意味にならない。","sMatches":[{"start":17,"end":25,"term":"approved","meaning":"承認した","original":"approved"},{"start":30,"end":33,"term":"new","meaning":"新しい","original":"new"},{"start":39,"end":59,"term":"construction project","meaning":"建設計画","original":"construction project"}]},{"q":"I _____ that the meeting will be postponed because of the snowstorm.","opts":["supply","suppose","support","survive"],"ans":2,"exp":"suppose that ～ は「～だと思う、推測する」の定型動詞で、that節を取る。supply は「供給する」（supply goods to ～）、support は「支援する」（support a team）、survive は「生き残る」で「推測する」の意味にならない。","sMatches":[{"start":19,"end":26,"term":"meeting","meaning":"会議","original":"meeting"},{"start":35,"end":44,"term":"postponed","meaning":"延期された","original":"postponed"},{"start":60,"end":69,"term":"snowstorm","meaning":"吹雪","original":"snowstorm"}]},{"q":"Our company holds _____ meetings every Monday morning to share updates.","opts":["recent","regular","related","responsible"],"ans":2,"exp":"regular meetings は「定例会議」の定型で、定期的に行うことを示す。recent は「最近の」（recent news）、related は「関係のある」（a related issue）、responsible は「責任のある」（responsible for ～）で「定期的に行う」の意味にならない。","sMatches":[{"start":59,"end":72,"term":"share updates","meaning":"最新情報を共有する","original":"share updates"}]},{"q":"Sales increased significantly in the third _____ of this fiscal year.","opts":["quality","quantity","question","quarter"],"ans":4,"exp":"the third quarter は「第3四半期」で、会計年度を4等分した3か月単位の期間を指す。quality は「品質」、quantity は「数量」、question は「質問」で「会計期間」の意味にならない。","sMatches":[{"start":0,"end":5,"term":"sales","meaning":"売上","original":"Sales"},{"start":6,"end":29,"term":"increased significantly","meaning":"大幅に増加した","original":"increased significantly"},{"start":59,"end":70,"term":"fiscal year","meaning":"会計年度","original":"fiscal year"}]},{"q":"Please _____ to this email by Friday so we can finalize the schedule.","opts":["reduce","repeat","respond","remove"],"ans":3,"exp":"respond to ～ は「～に返信する、応じる」の定型で、前置詞 to を伴う。reduce は「減らす」（reduce costs）、repeat は「繰り返す」、remove は「取り除く」で「返信する」の意味にならない。","sMatches":[{"start":49,"end":70,"term":"finalize the schedule","meaning":"予定を確定する","original":"finalize the schedule"}]},{"q":"The car _____ recalled thousands of vehicles due to a safety issue.","opts":["machinery","management","manufacturer","marketplace"],"ans":3,"exp":"car manufacturer は「自動車メーカー」の定型で、製造する会社を指す。machinery は「機械類」（不可算）、management は「経営陣」、marketplace は「市場、市場領域」で「製造する会社」の意味にならない。","sMatches":[{"start":21,"end":29,"term":"recalled","meaning":"リコールした","original":"recalled"},{"start":52,"end":58,"term":"due to","meaning":"～のために","original":"due to"},{"start":61,"end":73,"term":"safety issue","meaning":"安全上の問題","original":"safety issue"}]},{"q":"Heavy rain can _____ serious damage to the crops in this region.","opts":["collect","compare","consume","cause"],"ans":4,"exp":"cause damage は「損害を引き起こす」の定型動詞で、悪い結果を生むことを示す。collect は「集める」（collect data）、compare は「比較する」（compare A with B）、consume は「消費する」（consume energy）で「引き起こす」の意味にならない。","sMatches":[{"start":0,"end":10,"term":"heavy rain","meaning":"大雨","original":"Heavy rain"},{"start":21,"end":35,"term":"serious damage","meaning":"深刻な損害","original":"serious damage"},{"start":43,"end":48,"term":"crops","meaning":"作物","original":"crops"},{"start":57,"end":63,"term":"region","meaning":"地域","original":"region"}]},{"q":"This medical _____ is used to monitor patients' heart rates.","opts":["decision","demand","deposit","device"],"ans":4,"exp":"medical device は「医療機器」の定型で、医療目的の機器を指す。decision は「決定」（make a decision）、demand は「需要」（meet demand）、deposit は「保証金、預金」で「物理的な機器」の意味にならない。","sMatches":[{"start":23,"end":27,"term":"used","meaning":"使った、使用済みの","original":"used"},{"start":31,"end":38,"term":"monitor","meaning":"監視する","original":"monitor"},{"start":49,"end":60,"term":"heart rates","meaning":"心拍数","original":"heart rates"}]},{"q":"The shipment will be stored in our _____ until next Monday.","opts":["waiting room","warehouse","workshop","wallet"],"ans":2,"exp":"store in a warehouse は「倉庫に保管する」の定型で、貨物の保管場所を指す。waiting room は「待合室」、workshop は「作業場、講習会」、wallet は「財布」で「貨物保管」の場所にならない。","sMatches":[{"start":4,"end":12,"term":"shipment","meaning":"出荷品、発送物","original":"shipment"},{"start":21,"end":27,"term":"stored","meaning":"保管された","original":"stored"},{"start":51,"end":55,"term":"next","meaning":"次の","original":"next"}]},{"q":"The package _____ several fragile items that need careful handling.","opts":["contains","connects","controls","continues"],"ans":1,"exp":"contain ～ は「（中に）～を含む」の定型動詞で、容器の中身を示す。connects は「つなぐ」（connect A to B）、controls は「管理する」、continues は「続ける」で「中身が入っている」用法にならない。","sMatches":[{"start":4,"end":11,"term":"package","meaning":"小包、パッケージ","original":"package"},{"start":21,"end":28,"term":"several","meaning":"いくつかの","original":"several"},{"start":29,"end":42,"term":"fragile items","meaning":"壊れやすい品物","original":"fragile items"},{"start":48,"end":52,"term":"need","meaning":"必要（とする）","original":"need"},{"start":53,"end":69,"term":"careful handling","meaning":"慎重な取り扱い","original":"careful handling"}]},{"q":"Each student will receive _____ feedback on their final essays.","opts":["industrial","initial","individual","immediate"],"ans":3,"exp":"individual feedback は「個別の助言」の定型で、一人ひとりに与える評価を指す。industrial は「産業の」（industrial waste）、initial は「最初の」（initial response）、immediate は「即時の」（immediate action）で「個別」の意味にならない。","sMatches":[{"start":5,"end":12,"term":"student","meaning":"学生","original":"student"},{"start":18,"end":25,"term":"receive","meaning":"受け取る","original":"receive"},{"start":37,"end":45,"term":"feedback","meaning":"フィードバック、意見","original":"feedback"},{"start":55,"end":67,"term":"final essays","meaning":"最終レポート","original":"final essays"}]},{"q":"Smoking is not _____ inside the restaurant or near the entrance.","opts":["permitted","prepared","pretended","preferred"],"ans":1,"exp":"be permitted は「許可される」の受動態定型で、規則・禁止を伝える。prepared は「準備された」（be prepared for ～）、pretended は「ふりをした」、preferred は「好まれる」（be preferred by ～）で「許可されている」の意味にならない。","sMatches":[{"start":0,"end":7,"term":"smoking","meaning":"喫煙","original":"Smoking"},{"start":36,"end":46,"term":"restaurant","meaning":"レストラン","original":"restaurant"},{"start":59,"end":67,"term":"entrance","meaning":"入口","original":"entrance"}]},{"q":"Mr. Yamada will _____ to the Singapore office next month.","opts":["translate","transport","transfer","transform"],"ans":3,"exp":"transfer to ～ は「～へ転勤する」の定型動詞で、人事異動を表す。translate は「翻訳する」（translate A into B）、transport は「輸送する」（物が対象）、transform は「変形させる」（transform A into B）で「人事異動」の意味にならない。","sMatches":[{"start":32,"end":48,"term":"singapore office","meaning":"シンガポール支店","original":"Singapore office"},{"start":49,"end":59,"term":"next month","meaning":"来月","original":"next month"}]},{"q":"Completing this _____ on time requires teamwork and clear communication.","opts":["tax","task","test","tour"],"ans":2,"exp":"complete a task は「仕事を完了する」の定型で、与えられた業務を指す。tax は「税金」（pay tax）、test は「試験」（take a test）、tour は「旅行」（go on a tour）で「与えられた仕事」の意味にならない。","sMatches":[{"start":21,"end":28,"term":"on time","meaning":"時間通りに","original":"on time"},{"start":38,"end":46,"term":"teamwork","meaning":"チームワーク","original":"teamwork"},{"start":51,"end":70,"term":"clear communication","meaning":"明確な意思疎通","original":"clear communication"}]},{"q":"The company _____ to expand its operations into Southeast Asia next year.","opts":["invents","invests","invites","intends"],"ans":4,"exp":"intend to do ～ は「～するつもりだ」の定型動詞で、計画・意図を示す。invents は「発明する」、invests は「投資する」（invest in ～）、invites は「招待する」（invite A to B）で「意図を述べる」用法にならない。","sMatches":[{"start":23,"end":29,"term":"expand","meaning":"拡大する","original":"expand"},{"start":34,"end":44,"term":"operations","meaning":"事業","original":"operations"},{"start":50,"end":64,"term":"southeast asia","meaning":"東南アジア","original":"Southeast Asia"},{"start":65,"end":69,"term":"next","meaning":"次の","original":"next"},{"start":70,"end":74,"term":"year","meaning":"年","original":"year"}]},{"q":"Please send your questions _____ to the customer support team.","opts":["deeply","daily","doubtfully","directly"],"ans":4,"exp":"send directly to ～ は「～に直接送る」の定型で、仲介を介さないことを示す。deeply は「深く」（deeply moved）、daily は「毎日」、doubtfully は「疑わしく」で「直接」の意味にならない。","sMatches":[{"start":43,"end":64,"term":"customer support team","meaning":"カスタマーサポート部","original":"customer support team"}]},{"q":"The travel agency mailed a colorful _____ describing its tour packages.","opts":["browser","brochure","breakfast","bracelet"],"ans":2,"exp":"travel brochure は「旅行パンフレット」の定型で、案内冊子を指す。browser は「ブラウザ、閲覧者」、breakfast は「朝食」、bracelet は「腕輪」で「案内冊子」の意味にならない。","sMatches":[{"start":4,"end":17,"term":"travel agency","meaning":"旅行代理店","original":"travel agency"},{"start":18,"end":24,"term":"mailed","meaning":"郵送した","original":"mailed"},{"start":60,"end":73,"term":"tour packages","meaning":"ツアープラン","original":"tour packages"}]},{"q":"The annual photography _____ attracts entries from all over the world.","opts":["competition","commission","commitment","collection"],"ans":1,"exp":"photography competition は「写真コンテスト」の定型で、競い合う催しを指す。commission は「委員会、手数料」（earn a commission）、commitment は「約束、献身」（make a commitment）、collection は「収集、収集品」で「競技会」の意味にならない。","sMatches":[{"start":4,"end":10,"term":"annual","meaning":"年に一度の","original":"annual"},{"start":35,"end":51,"term":"attracts entries","meaning":"応募作品を集める","original":"attracts entries"},{"start":61,"end":65,"term":"over","meaning":"〜以上、越えて","original":"over"}]},{"q":"Tickets for the concert are _____ in number, so please book yours early.","opts":["lifted","listed","limited","located"],"ans":3,"exp":"limited in number は「数に限りがある」の定型で、数量に上限があることを示す。lifted は「持ち上げられた」（lift restrictions）、listed は「掲載された」（listed companies = 上場企業）、located は「位置している」（located in ～）で「数量に上限がある」の意味にならない。","sMatches":[{"start":57,"end":61,"term":"book","meaning":"予約する","original":"book"},{"start":68,"end":73,"term":"early","meaning":"早い、早期の","original":"early"}]},{"q":"_____ demand for organic products has grown rapidly in recent years.","opts":["Container","Consumer","Continent","Conversion"],"ans":2,"exp":"consumer demand は「消費者需要」の定型で、商品を買う人の需要を指す。container は「容器」、continent は「大陸」、conversion は「変換、転換」（currency conversion）で「商品を買う人」の意味にならない。","sMatches":[{"start":20,"end":36,"term":"organic products","meaning":"有機製品","original":"organic products"},{"start":47,"end":54,"term":"rapidly","meaning":"急速に","original":"rapidly"},{"start":55,"end":70,"term":"in recent years","meaning":"近年","original":"in recent years"}]},{"q":"All employees must follow the safety _____ when using the equipment.","opts":["program","procedure","production","projection"],"ans":2,"exp":"safety procedure は「安全手順」の定型で、規定された手続きを指す。program は「番組、計画」（TV program）、production は「生産」（mass production）、projection は「予測、投影」で「決められた手続き」の意味にならない。","sMatches":[{"start":4,"end":13,"term":"employees","meaning":"従業員","original":"employees"},{"start":30,"end":36,"term":"safety","meaning":"安全","original":"safety"},{"start":62,"end":71,"term":"equipment","meaning":"機器","original":"equipment"}]},{"q":"Our sales team is meeting with several _____ clients in Tokyo next week.","opts":["practical","previous","potential","personal"],"ans":3,"exp":"potential clients は「見込み客」の定型で、まだ取引のない将来の顧客を指す。practical は「実用的な」（practical advice）、previous は「以前の」（previous experience）、personal は「個人的な」（personal opinion）で「将来取引する可能性がある」の意味にならない。","sMatches":[{"start":4,"end":14,"term":"sales team","meaning":"営業部","original":"sales team"},{"start":18,"end":25,"term":"meeting","meaning":"会議","original":"meeting"},{"start":31,"end":38,"term":"several","meaning":"いくつかの","original":"several"},{"start":66,"end":75,"term":"next week","meaning":"来週","original":"next week"}]},{"q":"The new restaurant is located _____, just a short walk from the station.","opts":["downstairs","downward","downtime","downtown"],"ans":4,"exp":"located downtown は「中心街にある」の定型で、副詞として位置を示す。downstairs は「階下に」（go downstairs）、downward は「下方に」（move downward）、downtime は「停止時間、休止時間」で「市の中心部」の意味にならない。","sMatches":[{"start":4,"end":7,"term":"new","meaning":"新しい","original":"new"},{"start":8,"end":18,"term":"restaurant","meaning":"レストラン","original":"restaurant"},{"start":22,"end":29,"term":"located","meaning":"位置している","original":"located"},{"start":45,"end":62,"term":"a short walk from","meaning":"～から徒歩すぐ","original":"a short walk from"}]},{"q":"The company's _____ are located in New York, with branches across the country.","opts":["hardware","headlights","headquarters","headphones"],"ans":3,"exp":"company's headquarters は「会社の本社」の定型。-s を忘れずに付けること。hardware は「金物、機器類」、headlights は「前照灯」、headphones は「ヘッドホン」で「中枢機能を持つ拠点」の意味にならない。","sMatches":[{"start":31,"end":38,"term":"located","meaning":"位置している","original":"located"},{"start":42,"end":45,"term":"new","meaning":"新しい","original":"New"},{"start":57,"end":65,"term":"branches","meaning":"支店、支部、枝","original":"branches"},{"start":66,"end":84,"term":"across the country","meaning":"全国に","original":"across the country"}]},{"q":"Please contact us if you need _____ information about our services.","opts":["firmly","further","finally","freely"],"ans":2,"exp":"further information は「さらなる情報、追加情報」の定型で、形容詞用法。firmly は「しっかりと」（hold firmly）、finally は「ついに」（finally arrived）、freely は「自由に」（speak freely）はいずれも副詞のため名詞 information を直接修飾できず、「追加の」の意味にもならない。","sMatches":[{"start":7,"end":17,"term":"contact us","meaning":"当社に連絡する","original":"contact us"},{"start":25,"end":29,"term":"need","meaning":"必要（とする）","original":"need"},{"start":60,"end":68,"term":"services","meaning":"サービス","original":"services"}]},{"q":"If you need any _____, please don't hesitate to ask the staff at the front desk.","opts":["attention","attraction","attempt","assistance"],"ans":4,"exp":"need assistance は「助けが必要」の定型で、サービス対応の場面でよく使う。attention は「注意」（pay attention to ～）、attraction は「魅力、観光名所」（tourist attraction）、attempt は「試み」（make an attempt）で「手助け」の意味にならない。","sMatches":[{"start":7,"end":11,"term":"need","meaning":"必要（とする）","original":"need"},{"start":41,"end":56,"term":"hesitate to ask","meaning":"ためらわず尋ねる","original":"hesitate to ask"},{"start":61,"end":66,"term":"staff","meaning":"職員、スタッフ","original":"staff"},{"start":74,"end":84,"term":"front desk","meaning":"受付","original":"front desk"}]},{"q":"The volunteers will _____ free meals to families in the affected area.","opts":["discuss","distribute","discover","describe"],"ans":2,"exp":"distribute A to B は「AをBに配布する」の定型で、複数の人に行き渡らせる。discuss は「議論する」、discover は「発見する」、describe は「説明する」（describe A as B）で「配布する」の意味にならない。","sMatches":[{"start":4,"end":14,"term":"volunteers","meaning":"ボランティア","original":"volunteers"},{"start":31,"end":41,"term":"free meals","meaning":"無料の食事","original":"free meals"},{"start":61,"end":74,"term":"affected area","meaning":"被災地","original":"affected area"}]},{"q":"The startup managed to _____ five million dollars from investors last year.","opts":["raise","reach","read","rent"],"ans":1,"exp":"raise money / raise funds は「資金を集める」の定型で、投資家からの調達を表す。reach は「到達する」（reach an agreement）、read は「読む」、rent は「賃借する、賃貸する」（rent an apartment）で「資金調達」の意味にならない。","sMatches":[{"start":4,"end":11,"term":"startup","meaning":"新興企業","original":"startup"},{"start":12,"end":22,"term":"managed to","meaning":"何とか～した","original":"managed to"},{"start":55,"end":64,"term":"investors","meaning":"投資家","original":"investors"},{"start":70,"end":74,"term":"year","meaning":"年","original":"year"}]},{"q":"The young pianist's performance deeply _____ the audience at the concert.","opts":["imported","implied","improved","impressed"],"ans":4,"exp":"impress the audience は「観客に感動を与える」の定型動詞。imported は「輸入した」（import goods）、implied は「暗示した」（imply that ～）、improved は「改善した」（improve performance）で「感動を与える」の意味にならない。","sMatches":[{"start":10,"end":17,"term":"pianist","meaning":"ピアニスト","original":"pianist"},{"start":20,"end":31,"term":"performance","meaning":"業績、性能、演技","original":"performance"},{"start":32,"end":38,"term":"deeply","meaning":"深く","original":"deeply"},{"start":53,"end":61,"term":"audience","meaning":"観客","original":"audience"}]},{"q":"Many graduates _____ employment in the technology industry after college.","opts":["seek","seem","sell","send"],"ans":1,"exp":"seek employment は「職を求める」の定型動詞で、求職活動を表す。seem は「～のようだ」（seem to do）、sell は「売る」（sell A to B）、send は「送る」（send A to B）で「探し求める」の意味にならない。","sMatches":[{"start":5,"end":14,"term":"graduates","meaning":"卒業生","original":"graduates"},{"start":20,"end":30,"term":"employment","meaning":"雇用","original":"employment"},{"start":38,"end":57,"term":"technology industry","meaning":"テクノロジー業界","original":"technology industry"}]},{"q":"Wine production in this _____ has a history of more than 500 years.","opts":["reason","record","region","report"],"ans":3,"exp":"in this region は「この地域では」の定型で、地理的範囲を示す。reason は「理由」（the reason for ～）、record は「記録」（break a record）、report は「報告書」（write a report）で「地理的範囲」の意味にならない。","sMatches":[{"start":0,"end":15,"term":"wine production","meaning":"ワイン製造","original":"Wine production"},{"start":35,"end":47,"term":"a history of","meaning":"～の歴史","original":"a history of"}]},{"q":"The airline _____ for the long delay caused by the bad weather.","opts":["appeared","approved","apologized","appointed"],"ans":3,"exp":"apologize for ～ は「～について謝罪する」の定型動詞で、前置詞 for を伴う。appeared は「現れた」（appear at ～）、approved は「承認した」（approve a plan）、appointed は「任命した」（appoint A as B）で「謝罪する」の意味にならない。","sMatches":[{"start":4,"end":11,"term":"airline","meaning":"航空会社","original":"airline"},{"start":31,"end":41,"term":"long delay","meaning":"長時間の遅延","original":"long delay"},{"start":42,"end":48,"term":"caused","meaning":"引き起こした","original":"caused"},{"start":56,"end":67,"term":"bad weather","meaning":"悪天候","original":"bad weather"}]},{"q":"Lunch is served in the company _____ from 11:30 to 1:30 every weekday.","opts":["calendar","cafeteria","campaign","candidate"],"ans":2,"exp":"company cafeteria は「社員食堂」の定型で、社内の食事提供施設を指す。calendar は「暦」、campaign は「運動、選挙運動」（advertising campaign）、candidate は「候補者」（job candidate）で「食事を提供する場所」の意味にならない。","sMatches":[{"start":9,"end":15,"term":"served","meaning":"提供される","original":"served"},{"start":66,"end":73,"term":"weekday","meaning":"平日","original":"weekday"}]},{"q":"The engineers proposed a creative _____ to the technical problem.","opts":["selection","situation","sentence","solution"],"ans":4,"exp":"a solution to ～ は「～への解決策」の定型で、前置詞 to を伴う。selection は「選択、品揃え」（a wide selection of ～）、situation は「状況」（current situation）、sentence は「文、判決」で「問題を解く方法」の意味にならない。","sMatches":[{"start":4,"end":13,"term":"engineers","meaning":"技術者","original":"engineers"},{"start":14,"end":22,"term":"proposed","meaning":"提案した","original":"proposed"},{"start":25,"end":33,"term":"creative","meaning":"創造的な","original":"creative"},{"start":50,"end":67,"term":"technical problem","meaning":"技術的問題","original":"technical problem"}]},{"q":"Our online store offers a wide _____ of office supplies at competitive prices.","opts":["range","rank","rate","row"],"ans":1,"exp":"a wide range of ～ は「幅広い品揃えの～」の定型。rank は「順位」（the top rank）、rate は「料金、割合」（exchange rate）、row は「列」（a row of seats）で「種類の幅」の意味にならない。","sMatches":[{"start":4,"end":16,"term":"online store","meaning":"ネット通販","original":"online store"},{"start":40,"end":55,"term":"office supplies","meaning":"事務用品","original":"office supplies"},{"start":59,"end":77,"term":"competitive prices","meaning":"競争力のある価格","original":"competitive prices"}]},{"q":"Guests can leave their _____ at the hotel before checking in.","opts":["language","literature","luggage","lecture"],"ans":3,"exp":"leave luggage は「荷物を預ける」の定型で、luggage は不可算名詞のため複数形にしない。language は「言語」、literature は「文学」、lecture は「講義」（give a lecture）で「旅行用の荷物」の意味にならない。","sMatches":[{"start":0,"end":6,"term":"guests","meaning":"宿泊客","original":"Guests"},{"start":51,"end":62,"term":"checking in","meaning":"チェックイン","original":"checking in"}]},{"q":"Drivers should _____ the highway during rush hour to save time.","opts":["afford","admit","attend","avoid"],"ans":4,"exp":"avoid the highway は「高速道路を避ける」の定型動詞。afford は「余裕がある」（afford to do）、admit は「認める」（admit one's mistake）、attend は「出席する」（attend a meeting）で「避ける」の意味にならない。","sMatches":[{"start":0,"end":7,"term":"drivers","meaning":"運転手","original":"Drivers"},{"start":25,"end":32,"term":"highway","meaning":"高速道路","original":"highway"},{"start":40,"end":49,"term":"rush hour","meaning":"通勤ラッシュ時","original":"rush hour"},{"start":53,"end":62,"term":"save time","meaning":"時間を節約する","original":"save time"}]},{"q":"Regular exercise is an _____ way to reduce stress and improve overall health.","opts":["elderly","effective","electric","educational"],"ans":2,"exp":"an effective way to ～ は「～する効果的な方法」の定型で、成果が出ることを示す。elderly は「年配の」（elderly people）、electric は「電気の」（electric car）、educational は「教育的な」（educational program）で「成果が出る」の意味にならない。","sMatches":[{"start":0,"end":16,"term":"regular exercise","meaning":"定期的な運動","original":"Regular exercise"},{"start":40,"end":53,"term":"reduce stress","meaning":"ストレスを減らす","original":"reduce stress"},{"start":58,"end":80,"term":"improve overall health","meaning":"健康全般を改善する","original":"improve overall health"}]},{"q":"Real estate is considered a long-term _____ in many countries.","opts":["instrument","institution","investment","interview"],"ans":3,"exp":"long-term investment は「長期投資」の定型で、資金を投じる行為を指す。instrument は「楽器、器具」（musical instrument）、institution は「機関」（financial institution）、interview は「面接」（job interview）で「資金を投じる行為」の意味にならない。","sMatches":[{"start":0,"end":11,"term":"real estate","meaning":"不動産","original":"Real estate"},{"start":15,"end":25,"term":"considered","meaning":"～と見なされる","original":"considered"},{"start":28,"end":37,"term":"long-term","meaning":"長期の","original":"long-term"}]},{"q":"The CEO will give a _____ overview of the company's plans at the meeting.","opts":["gentle","generous","genuine","general"],"ans":4,"exp":"general overview は「概略、全体像」の定型で、広く全体に関わることを示す。gentle は「優しい」（a gentle voice）、generous は「寛大な」（a generous donation）、genuine は「本物の」（genuine leather）で「広く全体に関わる」の意味にならない。","sMatches":[{"start":4,"end":7,"term":"ceo","meaning":"最高経営責任者","original":"CEO"},{"start":28,"end":36,"term":"overview","meaning":"概要","original":"overview"},{"start":54,"end":59,"term":"plans","meaning":"計画","original":"plans"},{"start":67,"end":74,"term":"meeting","meaning":"会議","original":"meeting"}]},{"q":"She earned a _____ in business administration from a top university.","opts":["degree","decade","decision","delivery"],"ans":1,"exp":"earn a degree in ～ は「～の学位を取得する」の定型で、前置詞 in を伴って専攻分野を示す。decade は「10年」（the past decade）、decision は「決定」（make a decision）、delivery は「配達」（home delivery）で「大学の学位」の意味にならない。","sMatches":[{"start":23,"end":46,"term":"business administration","meaning":"経営学","original":"business administration"},{"start":54,"end":68,"term":"top university","meaning":"一流大学","original":"top university"}]},{"q":"The _____ team worked overtime to finish the project before the deadline.","opts":["elderly","eastern","entire","elegant"],"ans":3,"exp":"the entire team は「チーム全体」の定型で、構成員すべてを指す。elderly は「年配の」、eastern は「東の」（eastern region）、elegant は「優雅な」（elegant design）で「全部・全員」の意味にならない。","sMatches":[{"start":11,"end":15,"term":"team","meaning":"チーム","original":"team"},{"start":16,"end":31,"term":"worked overtime","meaning":"残業した","original":"worked overtime"},{"start":46,"end":53,"term":"project","meaning":"計画、企画","original":"project"},{"start":54,"end":73,"term":"before the deadline","meaning":"締切前に","original":"before the deadline"}]},{"q":"The flight _____ welcomed passengers as they boarded the plane.","opts":["crew","creature","credit","crowd"],"ans":1,"exp":"flight crew は「航空機乗務員」の定型で、特定業務の従事者集団を指す。creature は「生き物」、credit は「信用、功績」（credit card）、crowd は「群衆」（a large crowd）で「乗務員」の意味にならない。","sMatches":[{"start":4,"end":10,"term":"flight","meaning":"便","original":"flight"},{"start":16,"end":24,"term":"welcomed","meaning":"歓迎した","original":"welcomed"},{"start":25,"end":35,"term":"passengers","meaning":"乗客","original":"passengers"},{"start":44,"end":51,"term":"boarded","meaning":"搭乗した","original":"boarded"}]},{"q":"The author's _____ idea for the novel impressed the publisher immediately.","opts":["original","ordinary","outdoor","opposite"],"ans":1,"exp":"original idea は「他の人の模倣ではない、独自のもの」を表す定型。ordinary は「普通の」、outdoor は「屋外の」、opposite は「反対の」で「独自性」の意味にならない。","sMatches":[{"start":4,"end":10,"term":"author","meaning":"著者","original":"author"},{"start":41,"end":50,"term":"impressed","meaning":"感動させた","original":"impressed"},{"start":55,"end":64,"term":"publisher","meaning":"出版社","original":"publisher"}]},{"q":"The team's coach is responsible for the _____ of new players each season.","opts":["section","selection","station","signal"],"ans":2,"exp":"selection of new players は「新規選手の選抜」の定型で、人や物を選び出す行為を指す。section は「区画、課」、station は「駅」、signal は「信号」で「選び出す行為」の意味にならない。","sMatches":[{"start":4,"end":8,"term":"team","meaning":"チーム","original":"team"},{"start":11,"end":16,"term":"coach","meaning":"コーチ、監督","original":"coach"},{"start":20,"end":35,"term":"responsible for","meaning":"～に責任がある","original":"responsible for"},{"start":53,"end":56,"term":"new","meaning":"新しい","original":"new"},{"start":65,"end":76,"term":"each season","meaning":"毎シーズン","original":"each season"}]},{"q":"The new exhibit at the museum has _____ attention from visitors of all ages.","opts":["attracted","avoided","approved","arranged"],"ans":1,"exp":"attract attention は「注目を集める」の定型動詞で、人々の関心を引く場面で使う。avoided は「避けた」（avoid ～）、approved は「承認した」（approve a plan）、arranged は「手配した」（arrange a meeting）で「関心を引く」の意味にならない。","sMatches":[{"start":4,"end":7,"term":"new","meaning":"新しい","original":"new"},{"start":8,"end":15,"term":"exhibit","meaning":"展示","original":"exhibit"},{"start":59,"end":79,"term":"visitors of all ages","meaning":"あらゆる年齢の来館者","original":"visitors of all ages"}]},{"q":"Please _____ this antique vase with care when moving it to the display case.","opts":["hire","hurry","handle","host"],"ans":3,"exp":"handle with care は「慎重に扱う」の定型で、壊れやすい物を取り扱う場面の標準語。hire は「雇う」、hurry は「急ぐ」（hurry to ～）、host は「主催する」（host an event）で「丁寧に取り扱う」の意味にならない。","sMatches":[{"start":19,"end":31,"term":"antique vase","meaning":"骨董品の花瓶","original":"antique vase"},{"start":64,"end":76,"term":"display case","meaning":"陳列ケース","original":"display case"}]},{"q":"The supervisor asked me to write a brief _____ summarizing today's discussion.","opts":["memo","menu","machine","meal"],"ans":1,"exp":"write a memo は「メモを書く」の定型で、要点を簡潔にまとめた文書を指す。menu は「献立」、machine は「機械」、meal は「食事」で「業務上の文書」の意味にならない。","sMatches":[{"start":4,"end":14,"term":"supervisor","meaning":"監督者","original":"supervisor"},{"start":35,"end":40,"term":"brief","meaning":"簡潔な","original":"brief"},{"start":46,"end":57,"term":"summarizing","meaning":"要約する","original":"summarizing"}]},{"q":"Don't forget to _____ the spreadsheet to your email before sending it to the manager.","opts":["admit","attach","accept","advance"],"ans":2,"exp":"attach a file to an email は「ファイルをメールに添付する」の標準構文で、to を伴う定型。admit は「認める」、accept は「受け入れる」（accept an offer）、advance は「前進させる」で「ファイル添付」の意味にならない。","sMatches":[{"start":27,"end":38,"term":"spreadsheet","meaning":"表計算ソフトのファイル","original":"spreadsheet"},{"start":78,"end":85,"term":"manager","meaning":"管理者","original":"manager"}]},{"q":"The teacher will _____ the students' essays and return them by next Monday.","opts":["collect","connect","confirm","correct"],"ans":4,"exp":"correct an essay は「答案を添削する、誤りを正す」の定型動詞で、原稿の修正を表す。collect は「集める」（collect data）、connect は「つなぐ」（connect A to B）、confirm は「確認する」（confirm a reservation）で「誤りを正す」の意味にならない。","sMatches":[{"start":39,"end":45,"term":"essays","meaning":"答案、小論文","original":"essays"},{"start":50,"end":56,"term":"return","meaning":"返送する","original":"return"},{"start":65,"end":69,"term":"next","meaning":"次の","original":"next"}]},{"q":"The student _____ organized a charity event to support local hospitals.","opts":["campus","council","capital","custom"],"ans":2,"exp":"student council は「生徒会、学生自治会」の定型で、学生の代表組織を指す。campus は「大学構内」、capital は「首都、資本」、custom は「習慣」で「学生の代表組織」の意味にならない。","sMatches":[{"start":4,"end":11,"term":"student","meaning":"学生","original":"student"},{"start":20,"end":29,"term":"organized","meaning":"組織された","original":"organized"},{"start":32,"end":45,"term":"charity event","meaning":"慈善行事","original":"charity event"},{"start":49,"end":56,"term":"support","meaning":"支援する","original":"support"},{"start":57,"end":72,"term":"local hospitals","meaning":"地元の病院","original":"local hospitals"}]},{"q":"We are _____ to submit the report by the end of the week.","opts":["supplied","supported","supposed","surprised"],"ans":3,"exp":"be supposed to do は「～することになっている」の定型で、義務・予定を表す。supplied は「供給された」（be supplied with ～）、supported は「支援された」、surprised は「驚いた」（be surprised at ～）で「義務・予定」の意味にならない。","sMatches":[{"start":19,"end":36,"term":"submit the report","meaning":"報告書を提出する","original":"submit the report"},{"start":37,"end":59,"term":"by the end of the week","meaning":"週末までに","original":"by the end of the week"}]},{"q":"The café offers a 10% discount to its _____ customers every Friday.","opts":["recent","related","responsible","regular"],"ans":4,"exp":"regular customer は「常連客」の定型で、頻繁に利用する客を指す。recent は「最近の」（recent news）、related は「関係のある」、responsible は「責任のある」（responsible for ～）で「頻繁に利用する」の意味にならない。","sMatches":[{"start":4,"end":8,"term":"café","meaning":"喫茶店","original":"café"},{"start":22,"end":30,"term":"discount","meaning":"割引","original":"discount"}]},{"q":"The train will arrive in about a _____ of an hour, so let's grab some coffee.","opts":["quality","quantity","quarter","question"],"ans":3,"exp":"a quarter of an hour は「15分（1時間の4分の1）」の定型で、時間の単位として使われる。quality は「品質」、quantity は「数量」、question は「質問」で「時間の単位」の意味にならない。","sMatches":[{"start":62,"end":78,"term":"grab some coffee","meaning":"コーヒーを買って飲む","original":"grab some coffee"}]},{"q":"The local community _____ enthusiastically to the new recycling program.","opts":["reduced","responded","repeated","removed"],"ans":2,"exp":"respond to ～ は「～に応じる、反応する」の定型で、前置詞 to を伴う。reduced は「減らした」、repeated は「繰り返した」、removed は「取り除いた」で「反応する」の意味にならない。","sMatches":[{"start":4,"end":19,"term":"local community","meaning":"地域社会","original":"local community"},{"start":30,"end":46,"term":"enthusiastically","meaning":"熱意を持って","original":"enthusiastically"},{"start":54,"end":57,"term":"new","meaning":"新しい","original":"new"},{"start":58,"end":75,"term":"recycling program","meaning":"リサイクル事業","original":"recycling program"}]},{"q":"This company has become a leading _____ of solar panels in Asia.","opts":["machine","management","market","manufacturer"],"ans":4,"exp":"leading manufacturer は「主要メーカー、業界大手」の定型で、業界の主要な製造会社を指す。machine は「機械」、management は「経営陣」、market は「市場」で「製造会社」の意味にならない。","sMatches":[{"start":26,"end":33,"term":"leading","meaning":"主要な、業界大手の","original":"leading"},{"start":50,"end":62,"term":"solar panels","meaning":"太陽光パネル","original":"solar panels"},{"start":63,"end":70,"term":"in asia","meaning":"アジアで","original":"in Asia"}]},{"q":"The road construction has _____ significant delays for commuters this week.","opts":["caused","cancelled","carried","corrected"],"ans":1,"exp":"cause delay は「遅延を引き起こす」の定型動詞で、悪い結果を生む場面で使う。cancelled は「中止した」、carried は「運んだ」、corrected は「訂正した」で「結果を生み出す」の意味にならない。","sMatches":[{"start":4,"end":21,"term":"road construction","meaning":"道路工事","original":"road construction"},{"start":33,"end":51,"term":"significant delays","meaning":"大幅な遅延","original":"significant delays"},{"start":56,"end":65,"term":"commuters","meaning":"通勤者","original":"commuters"}]},{"q":"The data was saved on a portable storage _____ for backup purposes.","opts":["decision","device","deposit","demand"],"ans":2,"exp":"storage device は「記憶装置、保存装置」の定型で、データを保存する機器を指す。decision は「決定」、deposit は「預金、保証金」、demand は「需要」で「機器」の意味にならない。","sMatches":[{"start":4,"end":8,"term":"data","meaning":"データ","original":"data"},{"start":13,"end":18,"term":"saved","meaning":"保存された","original":"saved"},{"start":24,"end":32,"term":"portable","meaning":"持ち運び可能な","original":"portable"},{"start":48,"end":67,"term":"for backup purposes","meaning":"バックアップ目的で","original":"for backup purposes"}]},{"q":"The _____ workers carefully labeled each box before loading it onto the truck.","opts":["warehouse","website","workshop","wallet"],"ans":1,"exp":"warehouse worker は「倉庫作業員」の定型で、倉庫で働く人を指す。website は「ウェブサイト」、workshop は「作業場、講習会」、wallet は「財布」で「倉庫の労働者」の意味にならない。","sMatches":[{"start":22,"end":31,"term":"carefully","meaning":"注意深く","original":"carefully"},{"start":32,"end":39,"term":"labeled","meaning":"ラベルを貼った","original":"labeled"}]},{"q":"The annual report _____ detailed information about the company's financial performance.","opts":["connects","controls","contains","continues"],"ans":3,"exp":"contain information は「情報を含む」の定型動詞で、文書や資料の内容を述べる場面で使う。connects は「つなぐ」（connect A to B）、controls は「管理する」、continues は「続ける」で「情報を含む」の意味にならない。","sMatches":[{"start":4,"end":17,"term":"annual report","meaning":"年次報告書","original":"annual report"},{"start":27,"end":47,"term":"detailed information","meaning":"詳細な情報","original":"detailed information"},{"start":68,"end":89,"term":"financial performance","meaning":"業績","original":"financial performance"}]},{"q":"Several talented _____ have applied for the new research position.","opts":["individuals","industries","institutions","instruments"],"ans":1,"exp":"talented individuals は「優秀な人材、才能ある個人」の定型で、個々の人を指す名詞用法。industries は「産業」、institutions は「機関」、instruments は「楽器、器具」で「個人を指す」用法にならない。","sMatches":[{"start":0,"end":7,"term":"several","meaning":"いくつかの","original":"Several"},{"start":8,"end":16,"term":"talented","meaning":"才能のある","original":"talented"},{"start":34,"end":45,"term":"applied for","meaning":"～に応募した","original":"applied for"},{"start":50,"end":53,"term":"new","meaning":"新しい","original":"new"},{"start":54,"end":71,"term":"research position","meaning":"研究職","original":"research position"}]},{"q":"You will need a parking _____ to leave your car in the company parking lot.","opts":["pattern","period","package","permit"],"ans":4,"exp":"parking permit は「駐車許可証」の定型で、駐車を許可する書類を指す名詞用法。pattern は「型、模様」、period は「期間」、package は「小包」で「許可を証明する書類」の意味にならない。","sMatches":[{"start":9,"end":13,"term":"need","meaning":"必要（とする）","original":"need"},{"start":56,"end":75,"term":"company parking lot","meaning":"会社の駐車場","original":"company parking lot"}]},{"q":"The customer requested a bank _____ instead of a cash payment.","opts":["translation","transfer","treatment","trade"],"ans":2,"exp":"bank transfer は「銀行振込」の定型で、口座間の資金移動を指す名詞用法。translation は「翻訳」、treatment は「治療、扱い」、trade は「貿易、取引」で「資金の移動」の意味にならない。","sMatches":[{"start":4,"end":12,"term":"customer","meaning":"顧客","original":"customer"},{"start":13,"end":22,"term":"requested","meaning":"要請した","original":"requested"},{"start":25,"end":38,"term":"bank transfer","meaning":"銀行振込","original":"bank transfer"},{"start":52,"end":64,"term":"cash payment","meaning":"現金支払い","original":"cash payment"}]},{"q":"The supervisor assigned each team member a specific _____ this morning.","opts":["tax","tour","task","test"],"ans":3,"exp":"assign a task は「仕事を割り当てる」の定型で、業務分担の場面で使う動詞＋目的語の組み合わせ。tax は「税金」（pay tax）、tour は「旅行」（go on a tour）、test は「試験」（take a test）で「与えられた業務」の意味にならない。","sMatches":[{"start":4,"end":14,"term":"supervisor","meaning":"監督者","original":"supervisor"},{"start":15,"end":23,"term":"assigned","meaning":"担当させた","original":"assigned"},{"start":24,"end":40,"term":"each team member","meaning":"各チームメンバー","original":"each team member"},{"start":43,"end":51,"term":"specific","meaning":"特定の","original":"specific"}]},{"q":"This software is _____ for small businesses with limited budgets.","opts":["included","increased","intended","invented"],"ans":3,"exp":"be intended for ～ は「～を対象としている、～のために設計されている」の定型で、目的・対象を示す。included は「含まれた」、increased は「増えた」、invented は「発明された」で「対象とする」の意味にならない。","sMatches":[{"start":5,"end":13,"term":"software","meaning":"ソフトウェア","original":"software"},{"start":30,"end":46,"term":"small businesses","meaning":"中小企業","original":"small businesses"},{"start":52,"end":67,"term":"limited budgets","meaning":"限られた予算","original":"limited budgets"}]},{"q":"The new manager will report _____ to the company president from now on.","opts":["directly","deeply","doubtfully","distantly"],"ans":1,"exp":"report directly to ～ は「～に直属する、～に直接報告する」の定型で、組織の指揮系統を示す。deeply は「深く」（deeply moved）、doubtfully は「疑わしく」、distantly は「遠く離れて」で「直属する」の意味にならない。","sMatches":[{"start":4,"end":7,"term":"new","meaning":"新しい","original":"new"},{"start":8,"end":15,"term":"manager","meaning":"管理者","original":"manager"},{"start":44,"end":61,"term":"company president","meaning":"会社社長","original":"company president"},{"start":62,"end":73,"term":"from now on","meaning":"今後は","original":"from now on"}]},{"q":"You can pick up a free _____ at the information desk near the entrance.","opts":["bracelet","breakfast","browser","brochure"],"ans":4,"exp":"pick up a brochure は「パンフレットを手に取る」の定型で、案内冊子を入手する行為を指す。bracelet は「腕輪」、breakfast は「朝食」、browser は「ブラウザ、閲覧者」で「案内冊子」の意味にならない。","sMatches":[{"start":8,"end":15,"term":"pick up","meaning":"手に取る、受け取る","original":"pick up"},{"start":39,"end":55,"term":"information desk","meaning":"案内所","original":"information desk"},{"start":65,"end":73,"term":"entrance","meaning":"入口","original":"entrance"}]},{"q":"Our small bakery faces stiff _____ from the new chain store across the street.","opts":["collection","competition","commission","commitment"],"ans":2,"exp":"face stiff competition は「激しい競争に直面する」の定型で、競合相手との競い合いを示す。collection は「収集」、commission は「委員会、手数料」、commitment は「約束、献身」で「競い合い」の意味にならない。","sMatches":[{"start":10,"end":16,"term":"bakery","meaning":"パン屋","original":"bakery"},{"start":23,"end":28,"term":"stiff","meaning":"激しい","original":"stiff"},{"start":50,"end":53,"term":"new","meaning":"新しい","original":"new"},{"start":54,"end":65,"term":"chain store","meaning":"チェーン店","original":"chain store"},{"start":66,"end":83,"term":"across the street","meaning":"通りの向かい","original":"across the street"}]},{"q":"The hotel is offering a 30% discount for a _____ time only, so book early.","opts":["lifted","listed","located","limited"],"ans":4,"exp":"for a limited time only は「期間限定で」の定型で、短期間だけ有効な特典を示す。lifted は「持ち上げられた」（lift restrictions）、listed は「掲載された」（listed companies = 上場企業）、located は「位置している」（located in ～）で「期間限定」の意味にならない。","sMatches":[{"start":28,"end":36,"term":"discount","meaning":"割引","original":"discount"},{"start":65,"end":69,"term":"book","meaning":"予約する","original":"book"},{"start":70,"end":75,"term":"early","meaning":"早い、早期の","original":"early"}]},{"q":"The factory mainly produces _____ goods such as soap and shampoo.","opts":["consumer","container","continent","conversion"],"ans":1,"exp":"consumer goods は「消費財、生活用品」の定型で、consumer が goods を修飾し、一般消費者向けの商品を表す。container は「容器」、continent は「大陸」、conversion は「変換、転換」（currency conversion）で「消費財」の意味にならない。","sMatches":[{"start":4,"end":11,"term":"factory","meaning":"工場","original":"factory"},{"start":12,"end":18,"term":"mainly","meaning":"主に","original":"mainly"},{"start":51,"end":67,"term":"soap and shampoo","meaning":"せっけんとシャンプー","original":"soap and shampoo"}]},{"q":"The patient was nervous about the surgical _____ scheduled for next week.","opts":["program","production","procedure","projection"],"ans":3,"exp":"surgical procedure は「外科手術、医療処置」の定型で、医療現場での手続きを指す。program は「番組、計画」（TV program）、production は「生産」、projection は「予測、投影」で「医療処置」の意味にならない。","sMatches":[{"start":4,"end":11,"term":"patient","meaning":"患者","original":"patient"},{"start":16,"end":23,"term":"nervous","meaning":"緊張した","original":"nervous"},{"start":34,"end":42,"term":"surgical","meaning":"外科の","original":"surgical"},{"start":53,"end":66,"term":"scheduled for","meaning":"～に予定された","original":"scheduled for"},{"start":67,"end":76,"term":"next week","meaning":"来週","original":"next week"}]},{"q":"The young athlete has great _____ to become a world champion someday.","opts":["potential","practice","preference","performance"],"ans":1,"exp":"have great potential は「大きな可能性を秘めている」の定型で、将来性を示す名詞用法。practice は「練習」、preference は「好み」、performance は「業績、演技」で「将来性」の意味にならない。","sMatches":[{"start":10,"end":17,"term":"athlete","meaning":"運動選手","original":"athlete"},{"start":50,"end":64,"term":"world champion","meaning":"世界チャンピオン","original":"world champion"},{"start":65,"end":72,"term":"someday","meaning":"いつか","original":"someday"}]},{"q":"The hotel offers free shuttle service to the _____ shopping area every hour.","opts":["downstairs","downtown","downward","downtime"],"ans":2,"exp":"downtown shopping area は「中心街の商業地区」の定型で、形容詞として地区を修飾する。downstairs は「階下に」（go downstairs）、downward は「下方に」（move downward）、downtime は「停止時間」で「市の中心部」の意味にならない。","sMatches":[{"start":22,"end":37,"term":"shuttle service","meaning":"送迎サービス","original":"shuttle service"},{"start":54,"end":67,"term":"shopping area","meaning":"商業地区","original":"shopping area"}]},{"q":"The company moved its regional _____ from Osaka to Tokyo last spring.","opts":["hardware","headquarters","headlights","headphones"],"ans":2,"exp":"regional headquarters は「地域本社、地域統括拠点」の定型で、特定地域を統括する中枢拠点を指す。hardware は「金物、機器類」、headlights は「前照灯」、headphones は「ヘッドホン」で「地域の中枢拠点」の意味にならない。","sMatches":[{"start":12,"end":17,"term":"moved","meaning":"移転した","original":"moved"},{"start":22,"end":30,"term":"regional","meaning":"地域の、地区の","original":"regional"},{"start":64,"end":75,"term":"last spring","meaning":"去年の春","original":"last spring"}]},{"q":"The library will be closed until _____ notice due to renovation work.","opts":["firmly","finally","freely","further"],"ans":4,"exp":"until further notice は「追って通知があるまで、当面の間」の定型で、次の連絡まで状態が続くことを示す。firmly は「しっかりと」、finally は「ついに」、freely は「自由に」はいずれも副詞のため名詞 notice を直接修飾できず、「追って通知があるまで」の意味にもならない。","sMatches":[{"start":4,"end":11,"term":"library","meaning":"図書館","original":"library"},{"start":20,"end":26,"term":"closed","meaning":"閉鎖された","original":"closed"},{"start":48,"end":54,"term":"due to","meaning":"～のために","original":"due to"},{"start":55,"end":70,"term":"renovation work","meaning":"改装工事","original":"renovation work"}]},{"q":"Many students rely on financial _____ to pay for their college tuition.","opts":["attempt","attraction","assistance","attention"],"ans":3,"exp":"financial assistance は「経済的支援、財政援助」の定型で、お金の援助を指す。attempt は「試み」（make an attempt）、attraction は「魅力、観光名所」、attention は「注意」（pay attention to ～）で「援助」の意味にならない。","sMatches":[{"start":14,"end":21,"term":"rely on","meaning":"～に頼る","original":"rely on"},{"start":60,"end":75,"term":"college tuition","meaning":"大学の授業料","original":"college tuition"}]},{"q":"The marketing team will _____ free samples of the new product at the event.","opts":["distribute","discuss","discover","describe"],"ans":1,"exp":"distribute samples は「サンプルを配る」の定型動詞で、複数の人に行き渡らせる行為を指す。discuss は「議論する」、discover は「発見する」、describe は「説明する」（describe A as B）で「配布する」の意味にならない。","sMatches":[{"start":4,"end":18,"term":"marketing team","meaning":"マーケティング部","original":"marketing team"},{"start":35,"end":47,"term":"free samples","meaning":"試供品","original":"free samples"},{"start":55,"end":58,"term":"new","meaning":"新しい","original":"new"},{"start":59,"end":66,"term":"product","meaning":"製品","original":"product"},{"start":74,"end":79,"term":"event","meaning":"催し物","original":"event"}]},{"q":"Several parents _____ concerns about the safety of the new playground.","opts":["reached","read","raised","rented"],"ans":3,"exp":"raise concerns は「懸念を提起する」の定型動詞で、問題点を表明する場面で使う。reached は「到達した」（reach an agreement）、read は「読んだ」、rented は「賃借した」（rent an apartment）で「問題点を提起する」の意味にならない。","sMatches":[{"start":0,"end":7,"term":"several","meaning":"いくつかの","original":"Several"},{"start":8,"end":15,"term":"parents","meaning":"親、保護者","original":"parents"},{"start":23,"end":31,"term":"concerns","meaning":"懸念事項","original":"concerns"},{"start":42,"end":48,"term":"safety","meaning":"安全","original":"safety"},{"start":56,"end":59,"term":"new","meaning":"新しい","original":"new"},{"start":60,"end":70,"term":"playground","meaning":"遊び場","original":"playground"}]},{"q":"The interviewers were _____ by the candidate's professional experience.","opts":["impressed","imported","implied","improved"],"ans":1,"exp":"be impressed by ～ は「～に感銘を受ける」の定型で、受動態で前置詞 by を伴う。imported は「輸入された」、implied は「暗示された」（imply that ～）、improved は「改善された」で「感銘を受ける」の意味にならない。","sMatches":[{"start":4,"end":16,"term":"interviewers","meaning":"面接官","original":"interviewers"},{"start":39,"end":48,"term":"candidate","meaning":"候補者","original":"candidate"},{"start":51,"end":74,"term":"professional experience","meaning":"職務経験","original":"professional experience"}]},{"q":"You should _____ professional advice before making such an important decision.","opts":["sell","send","seem","seek"],"ans":4,"exp":"seek advice は「助言を求める」の定型動詞で、専門家からの意見を仰ぐ場面で使う。sell は「売る」（sell A to B）、send は「送る」（send A to B）、seem は「～のようだ」（seem to do）で「求める」の意味にならない。","sMatches":[{"start":16,"end":35,"term":"professional advice","meaning":"専門家の助言","original":"professional advice"},{"start":58,"end":76,"term":"important decision","meaning":"重要な決定","original":"important decision"}]},{"q":"The research team traveled to a remote _____ in northern Canada to collect samples.","opts":["reason","record","report","region"],"ans":4,"exp":"a remote region は「遠隔地、辺境の地域」の定型で、人里離れた場所を指す。reason は「理由」（the reason for ～）、record は「記録」（break a record）、report は「報告書」で「地理的範囲」の意味にならない。","sMatches":[{"start":4,"end":17,"term":"research team","meaning":"研究チーム","original":"research team"},{"start":32,"end":38,"term":"remote","meaning":"遠隔の、辺境の","original":"remote"},{"start":49,"end":64,"term":"northern canada","meaning":"カナダ北部","original":"northern Canada"},{"start":68,"end":83,"term":"collect samples","meaning":"標本を集める","original":"collect samples"}]},{"q":"The manager _____ to the customer for the delay in the delivery.","opts":["apologized","appeared","approved","appointed"],"ans":1,"exp":"apologize to ～ は「～に謝罪する」の定型動詞で、謝罪の対象に前置詞 to を伴う。appeared は「現れた」（appear at ～）、approved は「承認した」、appointed は「任命した」（appoint A as B）で「謝罪する」の意味にならない。","sMatches":[{"start":4,"end":11,"term":"manager","meaning":"管理者","original":"manager"},{"start":30,"end":38,"term":"customer","meaning":"顧客","original":"customer"},{"start":47,"end":68,"term":"delay in the delivery","meaning":"配達の遅れ","original":"delay in the delivery"}]},{"q":"The hospital _____ serves healthy meals to staff and visitors throughout the day.","opts":["calendar","campaign","cafeteria","candidate"],"ans":3,"exp":"hospital cafeteria は「病院の食堂」の定型で、施設内の食事提供場所を指す。calendar は「暦」、campaign は「運動、選挙運動」（advertising campaign）、candidate は「候補者」（job candidate）で「食事を提供する場所」の意味にならない。","sMatches":[{"start":30,"end":43,"term":"healthy meals","meaning":"健康的な食事","original":"healthy meals"},{"start":47,"end":52,"term":"staff","meaning":"職員、スタッフ","original":"staff"},{"start":57,"end":65,"term":"visitors","meaning":"訪問者","original":"visitors"},{"start":66,"end":84,"term":"throughout the day","meaning":"一日中","original":"throughout the day"}]},{"q":"The city is looking for a long-term _____ to its traffic problems.","opts":["selection","solution","situation","sentence"],"ans":2,"exp":"a solution to ～ は「～への解決策」の定型で、前置詞 to を伴う。selection は「選択」、situation は「状況」（current situation）、sentence は「文、判決」で「問題を解く方法」の意味にならない。","sMatches":[{"start":12,"end":23,"term":"looking for","meaning":"探している","original":"looking for"},{"start":26,"end":35,"term":"long-term","meaning":"長期の","original":"long-term"},{"start":52,"end":68,"term":"traffic problems","meaning":"交通問題","original":"traffic problems"}]},{"q":"The prices at this restaurant _____ from $10 for lunch to $50 for dinner.","opts":["react","reply","range","refer"],"ans":3,"exp":"range from A to B は「AからBまで及ぶ」の定型動詞で、価格・年齢・規模などの幅を示す。react は「反応する」（react to ～）、reply は「返信する」（reply to ～）、refer は「言及する」（refer to ～）で「幅がある」の意味にならない。","sMatches":[{"start":4,"end":10,"term":"prices","meaning":"価格","original":"prices"},{"start":19,"end":29,"term":"restaurant","meaning":"レストラン","original":"restaurant"},{"start":45,"end":54,"term":"for lunch","meaning":"昼食用に","original":"for lunch"},{"start":62,"end":72,"term":"for dinner","meaning":"夕食用に","original":"for dinner"}]},{"q":"The hotel provides _____ carts for guests with heavy bags.","opts":["language","luggage","literature","lecture"],"ans":2,"exp":"luggage cart は「荷物用カート」の定型で、空港やホテルで荷物を運ぶ台車を指す。luggage は不可算名詞のため複数形にしない。language は「言語」、literature は「文学」、lecture は「講義」（give a lecture）で「旅行用の荷物」の意味にならない。","sMatches":[{"start":10,"end":18,"term":"provides","meaning":"提供する","original":"provides"},{"start":37,"end":43,"term":"guests","meaning":"宿泊客","original":"guests"},{"start":49,"end":59,"term":"heavy bags","meaning":"重い鞄","original":"heavy bags"}]},{"q":"Students should _____ making careless mistakes during the final exam.","opts":["afford","admit","avoid","attend"],"ans":3,"exp":"avoid + 動名詞 は「～することを避ける」の定型で、目的語に動名詞（-ing形）を取る。afford は「余裕がある」（afford to do、不定詞を取る）、admit は「認める」、attend は「出席する」（attend a meeting）で「避ける」の意味にならない。","sMatches":[{"start":29,"end":46,"term":"careless mistakes","meaning":"不注意なミス","original":"careless mistakes"},{"start":58,"end":68,"term":"final exam","meaning":"期末試験","original":"final exam"}]},{"q":"The new tax law will become _____ on January 1 of next year.","opts":["elderly","educational","electric","effective"],"ans":4,"exp":"become effective は「（法律・契約などが）効力を発する、施行される」の定型で、開始日と共に使われる。elderly は「年配の」（elderly people）、educational は「教育的な」（educational program）、electric は「電気の」（electric car）で「法律が効力を発する」の意味にならない。","sMatches":[{"start":4,"end":7,"term":"new","meaning":"新しい","original":"new"},{"start":8,"end":15,"term":"tax law","meaning":"税法","original":"tax law"},{"start":41,"end":50,"term":"january 1","meaning":"1月1日","original":"January 1"},{"start":54,"end":58,"term":"next","meaning":"次の","original":"next"},{"start":59,"end":63,"term":"year","meaning":"年","original":"year"}]},{"q":"The firm offers excellent _____ opportunities for those willing to take risks.","opts":["interview","instrument","institution","investment"],"ans":4,"exp":"investment opportunity は「投資機会」の定型で、資金を投じる好機を指す。interview は「面接」（job interview）、instrument は「楽器、器具」、institution は「機関、施設」（financial institution）で「資金を投じる機会」の意味にならない。","sMatches":[{"start":4,"end":8,"term":"firm","meaning":"会社","original":"firm"},{"start":16,"end":25,"term":"excellent","meaning":"優れた","original":"excellent"},{"start":61,"end":82,"term":"willing to take risks","meaning":"リスクを取る覚悟がある","original":"willing to take risks"}]},{"q":"The new _____ manager will start working at our headquarters next month.","opts":["gentle","general","generous","genuine"],"ans":2,"exp":"general manager は「総支配人、本部長」の定型で、組織全体を管理する役職を指す。gentle は「優しい」（a gentle voice）、generous は「寛大な」（a generous donation）、genuine は「本物の」（genuine leather）で「組織全体を管理する」の意味にならない。","sMatches":[{"start":4,"end":7,"term":"new","meaning":"新しい","original":"new"},{"start":16,"end":23,"term":"manager","meaning":"管理者","original":"manager"},{"start":50,"end":62,"term":"headquarters","meaning":"本社","original":"headquarters"},{"start":63,"end":73,"term":"next month","meaning":"来月","original":"next month"}]},{"q":"The proposal requires a high _____ of cooperation between the two departments.","opts":["decade","decision","degree","delivery"],"ans":3,"exp":"a high degree of ～ は「高度な～、相当な～」の定型で、程度の高さを示す。decade は「10年」（the past decade）、decision は「決定」（make a decision）、delivery は「配達」（home delivery）で「程度」の意味にならない。","sMatches":[{"start":4,"end":12,"term":"proposal","meaning":"提案","original":"proposal"},{"start":39,"end":50,"term":"cooperation","meaning":"協力","original":"cooperation"},{"start":67,"end":78,"term":"departments","meaning":"部署","original":"departments"}]},{"q":"The chef supervised the _____ process of preparing the wedding banquet.","opts":["elegant","eastern","elderly","entire"],"ans":4,"exp":"the entire process は「全工程、すべての段階」の定型で、最初から最後までを指す。elegant は「優雅な」（elegant design）、eastern は「東の」（eastern region）、elderly は「年配の」で「全部・全体」の意味にならない。","sMatches":[{"start":4,"end":8,"term":"chef","meaning":"シェフ","original":"chef"},{"start":9,"end":19,"term":"supervised","meaning":"監督した","original":"supervised"},{"start":56,"end":71,"term":"wedding banquet","meaning":"婚礼料理、披露宴","original":"wedding banquet"}]},{"q":"The film _____ worked late into the night to finish shooting the final scene.","opts":["creature","credit","crowd","crew"],"ans":4,"exp":"film crew は「映画撮影隊」の定型で、特定業務の従事者集団を指す。creature は「生き物」、credit は「信用、功績」（credit card）、crowd は「群衆」（a large crowd）で「撮影スタッフ」の意味にならない。","sMatches":[{"start":14,"end":25,"term":"worked late","meaning":"遅くまで働いた","original":"worked late"},{"start":51,"end":59,"term":"shooting","meaning":"撮影","original":"shooting"},{"start":64,"end":75,"term":"final scene","meaning":"最終シーン","original":"final scene"}]}];
+QUESTIONS.push(...QUESTIONS_DATA);
+
+
+// =============================================================================
+// QUIZ LOGIC
+// =============================================================================
+(function() {
+  // ============================================================
+  // SESSION CONFIG
+  // ============================================================
+  const SESSION_NUMBER = 4;
+  const SESSION_TITLE = '';
+  // ============================================================
+
+  const STORAGE_KEY = 'toeic_quiz_progress_v2_s' + SESSION_NUMBER;
+  const HISTORY_KEY = 'toeic_quiz_history_v2_s' + SESSION_NUMBER;
+  const TEACHER_ID = '22';
+  const TEACHER_NAME = '22';
+  const app = document.getElementById('app');
+
+  // ============================================================
+  // Fisher–Yates shuffle
+  // ============================================================
+  function shuffleArray(arr) {
+    const a = arr.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+  function makeOrder() {
+    return shuffleArray(Array.from({length: QUESTIONS.length}, (_, i) => i));
+  }
+
+  // ============================================================
+  // STATE
+  // ============================================================
+  let state = {
+    mode: 'start',         // 'start' | 'quiz' | 'result' | 'retry'
+    index: 0,
+    answers: [],           // [{chosen, correct} | null] indexed by position in shuffled order
+    answered: false,
+    studentName: '',
+    studentId: '',
+    completedAt: null,
+    order: [],
+    rateMode: 'normal',    // 'normal' (1.15x) | 'slow' (0.85x)
+    // Retry phase
+    retryList: [],         // positions in original order that were wrong
+    retryAnswers: [],      // parallel to retryList: {chosen, correct} | null
+    retryIndex: 0,
+    retryCompletedAt: null,
+  };
+
+  // ============================================================
+  // LocalStorage I/O
+  // ============================================================
+  function save() {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({
+        index: state.index,
+        answers: state.answers,
+        studentName: state.studentName,
+        studentId: state.studentId,
+        completedAt: state.completedAt,
+        order: state.order,
+        rateMode: state.rateMode,
+        mode: state.mode,
+        retryList: state.retryList,
+        retryAnswers: state.retryAnswers,
+        retryIndex: state.retryIndex,
+        retryCompletedAt: state.retryCompletedAt,
+      }));
+    } catch(e) {}
+  }
+  function load() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return null;
+      return JSON.parse(raw);
+    } catch(e) { return null; }
+  }
+  function clearSave() {
+    try { localStorage.removeItem(STORAGE_KEY); } catch(e) {}
+  }
+  function loadHistory() {
+    try {
+      const raw = localStorage.getItem(HISTORY_KEY);
+      if (!raw) return null;
+      return JSON.parse(raw);
+    } catch(e) { return null; }
+  }
+  function saveHistory(record) {
+    // record = { score, correct, total, completedAt, studentName, studentId }
+    try { localStorage.setItem(HISTORY_KEY, JSON.stringify(record)); } catch(e) {}
+  }
+
+  // ============================================================
+  // Counters
+  // ============================================================
+  function countAnswered() { return state.answers.filter(a => a != null).length; }
+  function countCorrect() { return state.answers.filter(a => a && a.correct).length; }
+  function countWrong() { return state.answers.filter(a => a && !a.correct).length; }
+  function isTeacher() {
+    return state.studentId === TEACHER_ID && state.studentName === TEACHER_NAME;
+  }
+
+  // ============================================================
+  // Render dispatcher
+  // ============================================================
+  function render() {
+    if (typeof closePopup === 'function') closePopup();
+    if (state.mode === 'start') renderStart();
+    else if (state.mode === 'quiz') renderQuiz();
+    else if (state.mode === 'result') renderResult();
+    else if (state.mode === 'retry') renderRetry();
+    window.scrollTo({top:0, behavior:'instant'});
+  }
+
+  // ============================================================
+  // Header (with rate toggle and teacher badge)
+  // ============================================================
+  function renderHeader(showMeta) {
+    const answered = countAnswered();
+    const total = QUESTIONS.length;
+    const correct = countCorrect();
+    const percent = answered > 0 ? Math.round((correct / answered) * 100) : 0;
+    const sessionLabel = `第${SESSION_NUMBER}回`;
+    const showToolbar = state.mode !== 'start';
+    return `
+      <div class="header">
+        <div class="brand">
+          <span class="brand-session">${sessionLabel}</span>
+          <span class="brand-main">TOEIC用語彙</span>
+          ${SESSION_TITLE ? `<span class="brand-sub">${escapeHtml(SESSION_TITLE)}</span>` : ''}
+          ${isTeacher() ? '<span class="teacher-badge">✨ Teacher</span>' : ''}
+        </div>
+        <div class="header-right">
+          ${showMeta ? `<div class="meta">${answered}/${total} · ${percent}%</div>` : ''}
+          ${showToolbar ? `
+            <div class="rate-control">
+              <span class="rate-control-label">音声速度</span>
+              <div class="rate-segment">
+                <button class="rate-segment-btn ${state.rateMode === 'normal' ? 'active' : ''}" data-action="set-rate-normal">速い</button>
+                <button class="rate-segment-btn ${state.rateMode === 'slow' ? 'active' : ''}" data-action="set-rate-slow">ゆっくり</button>
+              </div>
+            </div>
+          ` : ''}
+        </div>
+      </div>
+    `;
+  }
+
+  // ============================================================
+  // Progress bar
+  // ============================================================
+  function renderProgress() {
+    const answered = countAnswered();
+    const total = QUESTIONS.length;
+    const correct = countCorrect();
+    const wrong = countWrong();
+    const percent = (answered / total) * 100;
+    return `
+      <div class="progress-wrap">
+        <div class="progress-bar">
+          <div class="progress-fill" style="width:${percent}%"></div>
+        </div>
+        <div class="progress-stats">
+          <span>Q.${state.index + 1} <strong>/ ${total}</strong></span>
+          <span>正答 <strong>${correct}</strong> · 誤答 <strong>${wrong}</strong></span>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderRetryProgress() {
+    const total = state.retryList.length;
+    const answered = state.retryAnswers.filter(a => a != null).length;
+    const correct = state.retryAnswers.filter(a => a && a.correct).length;
+    const wrong = state.retryAnswers.filter(a => a && !a.correct).length;
+    const percent = (answered / total) * 100;
+    return `
+      <div class="progress-wrap">
+        <div class="progress-bar">
+          <div class="progress-fill" style="width:${percent}%"></div>
+        </div>
+        <div class="progress-stats">
+          <span>Q.${state.retryIndex + 1} <strong>/ ${total}</strong></span>
+          <span>正答 <strong>${correct}</strong> · 誤答 <strong>${wrong}</strong></span>
+        </div>
+      </div>
+    `;
+  }
+
+  // ============================================================
+  // Start screen
+  // ============================================================
+  function renderStart() {
+    const saved = load();
+    const hasSaved = saved && saved.answers && saved.answers.some(a => a != null);
+    const answered = hasSaved ? saved.answers.filter(a => a != null).length : 0;
+    const correct = hasSaved ? saved.answers.filter(a => a && a.correct).length : 0;
+    const history = loadHistory();
+
+    app.innerHTML = `
+      ${renderHeader(false)}
+      <div class="start">
+        <div class="start-eyebrow">Practice Set · for Japanese Learners</div>
+        <h1 class="start-title">TOEIC用語彙</h1>
+        <div class="start-title-en">100 Questions in Business Context</div>
+
+        <div class="start-specs">
+          <div class="spec">
+            <div class="spec-label">Questions</div>
+            <div class="spec-value">100</div>
+          </div>
+          <div class="spec">
+            <div class="spec-label">Format</div>
+            <div class="spec-value">4 Choice</div>
+          </div>
+          <div class="spec">
+            <div class="spec-label">Focus</div>
+            <div class="spec-value">Part 5</div>
+          </div>
+        </div>
+
+        ${hasSaved ? `
+          <div class="resume-note">
+            前回の記録：<strong>${answered}/${QUESTIONS.length}問</strong> 回答済み・正答 <strong>${correct}</strong>問
+            ${saved.studentName ? `<br>記録者：<strong>${escapeHtml(saved.studentName)}</strong>${saved.studentId ? ` (${escapeHtml(saved.studentId)})` : ''}` : ''}
+          </div>
+        ` : ''}
+
+        ${history && !hasSaved ? `
+          <div class="resume-note">
+            最後の達成記録：<strong>${history.score}%</strong> (${history.correct}/${history.total}) — ${escapeHtml(history.studentName || '')}
+          </div>
+        ` : ''}
+
+        <div class="name-form">
+          <div class="name-field">
+            <label class="name-label" for="input-id">Student ID <span class="jp">学籍番号（必須）</span></label>
+            <input type="text" id="input-id" class="name-input" placeholder="例：2026001" value="${escapeHtml(saved && saved.studentId ? saved.studentId : '')}" autocomplete="off" required>
+          </div>
+          <div class="name-field">
+            <label class="name-label" for="input-name">Student Name <span class="jp">氏名（必須）</span></label>
+            <input type="text" id="input-name" class="name-input" placeholder="例：山田 太郎" value="${escapeHtml(saved && saved.studentName ? saved.studentName : '')}" autocomplete="name" required>
+          </div>
+          <div class="name-error" id="name-error"></div>
+        </div>
+
+        <div class="btn-row">
+          ${hasSaved ? `
+            <button class="btn" data-action="resume">
+              続きから <span class="btn-arrow">→</span>
+            </button>
+            <button class="btn btn-ghost" data-action="restart">最初から</button>
+          ` : `
+            <button class="btn" data-action="start">
+              開始する <span class="btn-arrow">→</span>
+            </button>
+          `}
+        </div>
+
+        <div class="start-notes">
+          <div class="start-notes-label">Notes · 注意事項</div>
+          <p>全 ${QUESTIONS.length} 問。途中で閉じても続きから再開できます。</p>
+          <p>正解の例文中の<span class="underline-demo">下線の語</span>をタップすると、意味が表示されます。</p>
+          <p>間違えた問題は最後にもう一度挑戦できます。</p>
+          <p>すべて終わったら、結果画面のスクリーンショットを撮って先生に提出してください。</p>
+        </div>
+
+        <div class="footer">© Kaoruko Takechi 2026</div>
+      </div>
+    `;
+
+    app.querySelectorAll('[data-action]').forEach(el => {
+      el.addEventListener('click', () => {
+        const act = el.dataset.action;
+        const nameInput = document.getElementById('input-name');
+        const idInput = document.getElementById('input-id');
+        const errorEl = document.getElementById('name-error');
+        const nameVal = nameInput ? nameInput.value.trim() : '';
+        const idVal = idInput ? idInput.value.trim() : '';
+
+        if (act === 'start' || act === 'restart') {
+          if (!idVal) {
+            if (errorEl) errorEl.textContent = '学籍番号を入力してください。';
+            if (idInput) idInput.focus();
+            return;
+          }
+          if (!nameVal) {
+            if (errorEl) errorEl.textContent = '氏名を入力してください。';
+            if (nameInput) nameInput.focus();
+            return;
+          }
+          state.studentId = idVal;
+          state.studentName = nameVal;
+          state.completedAt = null;
+          state.answers = new Array(QUESTIONS.length).fill(null);
+          state.order = makeOrder();
+          state.index = 0;
+          state.answered = false;
+          state.mode = 'quiz';
+          state.retryList = [];
+          state.retryAnswers = [];
+          state.retryIndex = 0;
+          state.retryCompletedAt = null;
+          clearSave();
+          save();
+          render();
+        } else if (act === 'resume') {
+          if (!idVal) {
+            if (errorEl) errorEl.textContent = '学籍番号を入力してください。';
+            if (idInput) idInput.focus();
+            return;
+          }
+          if (!nameVal) {
+            if (errorEl) errorEl.textContent = '氏名を入力してください。';
+            if (nameInput) nameInput.focus();
+            return;
+          }
+          const s = load();
+          state.studentId = idVal;
+          state.studentName = nameVal;
+          state.completedAt = s && s.completedAt ? s.completedAt : null;
+          state.answers = s && s.answers && s.answers.length === QUESTIONS.length
+            ? s.answers
+            : new Array(QUESTIONS.length).fill(null);
+          state.order = s && s.order && s.order.length === QUESTIONS.length
+            ? s.order
+            : makeOrder();
+          state.index = s && typeof s.index === 'number' ? Math.min(s.index, QUESTIONS.length - 1) : 0;
+          state.answered = state.answers[state.index] != null;
+          state.rateMode = (s && s.rateMode) || 'normal';
+          state.retryList = (s && s.retryList) || [];
+          state.retryAnswers = (s && s.retryAnswers) || [];
+          state.retryIndex = (s && typeof s.retryIndex === 'number') ? s.retryIndex : 0;
+          state.retryCompletedAt = (s && s.retryCompletedAt) || null;
+          // Resume to the appropriate phase
+          if (s && s.mode === 'retry') {
+            state.mode = 'retry';
+          } else if (state.completedAt && countAnswered() === QUESTIONS.length) {
+            state.mode = 'result';
+          } else {
+            state.mode = 'quiz';
+          }
+          save();
+          render();
+        }
+      });
+    });
+  }
+
+  // ============================================================
+  // Quiz screen
+  // ============================================================
+  function currentQ() {
+    return QUESTIONS[state.order[state.index]];
+  }
+
+  function renderQuiz() {
+    if (!state.order || state.order.length !== QUESTIONS.length) {
+      state.order = makeOrder();
+      save();
+    }
+    const q = currentQ();
+    const existing = state.answers[state.index];
+    const answered = existing != null;
+    state.answered = answered;
+
+    app.innerHTML = `
+      ${renderHeader(true)}
+      ${renderProgress()}
+      <div class="question-num">Question ${state.index + 1}</div>
+      <div class="question">${escapeHtml(q.q)}</div>
+      <div class="options">
+        ${q.opts.map((opt, i) => {
+          const num = i + 1;
+          const letter = String.fromCharCode(65 + i);
+          let cls = 'option';
+          if (answered) {
+            cls += ' dimmed';
+            if (num === q.ans) cls = 'option correct';
+            else if (num === existing.chosen) cls = 'option wrong';
+          }
+          return `
+            <button class="${cls}" data-num="${num}" ${answered ? 'disabled' : ''}>
+              <span class="option-letter">(${letter})</span>
+              <span class="option-text">${escapeHtml(opt)}</span>
+            </button>
+          `;
+        }).join('')}
+      </div>
+      ${(!answered && isTeacher()) ? renderTeacherHint(q) : ''}
+      ${answered ? renderFeedback(q, existing) : ''}
+      <div class="nav">
+        <button class="nav-quit" data-action="quit">一時中断して最初に戻る</button>
+        ${answered ? `
+          <button class="btn" data-action="next">
+            ${state.index === QUESTIONS.length - 1 ? '結果を見る' : '次の問題'} <span class="btn-arrow">→</span>
+          </button>
+        ` : ''}
+      </div>
+      <div class="footer">© Kaoruko Takechi 2026</div>
+    `;
+
+    bindCommonHandlers();
+    app.querySelectorAll('.option:not([disabled])').forEach(el => {
+      el.addEventListener('click', () => {
+        const num = parseInt(el.dataset.num, 10);
+        const correct = num === q.ans;
+        state.answers[state.index] = { chosen: num, correct: correct };
+        state.answered = true;
+        save();
+        render();
+        // 第4回特例：選択肢クリック時に正解埋め込み完了文をUS音声で自動再生
+        const fullSentence = q.q.replace('_____', q.opts[q.ans-1]);
+        speakSentence(fullSentence, 'en-US');
+      });
+    });
+    app.querySelectorAll('[data-action]').forEach(el => {
+      el.addEventListener('click', () => {
+        const act = el.dataset.action;
+        if (act === 'next') {
+          if (state.index === QUESTIONS.length - 1) {
+            state.mode = 'result';
+            recordHistoryIfNew();
+          } else {
+            state.index++;
+            state.answered = state.answers[state.index] != null;
+          }
+          save();
+          render();
+        } else if (act === 'quit') {
+          state.mode = 'start';
+          render();
+        }
+      });
+    });
+  }
+
+  function renderTeacherHint(q) {
+    const letter = String.fromCharCode(64 + q.ans);
+    const word = q.opts[q.ans - 1];
+    return `<div class="teacher-hint">👁 Teacher view — Correct: (${letter}) <strong>${escapeHtml(word)}</strong></div>`;
+  }
+
+  // ============================================================
+  // Feedback (after answer)
+  // ============================================================
+  function renderFeedback(q, ans) {
+    const isCorrect = ans.correct;
+    const letter = String.fromCharCode(64 + q.ans);
+    const correctWord = q.opts[q.ans - 1];
+    const fullSentence = q.q.replace(/_____/g, correctWord);
+    return `
+      <div class="feedback ${isCorrect ? 'correct' : 'wrong'}">
+        <div class="feedback-verdict">
+          ${isCorrect ? 'Correct' : 'Incorrect'}
+          <span class="feedback-verdict-jp">${isCorrect ? '正解' : '不正解'} · 正答は (${letter}) <span class="feedback-correct-answer">${escapeHtml(correctWord)}</span></span>
+        </div>
+        <div class="feedback-sentence ${isCorrect ? '' : 'wrong-sentence'}">
+          <span class="feedback-sentence-text">${renderTextWithMatches(fullSentence, q.sMatches || [])}</span>
+          <div class="accent-btns">
+            ${renderAccentButtons(fullSentence)}
+          </div>
+        </div>
+        <div class="feedback-body">${escapeHtml(q.exp)}</div>
+      </div>
+    `;
+  }
+
+  // ============================================================
+  // Speech (manual only, applies rateMode)
+  // ============================================================
+  const ACCENTS = [
+    { code: 'en-US', label: 'US', flag: '🇺🇸' },
+    { code: 'en-GB', label: 'UK', flag: '🇬🇧' },
+  ];
+
+  function getVoiceForAccent(accentCode) {
+    const voices = window.speechSynthesis.getVoices();
+    const code = accentCode.replace('_', '-');
+    let v = voices.find(v => v.lang.replace('_', '-') === code);
+    if (!v) v = voices.find(v => v.lang.replace('_', '-').startsWith(code));
+    if (!v) v = voices.find(v => v.lang.startsWith('en'));
+    return v || null;
+  }
+
+  function speakSentence(text, accentCode) {
+    try {
+      if (!('speechSynthesis' in window)) return;
+      window.speechSynthesis.cancel();
+      setTimeout(() => {
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = accentCode || 'en-US';
+        utterance.rate = state.rateMode === 'slow' ? 0.85 : 1.15;
+        utterance.pitch = 1;
+        const voice = getVoiceForAccent(accentCode || 'en-US');
+        if (voice) utterance.voice = voice;
+        window.speechSynthesis.speak(utterance);
+      }, 100);
+    } catch(e) {}
+  }
+
+  function renderAccentButtons(fullSentence) {
+    const escaped = escapeHtml(fullSentence);
+    return ACCENTS.map(a =>
+      `<button class="accent-btn" data-speak="${escaped}" data-accent="${a.code}" title="${a.label} English">${a.flag}<span class="accent-label">${a.label}</span></button>`
+    ).join('');
+  }
+
+  if ('speechSynthesis' in window) {
+    window.speechSynthesis.getVoices();
+    window.speechSynthesis.onvoiceschanged = () => { window.speechSynthesis.getVoices(); };
+  }
+
+  // ============================================================
+  // Common bindings (rate toggle, accent buttons)
+  // ============================================================
+  function bindCommonHandlers() {
+    app.querySelectorAll('.accent-btn').forEach(el => {
+      el.addEventListener('click', () => {
+        const text = el.dataset.speak;
+        const accent = el.dataset.accent;
+        if (text) speakSentence(text, accent);
+      });
+    });
+    app.querySelectorAll('[data-action="set-rate-normal"]').forEach(el => {
+      el.addEventListener('click', () => {
+        if (state.rateMode !== 'normal') {
+          state.rateMode = 'normal';
+          save();
+          render();
+        }
+      });
+    });
+    app.querySelectorAll('[data-action="set-rate-slow"]').forEach(el => {
+      el.addEventListener('click', () => {
+        if (state.rateMode !== 'slow') {
+          state.rateMode = 'slow';
+          save();
+          render();
+        }
+      });
+    });
+    bindClickableWords();
+  }
+
+  // ============================================================
+  // Result screen
+  // ============================================================
+  function recordHistoryIfNew() {
+    if (state.completedAt) return;
+    state.completedAt = new Date().toISOString();
+    const correct = countCorrect();
+    const total = QUESTIONS.length;
+    const score = total > 0 ? Math.round((correct / total) * 100) : 0;
+    saveHistory({
+      score, correct, total,
+      completedAt: state.completedAt,
+      studentName: state.studentName,
+      studentId: state.studentId,
+    });
+    save();
+  }
+
+  function renderResult() {
+    if (!state.completedAt) recordHistoryIfNew();
+
+    const answered = countAnswered();
+    const correct = countCorrect();
+    const wrong = answered - correct;
+    const percent = answered > 0 ? Math.round((correct / answered) * 100) : 0;
+
+    let msg = '';
+    if (percent >= 90) msg = 'Excellent — 9割超え。この水準を維持。';
+    else if (percent >= 75) msg = 'Strong — 安定した実力。誤答を見直して完璧に。';
+    else if (percent >= 60) msg = 'Solid — 基礎は固まっている。弱点を潰していこう。';
+    else if (percent >= 40) msg = 'Building — 復習モードで間違いを潰そう。';
+    else msg = 'Starting out — まずは解説を読み込んで、再挑戦を。';
+
+    const wrongPositions = state.answers
+      .map((a, i) => (a && !a.correct) ? i : -1)
+      .filter(i => i >= 0);
+
+    const completedDate = new Date(state.completedAt);
+    const completedStr = completedDate.toLocaleDateString('ja-JP', {
+      year: 'numeric', month: 'long', day: 'numeric'
+    });
+
+    // Score comparison: compare current with previous history (excluding self)
+    const history = loadHistory();
+    let comparisonHtml = '';
+    if (history && history.completedAt !== state.completedAt) {
+      const delta = percent - history.score;
+      let deltaClass = 'same';
+      let deltaSign = '±';
+      if (delta > 0) { deltaClass = 'up'; deltaSign = '+'; }
+      else if (delta < 0) { deltaClass = 'down'; deltaSign = ''; }
+      const prevDate = new Date(history.completedAt);
+      const prevStr = prevDate.toLocaleDateString('ja-JP', {month: 'long', day: 'numeric'});
+      comparisonHtml = `
+        <div class="score-comparison">
+          <div class="score-comparison-label">Compared to last attempt · 前回比較</div>
+          <div class="score-comparison-row">
+            <span>${prevStr}：<strong>${history.score}%</strong> (${history.correct}/${history.total})</span>
+            <span>→</span>
+            <span>今回：<strong>${percent}%</strong> (${correct}/${QUESTIONS.length})</span>
+            <span class="score-delta ${deltaClass}">${deltaSign}${delta}pt</span>
+          </div>
+        </div>
+      `;
+    }
+
+    app.innerHTML = `
+      ${renderHeader(false)}
+      <div class="student-banner">
+        <div>
+          <span class="student-name-jp">Student</span>
+          <span class="student-name">${escapeHtml(state.studentName || '(名前未入力)')}</span>
+          ${state.studentId ? `<span class="student-id"> · ${escapeHtml(state.studentId)}</span>` : ''}
+        </div>
+        <div class="student-datetime">${completedStr}</div>
+      </div>
+
+      <div class="submit-notice">
+        <div class="submit-notice-label">Submission · 提出方法</div>
+        <div class="submit-notice-body">
+          <strong>この画面全体をスクリーンショットして、先生に提出してください。</strong><br>
+          氏名・学籍番号・正答率・完了日時がこの1画面に収まっています。
+          <div class="submit-notice-caution">※ 下の「間違いを再挑戦」を押すと別画面に移ります。スクリーンショットは<u>この画面</u>を撮ってください。</div>
+        </div>
+      </div>
+
+      <div class="results">
+        <div class="results-eyebrow">Result</div>
+        <h1 class="results-title">お疲れさまでした。</h1>
+
+        <div class="score-display">
+          <div class="score-big">${percent}<sup>%</sup></div>
+          <div class="score-label">accuracy</div>
+        </div>
+
+        <div class="score-breakdown">
+          <div class="score-cell">
+            <div class="score-cell-label">Answered</div>
+            <div class="score-cell-value">${answered} / ${QUESTIONS.length}</div>
+          </div>
+          <div class="score-cell correct">
+            <div class="score-cell-label">Correct</div>
+            <div class="score-cell-value">${correct}</div>
+          </div>
+          <div class="score-cell wrong">
+            <div class="score-cell-label">Wrong</div>
+            <div class="score-cell-value">${wrong}</div>
+          </div>
+        </div>
+
+        <p class="results-msg">${msg}</p>
+        ${comparisonHtml}
+
+        <div class="btn-row" style="margin-top:24px;">
+          ${wrong > 0 ? `<button class="btn" data-action="retry-wrong">📝 間違えた ${wrong}問を再挑戦 <span class="btn-arrow">→</span></button>` : ''}
+          <button class="btn btn-ghost" data-action="restart-all">🔄 最初から解き直す</button>
+        </div>
+
+        <div class="footer">© Kaoruko Takechi 2026</div>
+      </div>
+    `;
+
+    bindCommonHandlers();
+    app.querySelectorAll('[data-action]').forEach(el => {
+      el.addEventListener('click', () => {
+        const act = el.dataset.action;
+        if (act === 'retry-wrong') {
+          state.retryList = wrongPositions.slice();
+          state.retryAnswers = new Array(state.retryList.length).fill(null);
+          state.retryIndex = 0;
+          state.retryCompletedAt = null;
+          state.mode = 'retry';
+          save();
+          render();
+        } else if (act === 'restart-all') {
+          // Keep id/name. Reset everything else, re-shuffle.
+          state.answers = new Array(QUESTIONS.length).fill(null);
+          state.order = makeOrder();
+          state.index = 0;
+          state.answered = false;
+          state.completedAt = null;
+          state.retryList = [];
+          state.retryAnswers = [];
+          state.retryIndex = 0;
+          state.retryCompletedAt = null;
+          state.mode = 'quiz';
+          save();
+          render();
+        }
+      });
+    });
+  }
+
+  // ============================================================
+  // Retry mode (re-attempt wrong questions)
+  // ============================================================
+  function currentRetryQ() {
+    const pos = state.retryList[state.retryIndex];
+    return QUESTIONS[state.order[pos]];
+  }
+
+  function renderRetry() {
+    if (state.retryList.length === 0) {
+      state.mode = 'result';
+      render();
+      return;
+    }
+    const q = currentRetryQ();
+    const total = state.retryList.length;
+    const existing = state.retryAnswers[state.retryIndex];
+    const answered = existing != null;
+    const originalPos = state.retryList[state.retryIndex];
+
+    app.innerHTML = `
+      ${renderHeader(false)}
+      <div class="retry-banner">
+        <span class="retry-banner-label">Retry</span>
+        <strong>間違えた${total}問の再挑戦中</strong> — もう一度解いて、定着を確認しよう。
+      </div>
+      ${renderRetryProgress()}
+      <div class="question-num">Question ${originalPos + 1} (re-attempt)</div>
+      <div class="question">${escapeHtml(q.q)}</div>
+      <div class="options">
+        ${q.opts.map((opt, i) => {
+          const num = i + 1;
+          const letter = String.fromCharCode(65 + i);
+          let cls = 'option';
+          if (answered) {
+            cls += ' dimmed';
+            if (num === q.ans) cls = 'option correct';
+            else if (num === existing.chosen) cls = 'option wrong';
+          }
+          return `
+            <button class="${cls}" data-num="${num}" ${answered ? 'disabled' : ''}>
+              <span class="option-letter">(${letter})</span>
+              <span class="option-text">${escapeHtml(opt)}</span>
+            </button>
+          `;
+        }).join('')}
+      </div>
+      ${(!answered && isTeacher()) ? renderTeacherHint(q) : ''}
+      ${answered ? renderFeedback(q, existing) : ''}
+      <div class="nav">
+        <button class="nav-quit" data-action="back-to-result">結果に戻る</button>
+        ${answered ? `
+          <button class="btn" data-action="retry-next">
+            ${state.retryIndex === total - 1 ? '結果画面に戻る' : '次の問題'} <span class="btn-arrow">→</span>
+          </button>
+        ` : ''}
+      </div>
+      <div class="footer">© Kaoruko Takechi 2026</div>
+    `;
+
+    bindCommonHandlers();
+    app.querySelectorAll('.option:not([disabled])').forEach(el => {
+      el.addEventListener('click', () => {
+        const num = parseInt(el.dataset.num, 10);
+        const correct = num === q.ans;
+        state.retryAnswers[state.retryIndex] = { chosen: num, correct: correct };
+        save();
+        render();
+        // 第4回特例：選択肢クリック時に正解埋め込み完了文をUS音声で自動再生
+        const fullSentence = q.q.replace('_____', q.opts[q.ans-1]);
+        speakSentence(fullSentence, 'en-US');
+      });
+    });
+    app.querySelectorAll('[data-action]').forEach(el => {
+      el.addEventListener('click', () => {
+        const act = el.dataset.action;
+        if (act === 'retry-next') {
+          if (state.retryIndex === state.retryList.length - 1) {
+            // 再挑戦完了 → 初回結果画面に戻る（高専仕様：再挑戦は内部復習扱い、スコアには反映しない）
+            state.mode = 'result';
+          } else {
+            state.retryIndex++;
+          }
+          save();
+          render();
+        } else if (act === 'back-to-result') {
+          state.mode = 'result';
+          render();
+        }
+      });
+    });
+  }
+
+
+  // ============================================================
+  // Dictionary popup: renderTextWithMatches
+  // ============================================================
+  // matches: [{start, end, term, meaning, original}] (sorted by start)
+  // Returns HTML with clickable spans for matched words.
+  function renderTextWithMatches(text, matches) {
+    if (!matches || matches.length === 0) {
+      return escapeHtml(text);
+    }
+    // Sort by start
+    const sorted = matches.slice().sort((a, b) => a.start - b.start);
+    let html = '';
+    let cursor = 0;
+    for (const m of sorted) {
+      if (m.start < cursor) continue; // skip overlapping
+      // Plain text before this match
+      if (m.start > cursor) {
+        html += escapeHtml(text.substring(cursor, m.start));
+      }
+      // Matched word as clickable
+      const word = text.substring(m.start, m.end);
+      const dataMeaning = escapeHtml(m.meaning).replace(/'/g, "&#39;");
+      const dataTerm = escapeHtml(m.term).replace(/'/g, "&#39;");
+      html += `<span class="clickable-word" data-term="${dataTerm}" data-meaning="${dataMeaning}">${escapeHtml(word)}</span>`;
+      cursor = m.end;
+    }
+    // Trailing plain text
+    if (cursor < text.length) {
+      html += escapeHtml(text.substring(cursor));
+    }
+    return html;
+  }
+
+  // Popup management
+  let activePopupEl = null;
+  let activeWordEl = null;
+
+  function closePopup() {
+    if (activePopupEl) {
+      activePopupEl.remove();
+      activePopupEl = null;
+    }
+    if (activeWordEl) {
+      activeWordEl.classList.remove('active');
+      activeWordEl = null;
+    }
+    document.removeEventListener('click', onDocClickToClose, true);
+    document.removeEventListener('keydown', onEscToClose);
+  }
+
+  function onDocClickToClose(e) {
+    if (activePopupEl && !activePopupEl.contains(e.target) && !e.target.classList.contains('clickable-word')) {
+      closePopup();
+    }
+  }
+
+  function onEscToClose(e) {
+    if (e.key === 'Escape') closePopup();
+  }
+
+  function showPopup(wordEl) {
+    closePopup();
+    const term = wordEl.dataset.term || '';
+    const meaning = wordEl.dataset.meaning || '';
+    if (!meaning) return;
+
+    const popup = document.createElement('div');
+    popup.className = 'word-popup';
+    popup.innerHTML = `
+      <button class="word-popup-close" type="button" aria-label="閉じる">×</button>
+      <div class="word-popup-headword">${escapeHtml(term)}</div>
+      <div class="word-popup-meaning">${escapeHtml(meaning)}</div>
+    `;
+    document.body.appendChild(popup);
+
+    // Position below the word
+    const rect = wordEl.getBoundingClientRect();
+    const popupRect = popup.getBoundingClientRect();
+    let left = rect.left;
+    let top = rect.bottom + 6;
+    // Adjust if overflowing right
+    if (left + popupRect.width > window.innerWidth - 12) {
+      left = Math.max(12, window.innerWidth - popupRect.width - 12);
+    }
+    // Adjust if overflowing bottom (show above)
+    if (top + popupRect.height > window.innerHeight - 12) {
+      top = Math.max(12, rect.top - popupRect.height - 6);
+    }
+    popup.style.left = left + 'px';
+    popup.style.top = top + 'px';
+
+    activePopupEl = popup;
+    activeWordEl = wordEl;
+    wordEl.classList.add('active');
+
+    popup.querySelector('.word-popup-close').addEventListener('click', (e) => {
+      e.stopPropagation();
+      closePopup();
+    });
+
+    // Use capture to catch clicks before they reach buttons
+    setTimeout(() => {
+      document.addEventListener('click', onDocClickToClose, true);
+      document.addEventListener('keydown', onEscToClose);
+    }, 0);
+  }
+
+  function bindClickableWords() {
+    app.querySelectorAll('.clickable-word').forEach(el => {
+      el.addEventListener('click', (e) => {
+        e.stopPropagation();
+        showPopup(el);
+      });
+    });
+  }
+
+  function escapeHtml(s) {
+    return String(s)
+      .replace(/&/g,'&amp;')
+      .replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;')
+      .replace(/"/g,'&quot;')
+      .replace(/'/g,'&#39;');
+  }
+
+  // ============================================================
+  // Initialize
+  // ============================================================
+  function init() {
+    state.answers = new Array(QUESTIONS.length).fill(null);
+    render();
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
+</body>
+</html>

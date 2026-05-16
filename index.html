@@ -4,7 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#1c1916">
-<title>TOEIC 語彙・文法 100問</title>
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+<meta name="googlebot" content="noindex, nofollow">
+<meta name="GPTBot" content="noindex, nofollow">
+<meta name="ClaudeBot" content="noindex, nofollow">
+<title>「T」用語彙 143問</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@500;700&display=swap" rel="stylesheet">
@@ -585,6 +589,89 @@
     color: var(--ink-soft);
   }
 
+  .feedback-sentence {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 14px;
+    margin-bottom: 14px;
+    background: rgba(47,93,47,.06);
+    border: 1px solid rgba(47,93,47,.15);
+    font-family: var(--serif-en);
+    font-size: .98rem;
+    line-height: 1.55;
+    color: var(--correct);
+  }
+
+  .feedback-sentence.wrong-sentence {
+    background: rgba(139,35,50,.04);
+    border-color: rgba(139,35,50,.12);
+    color: var(--ink-soft);
+  }
+
+  .feedback-sentence-text {
+    flex: 1;
+    font-style: italic;
+  }
+
+  /* feedback-sentence 内の下線語は文の色（緑/赤）に合わせる */
+  .feedback-sentence .clickable-word {
+    color: inherit;
+    border-bottom: 1px dotted currentColor;
+    opacity: .92;
+  }
+  .feedback-sentence .clickable-word:hover,
+  .feedback-sentence .clickable-word:active {
+    background-color: rgba(0,0,0,.08);
+    opacity: 1;
+  }
+  .feedback-sentence .clickable-word.active {
+    background-color: rgba(0,0,0,.15);
+  }
+
+  .accent-btns {
+    display: flex;
+    gap: 6px;
+    flex-shrink: 0;
+    align-items: center;
+  }
+
+  .accent-btn {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 5px 10px;
+    background: var(--correct);
+    color: var(--paper);
+    border: none;
+    cursor: pointer;
+    font-size: .72rem;
+    font-family: var(--sans-jp);
+    font-weight: 500;
+    letter-spacing: .03em;
+    transition: transform .12s, opacity .12s;
+    white-space: nowrap;
+  }
+
+  .accent-btn:hover { opacity: .85; }
+  .accent-btn:active { transform: scale(.93); }
+
+  .accent-label {
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-size: .7rem;
+  }
+
+  .wrong-sentence .accent-btn {
+    background: var(--muted);
+  }
+
+  @media (max-width: 520px) {
+    .feedback-sentence { font-size: .9rem; padding: 8px 12px; flex-wrap: wrap; }
+    .accent-btns { margin-top: 6px; }
+    .accent-btn { padding: 4px 8px; font-size: .68rem; }
+  }
+
   .feedback-correct-answer {
     font-family: var(--serif-en);
     color: var(--ink);
@@ -784,6 +871,288 @@
     z-index: 0;
   }
   .app > * { position: relative; z-index: 1; }
+
+  /* === Header right toolbar (rate selector + teacher badge) === */
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .rate-control {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .rate-control-label {
+    font-family: var(--sans-jp);
+    font-size: .75rem;
+    color: var(--muted);
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  .rate-segment {
+    display: inline-flex;
+    border: 1px solid var(--ink);
+    background: var(--paper);
+  }
+
+  .rate-segment-btn {
+    padding: 4px 10px;
+    background: transparent;
+    border: none;
+    color: var(--ink);
+    font-family: var(--sans-jp);
+    font-size: .8rem;
+    font-weight: 500;
+    cursor: pointer;
+    border-right: 1px solid var(--ink);
+    transition: all .12s;
+    line-height: 1.4;
+  }
+  .rate-segment-btn:last-child { border-right: none; }
+  .rate-segment-btn:hover:not(.active) {
+    background: var(--rule-soft);
+  }
+  .rate-segment-btn.active {
+    background: var(--ink);
+    color: var(--paper);
+    font-weight: 700;
+  }
+
+  @media (max-width: 520px) {
+    .rate-control-label { font-size: .7rem; }
+    .rate-segment-btn { padding: 4px 8px; font-size: .75rem; }
+  }
+
+  .teacher-badge {
+    display: inline-block;
+    padding: 3px 9px;
+    background: linear-gradient(90deg, #c026d3, #a855f7);
+    color: white;
+    font-family: var(--serif-en);
+    font-size: .68rem;
+    font-style: italic;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    line-height: 1.1;
+    vertical-align: middle;
+  }
+
+  /* === Teacher mode answer hint === */
+  .teacher-hint {
+    margin-top: 12px;
+    padding: 8px 12px;
+    border: 2px solid #a855f7;
+    background: #fdf4ff;
+    color: #a01daf;
+    font-family: var(--serif-en);
+    font-size: .85rem;
+    font-style: italic;
+    font-weight: 500;
+    letter-spacing: .02em;
+  }
+
+  /* === Score comparison block === */
+  .score-comparison {
+    margin: 24px 0 0;
+    padding: 16px 18px;
+    background: var(--paper-warm);
+    border-left: 4px solid var(--accent);
+  }
+
+  .score-comparison-label {
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-size: .72rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    margin-bottom: 8px;
+  }
+
+  .score-comparison-row {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    flex-wrap: wrap;
+    font-family: var(--serif-en);
+    font-size: .95rem;
+    color: var(--ink-soft);
+  }
+
+  .score-comparison-row strong {
+    font-family: var(--serif-en);
+    font-size: 1.15rem;
+    font-weight: 500;
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .score-delta {
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 1rem;
+    padding: 2px 10px;
+    border-radius: 0;
+  }
+  .score-delta.up {
+    background: var(--correct-soft);
+    color: var(--correct);
+  }
+  .score-delta.down {
+    background: var(--wrong-soft);
+    color: var(--wrong);
+  }
+  .score-delta.same {
+    background: var(--rule-soft);
+    color: var(--ink-soft);
+  }
+
+  /* === Retry mode banner === */
+  .retry-banner {
+    margin-bottom: 24px;
+    padding: 14px 18px;
+    background: #fef3c7;
+    border-left: 4px solid var(--accent);
+    font-family: var(--sans-jp);
+    font-size: .9rem;
+    color: var(--ink);
+  }
+  .retry-banner strong {
+    color: var(--accent);
+    font-weight: 700;
+  }
+  .retry-banner-label {
+    display: inline-block;
+    padding: 2px 8px;
+    background: var(--accent);
+    color: var(--paper);
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-size: .72rem;
+    font-weight: 500;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    margin-right: 8px;
+    vertical-align: 1px;
+  }
+
+  /* === Start screen notes === */
+  .start-notes {
+    margin-top: 28px;
+    margin-bottom: 16px;
+    padding: 16px 18px;
+    background: var(--paper-warm);
+    border-left: 3px solid var(--ink-soft);
+  }
+  .start-notes-label {
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-size: .72rem;
+    color: var(--muted);
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .start-notes p {
+    font-family: var(--sans-jp);
+    font-size: .88rem;
+    line-height: 1.75;
+    color: var(--ink-soft);
+    margin-bottom: 4px;
+  }
+  .start-notes p:last-child { margin-bottom: 0; }
+  .start-notes .underline-demo {
+    border-bottom: 1px dotted var(--accent);
+    color: var(--accent);
+    padding: 0 1px;
+  }
+
+  /* === Dictionary popup (clickable words) === */
+  .clickable-word {
+    border-bottom: 1px dotted var(--accent);
+    cursor: pointer;
+    color: var(--accent);
+    padding: 0 1px;
+    -webkit-tap-highlight-color: transparent;
+    transition: background-color .15s;
+  }
+  .clickable-word:hover, .clickable-word:active {
+    background-color: rgba(139,35,50,.12);
+  }
+  .clickable-word.active {
+    background-color: rgba(139,35,50,.2);
+  }
+
+  .target-blank-word {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 1px 6px;
+    font-style: italic;
+    font-weight: 500;
+  }
+
+  .word-popup {
+    position: fixed;
+    z-index: 200;
+    background: var(--ink);
+    color: var(--paper);
+    padding: 12px 16px;
+    min-width: 200px;
+    max-width: 320px;
+    box-shadow: 0 4px 20px rgba(0,0,0,.25);
+    border: 1px solid var(--ink);
+    animation: popupFadeIn .15s ease-out;
+  }
+  @keyframes popupFadeIn {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .word-popup-headword {
+    font-family: var(--serif-en);
+    font-size: 1.2rem;
+    font-style: italic;
+    font-weight: 500;
+    color: var(--paper);
+    margin-bottom: 4px;
+  }
+  .word-popup-meaning {
+    font-family: var(--sans-jp);
+    font-size: .9rem;
+    color: var(--paper);
+    line-height: 1.5;
+    opacity: .95;
+  }
+  .word-popup-close {
+    position: absolute;
+    top: 6px;
+    right: 8px;
+    background: none;
+    border: none;
+    color: var(--paper);
+    opacity: .6;
+    cursor: pointer;
+    font-family: var(--serif-en);
+    font-size: 1.1rem;
+    line-height: 1;
+    padding: 2px 6px;
+  }
+  .word-popup-close:hover { opacity: 1; }
+
+  @media (max-width: 520px) {
+    .word-popup {
+      left: 12px !important;
+      right: 12px !important;
+      max-width: none !important;
+      min-width: 0 !important;
+    }
+  }
 </style>
 </head>
 <body>
@@ -791,629 +1160,33 @@
 
 <script>
 // =============================================================================
-// QUESTION DATA
+// QUESTION DATA (143 questions)
 // =============================================================================
 const QUESTIONS = [];
-const QUESTIONS_DATA = [
-  {
-    q: "The meeting was cancelled, but we decided to hold a brief discussion _____.",
-    opts: ["although", "however", "anyway", "despite"],
-    ans: 3,
-    exp: "anyway は「とにかく、それでも」を表す文末副詞。although/despite は接続詞・前置詞で節や名詞句を従える。however は副詞だが文頭・文中の位置が一般的。文末で「それでも」の含意を出せるのは anyway のみ。"
-  },
-  {
-    q: "_____ the CEO's announcement, shares of the company rose sharply.",
-    opts: ["Followed", "Following", "Follows", "Follow"],
-    ans: 2,
-    exp: "Following + N で「～に続いて、～の後で」という前置詞的用法。After とほぼ同義。Follows（三単現）・Follow（原形）・Followed（過去/過去分詞）はいずれも文法構造に合わない。"
-  },
-  {
-    q: "Please _____ the user manual for detailed installation instructions.",
-    opts: ["look for", "point at", "notice of", "refer to"],
-    ans: 4,
-    exp: "refer to は「～を参照する、参考にする」。refer は自動詞なので前置詞 to が必要。look for（探す）、point at（物理的に指差す）は意味不適。notice of は動詞＋前置詞の組み合わせとして成立しない。"
-  },
-  {
-    q: "The latest financial report is now _____ on the company website.",
-    opts: ["available", "possible", "capable", "reachable"],
-    ans: 1,
-    exp: "available は「入手可能な、利用できる」。報告書がサイト上で閲覧できる状態を表す。possible は「起こりうる」、capable は「（人・物が）能力を持つ」、reachable は「到達可能な」で物理的・抽象的距離を指すため不自然。"
-  },
-  {
-    q: "Please submit your vacation request to the Human Resources _____ by Friday.",
-    opts: ["application", "committee", "department", "interview"],
-    ans: 3,
-    exp: "Human Resources Department（人事部）は組織の部署名として定型。committee（委員会）は特定目的の合議体、interview（面接）と application（申請書）は別カテゴリの名詞。"
-  },
-  {
-    q: "The annual sales _____ will be held in Chicago next month.",
-    opts: ["appointment", "conference", "interview", "session"],
-    ans: 2,
-    exp: "conference は大規模な会議・カンファレンス。annual sales conference は営業関連の年次会合として定型。appointment は個人的な予約、interview は面接、session は会期や一コマの会合で、大規模な年次会合には通常使わない。"
-  },
-  {
-    q: "_____ the latest survey, customer satisfaction has improved significantly.",
-    opts: ["According to", "Based with", "Depending on", "Regardless of"],
-    ans: 1,
-    exp: "According to ～「～によれば」は情報源を示す定型句。Based with は誤用（正しくは based on）、Depending on は「～次第で」、Regardless of は「～に関係なく」で意味が合わない。"
-  },
-  {
-    q: "Given the current market conditions, prices are _____ to rise next quarter.",
-    opts: ["possible", "probable", "available", "likely"],
-    ans: 4,
-    exp: "be likely to do「～しそうである」の構文。likely は形容詞＋to不定詞をとれる。possible と probable はこの構文では不自然で、通常 It is possible/probable that ～ の形をとる。available は意味不適。"
-  },
-  {
-    q: "As part of the promotion, the company will _____ a 20% discount to loyal customers.",
-    opts: ["afford", "offer", "spend", "cost"],
-    ans: 2,
-    exp: "offer O to O'「顧客に割引を提供する」の構文。afford は「余裕がある」、spend は「使う」、cost は「費用がかかる」で、割引を提供する意味にはならない。"
-  },
-  {
-    q: "The factory recently installed new _____ to improve efficiency.",
-    opts: ["equipments", "equipment", "an equipment", "equipping"],
-    ans: 2,
-    exp: "equipment は不可算名詞。複数形 equipments や不定冠詞 an equipment は文法的に誤り。equipping（動名詞）も new equipment の位置には合わない。TOEIC頻出の不可算名詞。"
-  },
-  {
-    q: "The hotel will _____ complimentary breakfast for all registered guests.",
-    opts: ["propose", "prepare for", "provide", "present with"],
-    ans: 3,
-    exp: "provide は「（物・サービス）を提供する」。propose は「提案する」で計画やアイデアが対象。prepare for は「～のために準備する」で直接目的語ではなく前置詞を挟む。present with は「人に～を贈呈する」で目的語の順序が異なる。"
-  },
-  {
-    q: "Many residents prefer to shop at _____ stores rather than large chain supermarkets.",
-    opts: ["native", "inner", "personal", "local"],
-    ans: 4,
-    exp: "local は「地元の、地域の」。大手チェーンとの対比として local stores（地元の店）が自然。native は「原産の、生まれつきの」、inner は「内側の」、personal は「個人の」で店舗を修飾する語として不適。"
-  },
-  {
-    q: "Customers who _____ items online can track their orders through our website.",
-    opts: ["purchase", "pay", "order for", "buy of"],
-    ans: 1,
-    exp: "purchase は「購入する」で他動詞、直接目的語をとる。pay は pay for ～（～の代金を払う）の形、order は通常 for 不要、buy of は非標準。purchase が最も直接的で自然。"
-  },
-  {
-    q: "The grand _____ of the new store will take place next Saturday.",
-    opts: ["beginning", "opening", "starting", "origin"],
-    ans: 2,
-    exp: "grand opening は「（新店舗の）グランドオープン」の定型句。beginning や starting は「動作の開始」に近く、origin は「起源」で店舗開業の意味にならない。"
-  },
-  {
-    q: "The _____ of the new office building will be completed by December.",
-    opts: ["construct", "constructive", "construction", "constructed"],
-    ans: 3,
-    exp: "the ___ of ～ の空所には名詞が入る。construct は動詞、constructive は形容詞（建設的な）、constructed は過去分詞。名詞の construction（建設）のみが文法的に適合。"
-  },
-  {
-    q: "The factory offers a free guided _____ of its production line every Friday.",
-    opts: ["tour", "trip", "journey", "pathway"],
-    ans: 1,
-    exp: "guided tour は「ガイド付き見学」の定型。工場見学の意味で自然。trip は「短い旅行」、journey は「長旅・道のり」、pathway は「小道・経路」で、案内付きの見学の意味にはならない。"
-  },
-  {
-    q: "The company invested heavily in _____ and development last year.",
-    opts: ["researches", "researching", "researcher", "research"],
-    ans: 4,
-    exp: "research は通常不可算名詞で、複数形 researches は学術的・古い用法に限られる。research and development（研究開発、R&D）は定型句。researcher は「研究者」、researching は動名詞で and development との並列に不自然。"
-  },
-  {
-    q: "All managers are required to _____ the quarterly planning meeting.",
-    opts: ["attend to", "attend", "participate", "join in"],
-    ans: 2,
-    exp: "attend「出席する」は他動詞で、直接目的語をとる。attend to は「～の世話をする、対処する」で意味が異なる。participate は participate in、join in も in が必要で、前置詞なしの meeting を直接目的語にとれない。"
-  },
-  {
-    q: "Our company offers free next-day _____ to all customers within the city.",
-    opts: ["delivery", "deliver", "to deliver", "delivering"],
-    ans: 1,
-    exp: "next-day delivery は「翌日配達」の定型句。offer の目的語として名詞が必要。deliver は動詞、to deliver と delivering は名詞句の主要部には通常使わない。"
-  },
-  {
-    q: "The marketing team _____ launched a new advertising campaign.",
-    opts: ["nowadays", "at present", "recently", "since"],
-    ans: 3,
-    exp: "recently は過去形・現在完了と共起する副詞。nowadays は「今日では」で現在時制や一般的傾向、at present は「現在（は）」で現在時制と共起。since は前置詞・接続詞で副詞単独では使えない。"
-  },
-  {
-    q: "The survey results _____ that customer satisfaction has improved.",
-    opts: ["point to", "inform of", "suggest about", "indicate"],
-    ans: 4,
-    exp: "indicate は「示す」で that 節を直接とれる他動詞。point to は that 節を従えず名詞句を目的語にする、inform of は「人 + of + 物」の形で人目的語が必要、suggest は about を取らない（suggest that ～）。"
-  },
-  {
-    q: "Every _____ must complete the safety training before starting work.",
-    opts: ["employee", "employer", "employment", "employing"],
-    ans: 1,
-    exp: "employee は「従業員」。training を受ける主語として適切。employer は「雇用主」、employment は「雇用（制度・状態）」、employing は動名詞・現在分詞で every の後には来ない。"
-  },
-  {
-    q: "Please contact customer service if you need _____ information.",
-    opts: ["added", "additional", "adding", "addition"],
-    ans: 2,
-    exp: "additional は形容詞「追加の」で information を修飾する定型。added は過去分詞で「加えられた」の結果的意味、adding は動名詞、addition は名詞で、ここでは形容詞が必要。"
-  },
-  {
-    q: "We conducted a customer satisfaction _____ to identify areas for improvement.",
-    opts: ["investigation", "examination", "survey", "observation"],
-    ans: 3,
-    exp: "customer satisfaction survey は「顧客満足度調査」の定型句。investigation は犯罪・事故の「捜査」、examination は「試験・検査」、observation は「観察」で、意見・満足度の調査の意味にならない。"
-  },
-  {
-    q: "Managers are expected to _____ employee performance on a quarterly basis.",
-    opts: ["review", "observe", "remind", "respect"],
-    ans: 1,
-    exp: "review は「評価する、見直す」。review employee performance（従業員の業績を評価する）は定型。observe は「観察する」、remind は「思い出させる」、respect は「尊重する」で、四半期評価の文脈に合わない。"
-  },
-  {
-    q: "Due to increased demand, _____ will be scaled up next month.",
-    opts: ["producing", "product", "produced", "production"],
-    ans: 4,
-    exp: "production は「生産（量）」で、be scaled up（規模拡大される）の主語になる。producing は動名詞（主語化できるが動作寄り）、product は「製品」、produced は過去分詞で主語にならない。"
-  },
-  {
-    q: "The new branch office will be _____ near the central train station.",
-    opts: ["laid", "located", "set on", "put"],
-    ans: 2,
-    exp: "be located「位置する」の定型。建物や施設の所在を表す。laid は「（物が）置かれた」で建物には使わない。set on は「～に向けられた」で文脈不適。put も建物の立地には通常使わない。"
-  },
-  {
-    q: "The contract describes the terms of the agreement in great _____.",
-    opts: ["details", "detailed", "detail", "detailing"],
-    ans: 3,
-    exp: "in detail「詳細に」は単数形の定型句で、強調には in great detail とする。複数形 in details は非標準、detailed は形容詞、detailing は動名詞でいずれも前置詞句の核に合わない。"
-  },
-  {
-    q: "The CEO will _____ the merger at tomorrow's press conference.",
-    opts: ["announce", "declare on", "inform", "notify of"],
-    ans: 1,
-    exp: "announce は「発表する」で他動詞。直接目的語 the merger をとる。declare on は誤用（declare は他動詞）、inform は inform + 人 + of/that、notify も notify + 人 + of/that の形で、いずれも人を目的語にする必要がある。"
-  },
-  {
-    q: "The technician will come tomorrow to _____ the broken copier.",
-    opts: ["recover", "restore", "renew", "repair"],
-    ans: 4,
-    exp: "repair は「（壊れたものを）修理する」で、機械の故障対応に最も直接的。recover は「回復する、取り戻す」、restore は「元の状態に戻す、復元する」（建物・美術品等）、renew は「更新する」（契約等）で、機器修理の標準語ではない。"
-  },
-  {
-    q: "Due to high demand, the factory plans to _____ production by 20% next quarter.",
-    opts: ["rise", "grow up", "increase", "get up"],
-    ans: 3,
-    exp: "increase は「増やす」で他動詞として production を直接目的語にとれる。rise は自動詞で「上がる」（目的語不可）、grow up は「人が成長する」、get up は「起きる」で意味・用法ともに不適。"
-  },
-  {
-    q: "The package tour _____ airfare, accommodation, and daily meals.",
-    opts: ["includes", "contains", "holds", "involves"],
-    ans: 1,
-    exp: "include は「（リストの項目として）含む」で、パッケージの構成要素を列挙する際の定型。contain は「（容器の中に物理的に）含む」、hold は「保持する」、involve は「関与させる、伴う」で文脈に合わない。"
-  },
-  {
-    q: "The marketing team is _____ working on a new advertising campaign.",
-    opts: ["lately", "currently", "nowadays", "recently"],
-    ans: 2,
-    exp: "currently は「現在」で進行形と自然に共起する。lately は現在完了と、recently は過去形・現在完了と共起。nowadays は「今日では」で文頭・文末が普通で、進行形の間には通常入らない。"
-  },
-  {
-    q: "The company has increased its _____ budget by 30% this year.",
-    opts: ["advertise", "advertised", "advertisement", "advertising"],
-    ans: 4,
-    exp: "advertising は「広告活動（全般）」で、advertising budget は「広告予算」の定型。advertisement は「個別の広告」で budget の修飾には不自然。advertise は動詞、advertised は過去分詞。"
-  },
-  {
-    q: "Ms. Tanaka is in _____ of the new product development team.",
-    opts: ["lead", "head", "charge", "control"],
-    ans: 3,
-    exp: "in charge of ～「～を担当して、～の責任者で」の定型句。in lead of / in head of は誤用。in control of は「～を支配下に置いて」でニュアンスが強すぎる。"
-  },
-  {
-    q: "We _____ the shipment to arrive by Friday at the latest.",
-    opts: ["expect", "hope", "wish", "wait"],
-    ans: 1,
-    exp: "expect は expect + O + to do の構文をとれる（S が O に～することを期待する）。hope はこの構文をとれず、hope that / hope to do の形のみ。wish + O + to do は古風で一般的でない。wait は wait for が必要。"
-  },
-  {
-    q: "She works for a prestigious law _____ in downtown Tokyo.",
-    opts: ["office", "firm", "agency", "bureau"],
-    ans: 2,
-    exp: "law firm は「法律事務所」の定型。専門職の事務所を指す際 firm が最も標準的。law office は個人事務所を指す場合があり定型表現としては firm が優先。agency（代理店）、bureau（政府機関）は法律事務所には使わない。"
-  },
-  {
-    q: "Our company has acquired several new _____ in the financial sector this year.",
-    opts: ["customers", "guests", "audiences", "clients"],
-    ans: 4,
-    exp: "clients は専門サービス（金融・法律・コンサル等）の顧客を指す。customers は小売・物品購入の顧客、guests はホテル等のゲスト、audiences は「聴衆」で金融業界の顧客には不適。"
-  },
-  {
-    q: "The CFO presented the quarterly _____ report to the board of directors.",
-    opts: ["financial", "finance", "financially", "financed"],
-    ans: 1,
-    exp: "financial report「財務報告書」は形容詞 financial が名詞 report を修飾する定型。finance は名詞で、finance report は標準的でない（複合名詞として限定的）。financially は副詞、financed は過去分詞で名詞修飾には不自然。"
-  },
-  {
-    q: "The company's _____ revenue reached a record high last fiscal year.",
-    opts: ["year", "monthly", "annual", "yearlong"],
-    ans: 3,
-    exp: "annual revenue は「年間収益」の定型。annual は「年次の、1年ごとの」。year は名詞で形容詞的には使わない。monthly（月次の）は fiscal year（会計年度）の文脈と合わない。yearlong は「1年間続く」で継続性を強調し、会計報告の「年次」の意味にはならない。"
-  },
-  {
-    q: "We request that _____ be made within 30 days of the invoice date.",
-    opts: ["paying", "payment", "pay", "paid"],
-    ans: 2,
-    exp: "request that + S + 原形（仮定法現在）の構文。be made の主語として名詞の payment が入る。paying は動名詞で主語化は可能だが be made と呼応が不自然、pay は動詞原形、paid は過去分詞で主語にならない。"
-  },
-  {
-    q: "The project exceeded its initial _____ by over $50,000.",
-    opts: ["cost", "expense", "fund", "budget"],
-    ans: 4,
-    exp: "exceed the budget「予算を超える」の定型。cost は「費用（実際に発生した額）」、expense は「経費」、fund は「資金」で、計画段階で設定された「予算」を超過する意味には budget が最適。"
-  },
-  {
-    q: "Please complete the job _____ form and return it to the HR department.",
-    opts: ["application", "applying", "applicant", "applied"],
-    ans: 1,
-    exp: "application form「申請書」、特に job application form「求職申込書」は定型。applying は動名詞、applicant は「応募者（人）」、applied は過去分詞で、いずれも form を修飾する名詞の位置に合わない。"
-  },
-  {
-    q: "Employees must follow the terms of their employment _____.",
-    opts: ["promising", "agreeing", "contract", "writing"],
-    ans: 3,
-    exp: "employment contract「雇用契約（書）」の定型。terms of the contract（契約条項）とも結びつく。promising/agreeing は動名詞、writing は「文書」だが契約書の定型語ではない。"
-  },
-  {
-    q: "The company's new _____ team has implemented several policy changes.",
-    opts: ["manage", "management", "manager", "managing"],
-    ans: 2,
-    exp: "management team「経営陣、管理チーム」の定型。management は「経営・管理（活動、部門）」を表す名詞。manage は動詞、manager は個人、managing は動名詞・現在分詞で team の修飾語として不自然。"
-  },
-  {
-    q: "The CEO praised the sales team's excellent _____ this quarter.",
-    opts: ["perform", "performing", "performer", "performance"],
-    ans: 4,
-    exp: "performance は「業績、パフォーマンス」。excellent performance の形で名詞を修飾される。perform は動詞、performing は動名詞、performer は「演者・従事者（人）」で、業績の意味にならない。"
-  },
-  {
-    q: "The manager was very _____ the results of the employee satisfaction survey.",
-    opts: ["pleased for", "pleased in", "pleased with", "pleased of"],
-    ans: 3,
-    exp: "be pleased with「～に満足して」の定型。前置詞 with が必要。pleased for は「（他人のために）嬉しい」で人を目的語に、pleased in / pleased of は非標準の前置詞誤用。"
-  },
-  {
-    q: "I am writing to _____ your reservation for April 20th.",
-    opts: ["assure", "ensure", "insure", "confirm"],
-    ans: 4,
-    exp: "confirm は「（事実・予約等を）確認する」で、予約確認の標準語。assure は「（人を）安心させる」（assure + 人）、ensure は「（事態を）確実にする」、insure は「保険をかける」で、混同されやすい四語の典型的な頻出誤答パターン。"
-  },
-  {
-    q: "Ms. Johnson received a prestigious _____ for her contributions to the company.",
-    opts: ["award", "reward", "bonus", "tip"],
-    ans: 1,
-    exp: "award は公式な賞（表彰）。会社への貢献に対する公式表彰の意味で適切。reward は「（行動への）報酬、ご褒美」、bonus は金銭的ボーナス、tip は「チップ」で、prestigious（名誉ある）と結びつかない。"
-  },
-  {
-    q: "Winter _____ is on sale starting next Monday.",
-    opts: ["clothes", "clothing", "cloths", "clothe"],
-    ans: 2,
-    exp: "clothing は「衣類」の不可算名詞で、is on sale（単数扱いの動詞）と呼応する。clothes は複数形で are on sale となるはず。cloths は「布切れ」の複数、clothe は動詞で文法的に合わない。"
-  },
-  {
-    q: "The restaurant was fully booked, but we tried to get a table _____.",
-    opts: ["otherwise", "anyway", "moreover", "similarly"],
-    ans: 2,
-    exp: "anyway「とにかく、それでも」が逆接の文末で「予約が埋まっていたが、それでも席を確保しようとした」の意味を作る。otherwise は「さもないと、それ以外で」、moreover は「さらに」、similarly は「同様に」で逆接・譲歩を表さない。"
-  },
-  {
-    q: "Please read the _____ instructions carefully before operating the machine.",
-    opts: ["follow", "followed", "following", "follows"],
-    ans: 3,
-    exp: "following は「次の、以下の」の形容詞用法で instructions を修飾。the following instructions（以下の指示）は定型。follow（原形）、followed（過去分詞）、follows（三単現）は形容詞位置に来ない。"
-  },
-  {
-    q: "The sales manager _____ the annual report during the presentation.",
-    opts: ["mentioned about", "talked with", "pointed at", "referred to"],
-    ans: 4,
-    exp: "refer to は「（資料・事項に）言及する、参照する」。プレゼン中の報告書への抽象的言及に自然。mention は他動詞で about 不要（mentioned about は誤用）。talk with は「人と話す」で人目的語が必要、point at は「物理的に指差す」で報告書への言及には不適。"
-  },
-  {
-    q: "The position is still _____ for qualified candidates.",
-    opts: ["available", "possible", "capable", "ready"],
-    ans: 1,
-    exp: "available は「（求人・機会等が）利用可能な、空いている」。ポジションが応募可能な状態を表す標準表現。possible は「起こりうる」、capable は「能力がある」（人・物）、ready は「準備ができた」で、求人の空き状態には不適。"
-  },
-  {
-    q: "The accounting _____ is responsible for preparing the quarterly reports.",
-    opts: ["bureau", "department", "committee", "section"],
-    ans: 2,
-    exp: "accounting department「経理部」は企業内部署の標準表現。bureau は「（政府の）局、事務局」で民間企業には通常使わない、committee は特定目的の合議体、section は「区分、節」で部門名としては department より弱い。"
-  },
-  {
-    q: "The CEO will hold a press _____ to address the recent merger.",
-    opts: ["conference", "meeting", "gathering", "assembly"],
-    ans: 1,
-    exp: "press conference は「記者会見」の定型。meeting（会議一般）、gathering（集まり）、assembly（議会・集会）はいずれも press と組み合わせて「記者会見」の意味にならない。"
-  },
-  {
-    q: "_____ the schedule, the shipment should arrive on Wednesday.",
-    opts: ["Based with", "Depending on", "In case of", "According to"],
-    ans: 4,
-    exp: "According to ～「～によれば」は情報源・基準を示す定型句。Based with は誤用（正しくは based on）、Depending on は「～次第で」で条件を表す、In case of は「～の場合に備えて」で文脈に合わない。"
-  },
-  {
-    q: "Without proper training, accidents are _____ to occur in the workplace.",
-    opts: ["likely", "possible", "available", "probable"],
-    ans: 1,
-    exp: "be likely to do「～しそうである」の構文。likely は形容詞 + to不定詞の形を自然にとる。possible と probable は通常 It is ～ that ～ の形で使い、be ～ to do の構文では不自然。available は意味不適。"
-  },
-  {
-    q: "The company _____ a generous severance package to employees affected by the layoffs.",
-    opts: ["offered", "provided with", "gave of", "supplied for"],
-    ans: 1,
-    exp: "offer O to O'「O' に O を提供する」の構文。退職パッケージの提供を表す標準表現。provided with は「～を備えた」で受動的・異なる構文、gave of と supplied for は前置詞の誤用。"
-  },
-  {
-    q: "The laboratory is equipped with state-of-the-art _____.",
-    opts: ["equipments", "equipping", "equip", "equipment"],
-    ans: 4,
-    exp: "equipment は不可算名詞。state-of-the-art equipment（最新鋭の設備）は定型。equipments は誤り（複数形不可）、equipping は動名詞、equip は動詞で、with の目的語としての名詞には合わない。"
-  },
-  {
-    q: "The website _____ detailed information about our services.",
-    opts: ["provides", "informs", "tells", "notices"],
-    ans: 1,
-    exp: "provide は「（情報・物）を提供する」で、直接目的語に情報・物をとれる。inform と tell は人目的語が必要（inform + 人 + of, tell + 人 + that）、notice は「気づく」で主語が無生物の website には不適。"
-  },
-  {
-    q: "The project is subject to approval by the _____ government.",
-    opts: ["native", "inside", "local", "personal"],
-    ans: 3,
-    exp: "local government は「地方自治体、地方政府」の定型。native は「原産の、生まれつきの」、inside は「内側の」、personal は「個人の」で、政府レベルを表す語として不適。"
-  },
-  {
-    q: "Our company _____ office supplies from a wholesale distributor.",
-    opts: ["buys of", "shops at", "purchases", "orders for"],
-    ans: 3,
-    exp: "purchase は「購入する」で他動詞、直接目的語をとる。buys of は非標準、shops at は場所を目的語にとる（shop at the store）、orders for は for 不要（order は他動詞）で、office supplies を直接目的語に取れるのは purchase。"
-  },
-  {
-    q: "There is a job _____ in the marketing department.",
-    opts: ["open", "opens", "opened", "opening"],
-    ans: 4,
-    exp: "opening は名詞で「（職の）空き、欠員」。job opening は「求人」の定型。open は形容詞または動詞、opens は三単現、opened は過去分詞で、a job の後の名詞位置には opening が適合。"
-  },
-  {
-    q: "The highway is temporarily closed due to road _____.",
-    opts: ["constructing", "construct", "construction", "constructive"],
-    ans: 3,
-    exp: "road construction は「道路工事」の定型。construction は名詞。constructing は動名詞、construct は動詞、constructive は形容詞で、いずれも road の後の名詞位置に合わない。"
-  },
-  {
-    q: "The museum offers a guided _____ every weekend at 2 PM.",
-    opts: ["travel", "trip", "tour", "journey"],
-    ans: 3,
-    exp: "guided tour は「ガイド付き見学」の定型。travel は「旅行（不可算・抽象）」、trip は「短い旅行」、journey は「長旅・道のり」で、美術館等の案内付き見学の意味にはならない。"
-  },
-  {
-    q: "The company conducted extensive market _____ before launching the new product.",
-    opts: ["research", "researches", "researcher", "researched"],
-    ans: 1,
-    exp: "market research は「市場調査」の定型で、research は不可算名詞。researches は非標準、researcher は「研究者（人）」、researched は過去分詞で、market の後の名詞位置には research のみが合う。"
-  },
-  {
-    q: "More than 500 people are expected to _____ the industry seminar.",
-    opts: ["attend to", "attend", "participate", "join in"],
-    ans: 2,
-    exp: "attend は他動詞で「出席する」。直接目的語 the seminar をとる。attend to は「～の世話をする」で意味が異なる。participate は participate in、join in も in が必要で、前置詞なしで seminar を目的語にできない。"
-  },
-  {
-    q: "Express _____ is available for an additional fee.",
-    opts: ["deliver", "delivery", "delivering", "delivered"],
-    ans: 2,
-    exp: "express delivery は「速達配達」の定型。delivery は名詞。deliver は動詞、delivering と delivered は分詞・動名詞で、express の後の名詞位置には delivery のみが適合。"
-  },
-  {
-    q: "Ms. Tanaka _____ joined the sales team.",
-    opts: ["recent", "recency", "recentness", "recently"],
-    ans: 4,
-    exp: "動詞 joined を修飾するのは副詞。recently は「最近」の副詞で過去形と共起。recent は形容詞、recency / recentness は名詞で動詞修飾に使えない。"
-  },
-  {
-    q: "The warning light _____ that the machine needs maintenance.",
-    opts: ["informs", "discusses", "indicates", "believes"],
-    ans: 3,
-    exp: "indicate は「示す」で that 節を従え、無生物主語（警告灯）と自然に結びつく。inform は人目的語が必要（inform + 人 + that）、discuss は「議論する」で主語が警告灯では不自然、believe は人の信念を表す動詞で無生物主語と合わない。"
-  },
-  {
-    q: "The restaurant is looking to hire a new _____ for the weekend shift.",
-    opts: ["employer", "employment", "employing", "employee"],
-    ans: 4,
-    exp: "employee は「従業員」。hire a new employee は定型。employer は「雇用主（反対側）」、employment は「雇用（制度）」、employing は動名詞・現在分詞で、採用対象を表す名詞として不適。"
-  },
-  {
-    q: "Please contact us if you require _____ assistance.",
-    opts: ["addition", "additional", "adding", "additionally"],
-    ans: 2,
-    exp: "additional は形容詞「追加の」で名詞 assistance を修飾。addition は名詞、adding は動名詞、additionally は副詞で、名詞修飾には形容詞の additional が必要。"
-  },
-  {
-    q: "A _____ of commuters revealed that most prefer public transportation.",
-    opts: ["review", "inspection", "check", "survey"],
-    ans: 4,
-    exp: "survey は「意識調査、アンケート」。a survey of ～（～の調査）は意見調査の定型。review は「再検討、批評」、inspection は「検査（設備・書類等）」、check は「確認」で、人々の意見調査の意味にならない。"
-  },
-  {
-    q: "Could you please _____ the document before the meeting tomorrow?",
-    opts: ["see", "review", "watch", "notice"],
-    ans: 2,
-    exp: "review は「（書類・資料を）目を通す、検討する」。会議前の資料事前確認の標準表現。see は「見る（一般）」、watch は「（動くものを）見る」、notice は「気づく」で、書類を検討する意味にならない。"
-  },
-  {
-    q: "The _____ line was temporarily halted due to a technical issue.",
-    opts: ["producing", "product", "production", "produced"],
-    ans: 3,
-    exp: "production line は「生産ライン」の定型。production は名詞。product line は「製品ラインナップ」で意味が異なり、技術的問題で停止する文脈には production line が適切。producing / produced は分詞で name のような複合名詞を作らない。"
-  },
-  {
-    q: "Our headquarters _____ in the heart of the financial district.",
-    opts: ["locates", "is located", "locating", "is locating"],
-    ans: 2,
-    exp: "be located「位置する」は受動態の形で所在を表す定型。locate は他動詞で「～を置く」、能動で使うなら We locate our headquarters in ～ となる。locating は現在分詞、is locating は進行形で状態動詞的用法には不自然。"
-  },
-  {
-    q: "The report explains the new policy in considerable _____.",
-    opts: ["details", "detailed", "detail", "detailing"],
-    ans: 3,
-    exp: "in detail「詳細に」は単数形で固定された慣用句。強調には in considerable/great detail。複数形 in details は非標準、detailed は形容詞、detailing は動名詞でこの慣用句に合わない。"
-  },
-  {
-    q: "The winners of the competition will be _____ at the ceremony.",
-    opts: ["announced", "declared on", "informed", "notified of"],
-    ans: 1,
-    exp: "announce は「発表する」で他動詞、受動態 be announced で「発表される」。declared on は誤用、informed と notified は人目的語を取る動詞で、受動態でも winners（物事的）ではなく人が主語になる場合が多い。"
-  },
-  {
-    q: "The bridge is currently under _____ and will reopen next month.",
-    opts: ["recovery", "restoration", "renewal", "repair"],
-    ans: 4,
-    exp: "under repair「修理中」は橋・機械等の修理状態を表す定型句。recovery は「回復」、restoration は「復元（建物・美術品等）」、renewal は「更新（契約・会員等）」で、橋の通行止め時の一般的表現にはならない。"
-  },
-  {
-    q: "There has been a significant _____ in demand for eco-friendly products.",
-    opts: ["rise up", "raising", "increase", "growing up"],
-    ans: 3,
-    exp: "increase は名詞「増加」。an increase in ～（～の増加）は定型。rise up は動詞句（立ち上がる）、raising は動名詞（raise の）、growing up は「成長する」（人）で、名詞として主語位置に入れない。"
-  },
-  {
-    q: "The total price _____ tax and shipping charges.",
-    opts: ["includes", "contains", "holds", "involves"],
-    ans: 1,
-    exp: "include は「（構成要素として）含む」。価格・リストが項目を含むことを表す標準語。contain は「物理的に中に入っている」、hold は「保持する」、involve は「関与・伴う」で、税・送料を含む意味には不適。"
-  },
-  {
-    q: "The item you ordered is _____ out of stock.",
-    opts: ["lately", "currently", "recently", "nowadays"],
-    ans: 2,
-    exp: "currently は「現在」で現在の状態を修飾する副詞として最適。lately は現在完了と、recently は過去形・現在完了と共起するのが一般的。nowadays は「今日では」で一般的傾向を示し、在庫状況のような個別具体の現状には不自然。"
-  },
-  {
-    q: "She works at a major _____ agency on Madison Avenue.",
-    opts: ["advertise", "advertised", "advertising", "advertisement"],
-    ans: 3,
-    exp: "advertising agency は「広告代理店」の定型。advertising は名詞・形容詞的用法で agency を修飾。advertise は動詞、advertised は過去分詞、advertisement は「個別の広告」で、業種を示す複合名詞には合わない。"
-  },
-  {
-    q: "Customers can return defective products free of _____.",
-    opts: ["charge", "cost", "price", "fee"],
-    ans: 1,
-    exp: "free of charge「無料で」は固定された慣用句。free of cost/price/fee は非標準で使わない。TOEIC頻出の定型表現。"
-  },
-  {
-    q: "All staff are _____ to attend the monthly safety meeting.",
-    opts: ["hoped", "wished", "waited", "expected"],
-    ans: 4,
-    exp: "be expected to do「～することを期待される・求められる」の定型（受動態）。hope と wish は受動態でこの構文を取らない、wait は wait for の形で人を主語にした受動態は非標準。"
-  },
-  {
-    q: "The consulting _____ has offices in over 30 countries worldwide.",
-    opts: ["office", "firm", "agency", "bureau"],
-    ans: 2,
-    exp: "consulting firm は「コンサルティング会社」の定型。firm は法律・会計・コンサル等専門サービス会社を指す標準語。office は「事務所（単位）」、agency は「代理店」、bureau は「政府の局」で、コンサル業の会社全体を指す語として不適。"
-  },
-  {
-    q: "The lawyer met with her _____ to discuss the upcoming trial.",
-    opts: ["customer", "guest", "audience", "client"],
-    ans: 4,
-    exp: "client は弁護士・医師・会計士等、専門職サービスの依頼人を指す。customer は小売の顧客、guest はホテル等のゲスト、audience は「聴衆」で、弁護士の依頼人の意味にはならない。"
-  },
-  {
-    q: "She is seeking _____ advice before purchasing the property.",
-    opts: ["financial", "finance", "financially", "financed"],
-    ans: 1,
-    exp: "financial advice は「財務アドバイス」の定型で、形容詞 financial が名詞 advice を修飾。finance は名詞（finance advice は非標準）、financially は副詞、financed は過去分詞で、名詞修飾の位置に合わない。"
-  },
-  {
-    q: "All employees are entitled to 15 days of _____ leave.",
-    opts: ["year", "monthly", "annual", "yearlong"],
-    ans: 3,
-    exp: "annual leave は「年次休暇」の定型（英国英語的だが国際ビジネスで一般）。15日という数字とも整合。year は名詞で形容詞的修飾に使わない、monthly は「月次」で15日と意味が合わない、yearlong は「1年間続く」で休暇制度の性質を表さない。"
-  },
-  {
-    q: "We accept _____ by credit card, debit card, or bank transfer.",
-    opts: ["paying", "payment", "pay", "paid"],
-    ans: 2,
-    exp: "payment は名詞「支払い」で、accept の目的語。accept payment by ～ は支払い手段を列挙する定型。paying は動名詞で不自然、pay は動詞、paid は過去分詞で目的語の位置に合わない。"
-  },
-  {
-    q: "The project was completed under _____ and ahead of schedule.",
-    opts: ["price", "cost", "expense", "budget"],
-    ans: 4,
-    exp: "under budget は「予算内で、予算を下回って」の固定表現。ahead of schedule（予定より早く）と並列。under price/cost/expense は標準的な慣用句ではない。TOEIC頻出。"
-  },
-  {
-    q: "Please fill out the loan _____ form and submit it to the bank.",
-    opts: ["application", "applying", "applicant", "apply"],
-    ans: 1,
-    exp: "loan application form は「ローン申込書」の定型。application は名詞「申請（書）」で form を修飾する複合名詞を作る。applying は動名詞、applicant は「応募者（人）」、apply は動詞で、form 修飾の位置に合わない。"
-  },
-  {
-    q: "Both parties must sign the _____ before the deal can proceed.",
-    opts: ["promising", "agreeing", "contract", "writing"],
-    ans: 3,
-    exp: "contract は「契約書」。sign the contract は取引合意の標準行為。promising / agreeing は動名詞で名詞として契約書を指さない、writing は一般的な「文書」で法的拘束力を持つ契約書の定型語ではない。"
-  },
-  {
-    q: "Effective time _____ is essential for meeting project deadlines.",
-    opts: ["manage", "management", "manager", "managing"],
-    ans: 2,
-    exp: "time management は「時間管理」の定型。management は名詞「管理（活動）」。manage は動詞、manager は人、managing は動名詞で、time との複合名詞としては management が標準。"
-  },
-  {
-    q: "The company's overall _____ exceeded expectations this year.",
-    opts: ["perform", "performing", "performer", "performance"],
-    ans: 4,
-    exp: "performance は「業績、成績」。overall performance は「全体的な業績」の定型。perform は動詞、performing は動名詞、performer は「演者・従事者（人）」で、業績を表す名詞位置には performance が適切。"
-  },
-  {
-    q: "The client was highly _____ the quality of our customer service.",
-    opts: ["pleased for", "pleased in", "pleased with", "pleased of"],
-    ans: 3,
-    exp: "be pleased with「～に満足して」の定型。前置詞は with。pleased for は「（他人のために）嬉しい」で通常人が目的語、pleased in / pleased of は非標準。"
-  },
-  {
-    q: "Could you please _____ your attendance at the meeting by Friday?",
-    opts: ["assure", "ensure", "insure", "confirm"],
-    ans: 4,
-    exp: "confirm「（出席・予約等を）確認する」が適切。assure は人を目的語に取り「安心させる」、ensure は「～を確実にする」で事態が目的語、insure は「保険をかける」。四語の混同は TOEIC 最頻出パターン。"
-  },
-  {
-    q: "The film won numerous _____ at international festivals.",
-    opts: ["awards", "rewards", "bonuses", "tips"],
-    ans: 1,
-    exp: "award は「（公式な）賞」で、映画祭の受賞の標準語。reward は「行動・功績への報酬」、bonus は金銭的ボーナス、tip は「チップ」で、映画祭の受賞を表さない。"
-  },
-  {
-    q: "Formal _____ is required for all employees during client meetings.",
-    opts: ["clothes", "clothing", "cloths", "clothe"],
-    ans: 2,
-    exp: "clothing は不可算名詞で is と呼応する単数扱い。formal clothing は「フォーマルな服装」の定型。clothes は複数形で動詞は are、cloths は「布切れ」の複数、clothe は動詞で不適。"
-  },
-];
+const QUESTIONS_DATA = [{"q":"The teacher read a short _____ from the famous novel to the class.","opts":["edition","episode","excerpt","entry"],"ans":3,"exp":"read a short excerpt from ~ は「～からの抜粋を読む」の定型で、書物・演説の一節を指す標準語。edition は「版」、episode は「（連載の）一話」、entry は「項目・登録」で意味カテゴリが異なる。","sMatches":[{"start":19,"end":24,"term":"short","meaning":"短い","original":"short"},{"start":42,"end":54,"term":"famous novel","meaning":"有名な小説","original":"famous novel"},{"start":55,"end":67,"term":"to the class","meaning":"クラスに対して","original":"to the class"}]},{"q":"The manager's comments _____ that some staff changes might happen soon.","opts":["imply","state","prove","repeat"],"ans":1,"exp":"imply は「（はっきり言わず）ほのめかす」で might happen のような不確実な内容と相性が良い。state は「明示的に述べる」で「ほのめかし」と矛盾、prove は「証明する」で might と両立しない、repeat は「繰り返す」で文脈に合わない。","sMatches":[{"start":4,"end":11,"term":"manager","meaning":"管理者","original":"manager"},{"start":39,"end":52,"term":"staff changes","meaning":"人事異動","original":"staff changes"},{"start":53,"end":70,"term":"might happen soon","meaning":"近いうちに起こるかもしれない","original":"might happen soon"}]},{"q":"Despite their different backgrounds, the two researchers have a lot _____.","opts":["in common","in advance","in addition","in particular"],"ans":1,"exp":"have a lot in common は「多くの共通点がある」の定型句。in advance は「事前に」、in addition は「加えて」、in particular は「特に」で have との結びつきが標準ではない。","sMatches":[{"start":0,"end":7,"term":"despite","meaning":"～にもかかわらず","original":"Despite"},{"start":14,"end":35,"term":"different backgrounds","meaning":"異なる経歴","original":"different backgrounds"},{"start":45,"end":56,"term":"researchers","meaning":"研究者","original":"researchers"}]},{"q":"The latest sales report _____ a steady increase in customer demand.","opts":["explores","indicates","invents","injures"],"ans":2,"exp":"report indicates ~ は「報告書が～を示す」の定型で、データ・資料が主語のときの標準動詞。explore は「探索する」、invent は「発明する」、injure は「傷つける」で意味カテゴリが異なる。","sMatches":[{"start":4,"end":10,"term":"latest","meaning":"最新の","original":"latest"},{"start":11,"end":23,"term":"sales report","meaning":"売上報告書","original":"sales report"},{"start":36,"end":51,"term":"steady increase","meaning":"着実な増加","original":"steady increase"},{"start":55,"end":70,"term":"customer demand","meaning":"顧客需要","original":"customer demand"}]},{"q":"From the customer's tone, we can _____ that they were not satisfied with the service.","opts":["infer","refer","offer","suffer"],"ans":1,"exp":"infer は「（手がかりから）推測する」で from ~ と共起する標準動詞。refer は「言及する」で to を取る、offer は「申し出る」で意味が異なる、suffer は「苦しむ」で文脈に合わない。","sMatches":[{"start":9,"end":17,"term":"customer","meaning":"顧客","original":"customer"},{"start":20,"end":24,"term":"tone","meaning":"口調","original":"tone"},{"start":77,"end":84,"term":"service","meaning":"サービス","original":"service"}]},{"q":"The new training program is _____ to improve communication skills among employees.","opts":["extended","defended","intended","attended"],"ans":3,"exp":"be intended to do は「～することを目的としている」の定型受動表現で、プログラム・制度などが主語のときの標準形。extended は「延長された」、defended は「守られた」、attended は「出席された」で意味カテゴリが異なる。","sMatches":[{"start":4,"end":7,"term":"new","meaning":"新しい","original":"new"},{"start":8,"end":24,"term":"training program","meaning":"研修プログラム","original":"training program"},{"start":40,"end":47,"term":"improve","meaning":"改善する","original":"improve"},{"start":48,"end":68,"term":"communication skills","meaning":"コミュニケーション能力","original":"communication skills"},{"start":69,"end":84,"term":"among employees","meaning":"社員の間で","original":"among employees"}]},{"q":"The company _____ all clients to attend the product launch next month.","opts":["involved","invited","invested","inspected"],"ans":2,"exp":"invite A to do は「Aに～するよう招待する」の定型。involve は「巻き込む、関係させる」、invest は「投資する」、inspect は「検査する」で意味が異なる。","sMatches":[{"start":35,"end":41,"term":"attend","meaning":"出席する","original":"attend"},{"start":46,"end":60,"term":"product launch","meaning":"製品発表会","original":"product launch"},{"start":61,"end":71,"term":"next month","meaning":"来月","original":"next month"}]},{"q":"The new policy will _____ affect employees in the sales department.","opts":["mainly","merely","hardly","lately"],"ans":1,"exp":"mainly affect ~ は「主に～に影響する」の定型副詞で、影響範囲を示すときに使う標準語。merely は「単に～だけ」で限定的すぎる、hardly は「ほとんど～ない」で否定の意味、lately は「最近」で時を表す副詞。","sMatches":[{"start":4,"end":14,"term":"new policy","meaning":"新しい方針","original":"new policy"},{"start":27,"end":33,"term":"affect","meaning":"影響する","original":"affect"},{"start":51,"end":67,"term":"sales department","meaning":"営業部","original":"sales department"}]},{"q":"In her speech, the CEO _____ several upcoming product releases.","opts":["measured","mentioned","maintained","marked"],"ans":2,"exp":"mention は「言及する」で講演や会話で話題に出す場面の標準動詞。measure は「測定する」、maintain は「維持する」、mark は「印をつける」で意味カテゴリが異なる。","sMatches":[{"start":7,"end":13,"term":"speech","meaning":"スピーチ","original":"speech"},{"start":19,"end":22,"term":"ceo","meaning":"最高経営責任者","original":"CEO"},{"start":33,"end":40,"term":"several","meaning":"いくつかの","original":"several"},{"start":41,"end":49,"term":"upcoming","meaning":"来たるべき","original":"upcoming"},{"start":50,"end":57,"term":"product","meaning":"製品","original":"product"}]},{"q":"The delay was _____ caused by the heavy snowstorm last night.","opts":["most often","most easily","most clearly","most likely"],"ans":4,"exp":"most likely は「最もありそうな、おそらく」で原因の推定を述べるときの標準表現。most often は「最も頻繁に」（頻度）、most easily は「最も容易に」（難易度）、most clearly は「最もはっきりと」（明瞭さ）で意味カテゴリが異なる。","sMatches":[{"start":4,"end":9,"term":"delay","meaning":"遅延","original":"delay"},{"start":26,"end":32,"term":"caused","meaning":"引き起こした","original":"caused"},{"start":40,"end":55,"term":"heavy snowstorm","meaning":"大雪","original":"heavy snowstorm"},{"start":56,"end":66,"term":"last night","meaning":"昨晩","original":"last night"}]},{"q":"The package will _____ arrive by Friday afternoon.","opts":["properly","previously","probably","precisely"],"ans":3,"exp":"probably は「おそらく」で will と共起して未来の予測を表す標準副詞。properly は「適切に」（様態）、previously は「以前に」（過去の時を表す）、precisely は「正確に」（精度）で意味カテゴリが異なる。","sMatches":[{"start":4,"end":11,"term":"package","meaning":"小包、パッケージ","original":"package"},{"start":26,"end":32,"term":"arrive","meaning":"到着する","original":"arrive"},{"start":33,"end":52,"term":"by friday afternoon","meaning":"金曜の午後までに","original":"by Friday afternoon"}]},{"q":"The main _____ of this meeting is to review the quarterly results.","opts":["practice","purpose","progress","profit"],"ans":2,"exp":"the main purpose of ~ is to do は「～の主な目的は…することだ」の定型表現。practice は「実践、練習」、progress は「進歩」、profit は「利益」で意味カテゴリが異なる。","sMatches":[{"start":4,"end":8,"term":"main","meaning":"主な","original":"main"},{"start":25,"end":32,"term":"meeting","meaning":"会議","original":"meeting"},{"start":39,"end":45,"term":"review","meaning":"見直す","original":"review"},{"start":50,"end":67,"term":"quarterly results","meaning":"四半期業績","original":"quarterly results"}]},{"q":"Several employees were _____ to accept the new schedule changes.","opts":["reasonable","recent","reliable","reluctant"],"ans":4,"exp":"be reluctant to do は「～するのに気が進まない」の定型。reasonable は「合理的な」、recent は「最近の」、reliable は「信頼できる」で be ~ to do の補語として意味が合わない。","sMatches":[{"start":0,"end":7,"term":"several","meaning":"いくつかの","original":"Several"},{"start":36,"end":42,"term":"accept","meaning":"受け入れる","original":"accept"},{"start":47,"end":50,"term":"new","meaning":"新しい","original":"new"},{"start":51,"end":67,"term":"schedule changes","meaning":"スケジュール変更","original":"schedule changes"}]},{"q":"Please clearly _____ the reason for your request on the form.","opts":["state","stare","steal","stir"],"ans":1,"exp":"state the reason on the form は「用紙に理由を述べる」の定型表現で、書類記入の標準語。stare は「じっと見る」、steal は「盗む」、stir は「かき混ぜる」で意味カテゴリが異なる。","sMatches":[{"start":7,"end":14,"term":"clearly","meaning":"はっきりと","original":"clearly"},{"start":25,"end":31,"term":"reason","meaning":"理由","original":"reason"},{"start":41,"end":48,"term":"request","meaning":"要求（する）","original":"request"},{"start":49,"end":60,"term":"on the form","meaning":"用紙に","original":"on the form"}]},{"q":"The survey results _____ that customers prefer the new packaging design.","opts":["support","summarize","suggest","subscribe"],"ans":3,"exp":"results suggest that ~ は「結果が～を示唆する」の定型で、データから引き出される傾向を述べるときの標準表現。support は「支持する」、summarize は「要約する」、subscribe は「定期購読する」で文脈に合わない。","sMatches":[{"start":4,"end":18,"term":"survey results","meaning":"調査結果","original":"survey results"},{"start":42,"end":48,"term":"prefer","meaning":"好む","original":"prefer"},{"start":53,"end":56,"term":"new","meaning":"新しい","original":"new"},{"start":57,"end":73,"term":"packaging design","meaning":"パッケージデザイン","original":"packaging design"}]},{"q":"The annual conference will _____ in Singapore this year.","opts":["take part","take care","take over","take place"],"ans":4,"exp":"take place は「（イベントが）開催される、行われる」の定型。take part は「参加する」（人が主語）、take care は「世話をする」、take over は「引き継ぐ」で意味が異なる。","sMatches":[{"start":4,"end":21,"term":"annual conference","meaning":"年次会議","original":"annual conference"},{"start":41,"end":50,"term":"singapore","meaning":"シンガポール","original":"Singapore"},{"start":51,"end":60,"term":"this year","meaning":"今年","original":"this year"}]},{"q":"The technician was _____ to fix the printer because of missing parts.","opts":["unsure","unable","unhappy","unkind"],"ans":2,"exp":"be unable to do は「～することができない」の定型。unsure は「確信がない」で about を取るのが標準、unhappy は「不満な」で with を取る、unkind は「不親切な」で to不定詞と結びつかない。","sMatches":[{"start":4,"end":14,"term":"technician","meaning":"技術者","original":"technician"},{"start":29,"end":32,"term":"fix","meaning":"修理する","original":"fix"},{"start":45,"end":55,"term":"because of","meaning":"～のために","original":"because of"},{"start":56,"end":69,"term":"missing parts","meaning":"不足している部品","original":"missing parts"}]},{"q":"The lifeguard _____ swimmers about the strong currents near the rocks.","opts":["wandered","warned","waved","waited"],"ans":2,"exp":"warn A about B は「AにBについて警告する」の定型。wander は「歩き回る」で自動詞、wave は「（手を）振る」、wait は「待つ」で about との結びつきが標準ではない。","sMatches":[{"start":4,"end":13,"term":"lifeguard","meaning":"監視員","original":"lifeguard"},{"start":40,"end":55,"term":"strong currents","meaning":"強い潮流","original":"strong currents"},{"start":56,"end":70,"term":"near the rocks","meaning":"岩の近くで","original":"near the rocks"}]},{"q":"The manager could not _____ spending so much money on office decoration.","opts":["judge","jump","join","justify"],"ans":4,"exp":"justify doing は「～することを正当化する」の定型で、行動の妥当性を説明する標準動詞。judge は「判断する」、jump は「跳ぶ」、join は「参加する」で意味カテゴリが異なる。","sMatches":[{"start":4,"end":11,"term":"manager","meaning":"管理者","original":"manager"},{"start":30,"end":38,"term":"spending","meaning":"支出すること","original":"spending"},{"start":39,"end":52,"term":"so much money","meaning":"そんなに多くのお金","original":"so much money"},{"start":56,"end":73,"term":"office decoration","meaning":"事務所の装飾","original":"office decoration"}]},{"q":"The advertisement contained several _____ claims about the product's benefits.","opts":["missing","matching","misleading","mounting"],"ans":3,"exp":"misleading claims は「誤解を招く主張」の定型コロケーションで、広告・宣伝の文脈で使う標準表現。missing は「欠けている」、matching は「合っている、揃いの」、mounting は「高まる」で claims との結びつきが意味的に合わない。","sMatches":[{"start":4,"end":17,"term":"advertisement","meaning":"広告","original":"advertisement"},{"start":28,"end":35,"term":"several","meaning":"いくつかの","original":"several"},{"start":64,"end":82,"term":"product's benefits","meaning":"製品の利点","original":"product's benefits"}]},{"q":"There seems to be a _____ about the meeting time between the two teams.","opts":["misunderstanding","misbehavior","mismatch","misprint"],"ans":1,"exp":"a misunderstanding about ~ は「～に関する誤解」の定型表現で、情報の食い違いを表す標準語。misbehavior は「不品行」（人の行いに使う）、mismatch は「不一致」（物事の組み合わせに使う）、misprint は「誤植」（印刷物に使う）で文脈が異なる。","sMatches":[{"start":6,"end":17,"term":"seems to be","meaning":"～のようだ","original":"seems to be"},{"start":47,"end":54,"term":"meeting","meaning":"会議","original":"meeting"},{"start":60,"end":81,"term":"between the two teams","meaning":"2つのチームの間で","original":"between the two teams"}]},{"q":"The magazine published a detailed _____ of the new company president.","opts":["project","profile","protest","proposal"],"ans":2,"exp":"a detailed profile of ~ は「～の詳細な人物紹介」の定型で、雑誌・新聞の人物特集記事で使う標準語。project は「企画」、protest は「抗議」、proposal は「提案」で意味カテゴリが異なる。","sMatches":[{"start":4,"end":12,"term":"magazine","meaning":"雑誌","original":"magazine"},{"start":13,"end":22,"term":"published","meaning":"出版した","original":"published"},{"start":25,"end":33,"term":"detailed","meaning":"詳細な","original":"detailed"},{"start":49,"end":52,"term":"new","meaning":"新しい","original":"new"},{"start":53,"end":70,"term":"company president","meaning":"社長","original":"company president"}]},{"q":"The marketing team plans to _____ the new product through social media.","opts":["purchase","publish","publicize","puzzle"],"ans":3,"exp":"publicize A は「Aを（広告・宣伝で）広く知らせる」でマーケティングの文脈の標準動詞。purchase は「購入する」、publish は「（書籍・記事・情報を）出版・公開する」で対象が文字情報、product そのものを宣伝する場合は publicize が標準。puzzle は「困惑させる」で意味カテゴリが異なる。","sMatches":[{"start":4,"end":18,"term":"marketing team","meaning":"マーケティング部","original":"marketing team"},{"start":42,"end":53,"term":"new product","meaning":"新製品","original":"new product"},{"start":54,"end":74,"term":"through social media","meaning":"SNSを通じて","original":"through social media"}]},{"q":"The manager tried to _____ his team after the difficult announcement.","opts":["refuse","reassure","recover","record"],"ans":2,"exp":"reassure A は「Aを安心させる」の定型動詞で、不安を取り除く場面で使う標準語。refuse は「拒否する」、recover は「回復する」、record は「記録する」で意味カテゴリが異なる。","sMatches":[{"start":4,"end":11,"term":"manager","meaning":"管理者","original":"manager"},{"start":34,"end":38,"term":"team","meaning":"チーム","original":"team"},{"start":49,"end":71,"term":"difficult announcement","meaning":"困難な発表","original":"difficult announcement"}]},{"q":"The waiter carefully _____ the dishes on the table.","opts":["placed","packed","painted","passed"],"ans":1,"exp":"place A on B は「BにAを置く」の定型動詞で、物を慎重に配置する動作を表す標準語。pack は「梱包する」、paint は「塗る」、pass は「渡す、通る」で意味カテゴリが異なる。","sMatches":[{"start":4,"end":10,"term":"waiter","meaning":"給仕、ウェイター","original":"waiter"},{"start":11,"end":20,"term":"carefully","meaning":"注意深く","original":"carefully"}]},{"q":"The workers in the factory must _____ safety helmets at all times.","opts":["weigh","wear","wash","warn"],"ans":2,"exp":"wear A は「Aを身につけている」の定型動詞で、衣類・防具の着用状態を表す。weigh は「重さがある、量る」、wash は「洗う」、warn は「警告する」で意味カテゴリが異なる。","sMatches":[{"start":19,"end":26,"term":"factory","meaning":"工場","original":"factory"},{"start":37,"end":43,"term":"safety","meaning":"安全","original":"safety"},{"start":52,"end":64,"term":"at all times","meaning":"常に","original":"at all times"}]},{"q":"The hotel rooms _____ the ocean, providing a beautiful view of the bay.","opts":["follow","feature","face","fix"],"ans":3,"exp":"face A は「Aに面している」の定型動詞で、建物・部屋の向きを表す標準語。follow は「ついていく」、feature は「特徴とする」、fix は「修理する」で意味カテゴリが異なる。","sMatches":[{"start":44,"end":58,"term":"beautiful view","meaning":"美しい景色","original":"beautiful view"},{"start":66,"end":69,"term":"bay","meaning":"湾","original":"bay"}]},{"q":"The _____ on the door says \"No entry after 9 PM.\"","opts":["shelf","sign","sheet","shoe"],"ans":2,"exp":"a sign on the door は「ドアの掲示・標識」の定型表現で、書かれた告知を指す標準語。shelf は「棚」、sheet は「シート、用紙」、shoe は「靴」で意味カテゴリが異なる。","sMatches":[{"start":21,"end":25,"term":"says","meaning":"～と書いてある","original":"says"},{"start":27,"end":35,"term":"no entry","meaning":"立ち入り禁止","original":"No entry"}]},{"q":"She is _____ for a book on the top shelf of the bookcase.","opts":["reaching","reading","reacting","realizing"],"ans":1,"exp":"reach for ~ は「～に向かって手を伸ばす」の定型句で、Part 1系の動作描写の標準語。read は「読む」、react は「反応する」（to を取る）、realize は「気づく」で意味カテゴリが異なる。","sMatches":[{"start":22,"end":26,"term":"book","meaning":"予約する","original":"book"},{"start":34,"end":43,"term":"top shelf","meaning":"一番上の棚","original":"top shelf"},{"start":51,"end":59,"term":"bookcase","meaning":"本棚","original":"bookcase"}]},{"q":"Please _____ the documents to the receptionist when you arrive.","opts":["hide","hang","hold","hand"],"ans":4,"exp":"hand A to B は「BにAを手渡す」の定型動詞で、物を直接渡す動作を表す標準語。hide は「隠す」、hang は「掛ける」、hold は「持っている」で意味カテゴリが異なる。","sMatches":[{"start":16,"end":25,"term":"documents","meaning":"書類（複数）","original":"documents"},{"start":33,"end":45,"term":"receptionist","meaning":"受付係","original":"receptionist"},{"start":55,"end":61,"term":"arrive","meaning":"到着する","original":"arrive"}]},{"q":"The gardener is _____ the plants in the front yard with a hose.","opts":["walking","waiting","watering","wasting"],"ans":3,"exp":"water the plants は「植物に水をやる」の定型動詞で、Part 1系の動作描写の標準語。walk は「歩く」、wait は「待つ」、waste は「浪費する」で意味カテゴリが異なる。","sMatches":[{"start":4,"end":12,"term":"gardener","meaning":"庭師","original":"gardener"},{"start":43,"end":53,"term":"front yard","meaning":"前庭","original":"front yard"},{"start":61,"end":65,"term":"hose","meaning":"ホース","original":"hose"}]},{"q":"The tour guide is _____ at the famous statue in the city square.","opts":["packing","painting","parking","pointing"],"ans":4,"exp":"point at ~ は「～を指さす」の定型句で、Part 1系の動作描写の標準語。pack は「梱包する」、paint は「塗る」、park は「駐車する」で意味カテゴリが異なる。","sMatches":[{"start":4,"end":14,"term":"tour guide","meaning":"ツアーガイド","original":"tour guide"},{"start":34,"end":47,"term":"famous statue","meaning":"有名な像","original":"famous statue"},{"start":55,"end":66,"term":"city square","meaning":"都市の広場","original":"city square"}]},{"q":"The two friends were walking _____ along the beach at sunset.","opts":["side by side","step by step","day by day","one by one"],"ans":1,"exp":"walk side by side は「並んで歩く」の定型で、2人以上が横並びの状態を表す標準語。step by step は「一歩ずつ」（段階）、day by day は「日ごとに」（時間）、one by one は「一つずつ」（順序）で意味カテゴリが異なる。","sMatches":[{"start":42,"end":57,"term":"along the beach","meaning":"浜辺に沿って","original":"along the beach"},{"start":58,"end":67,"term":"at sunset","meaning":"日没時に","original":"at sunset"}]},{"q":"Passengers will _____ the flight in about ten minutes from gate 22.","opts":["borrow","board","buy","burn"],"ans":2,"exp":"board the flight は「飛行機に搭乗する」の定型動詞で、空港の場面の標準語。borrow は「借りる」、buy は「買う」、burn は「燃やす」で意味カテゴリが異なる。","sMatches":[{"start":26,"end":32,"term":"flight","meaning":"便","original":"flight"},{"start":33,"end":53,"term":"in about ten minutes","meaning":"約10分後に","original":"in about ten minutes"},{"start":59,"end":63,"term":"gate","meaning":"搭乗口","original":"gate"}]},{"q":"The new schedule has been _____ on the bulletin board near the entrance.","opts":["packed","painted","printed","posted"],"ans":4,"exp":"posted on the bulletin board は「掲示板に貼り出された」の定型で、お知らせを掲示する動作の標準動詞。pack は「梱包する」、paint は「（絵を）描く」、print は「印刷する」で「掲示板に貼り出す」動作にはならない（on the bulletin board がこの場面の決め手）。","sMatches":[{"start":4,"end":7,"term":"new","meaning":"新しい","original":"new"},{"start":8,"end":16,"term":"schedule","meaning":"予約を入れる","original":"schedule"},{"start":40,"end":54,"term":"bulletin board","meaning":"掲示板","original":"bulletin board"},{"start":64,"end":72,"term":"entrance","meaning":"入口","original":"entrance"}]},{"q":"Tall trees _____ both sides of the long road leading to the castle.","opts":["link","lie","line","live"],"ans":3,"exp":"line A は「Aに沿って並ぶ」の定型動詞で、木や人が両側に並んでいる状態を表す標準語。link は「つなぐ」、lie は「横たわる」、live は「住む」で意味カテゴリが異なる。","sMatches":[{"start":0,"end":10,"term":"tall trees","meaning":"高い木々","original":"Tall trees"},{"start":16,"end":26,"term":"both sides","meaning":"両側","original":"both sides"},{"start":44,"end":54,"term":"leading to","meaning":"～へ続く","original":"leading to"},{"start":59,"end":65,"term":"castle","meaning":"城","original":"castle"}]},{"q":"The chef will _____ all the ingredients on the counter before starting to cook.","opts":["look up","leave out","line up","lay out"],"ans":4,"exp":"lay out A は「Aを並べる、配置する」の定型句で、材料・道具を作業しやすいように配置する標準語。look up は「調べる、見上げる」、leave out は「除く」、line up は「（人や物を）一列に並べる」で意味カテゴリが異なる。","sMatches":[{"start":4,"end":8,"term":"chef","meaning":"料理人、シェフ","original":"chef"},{"start":49,"end":56,"term":"counter","meaning":"カウンター","original":"counter"},{"start":76,"end":80,"term":"cook","meaning":"料理人","original":"cook"}]},{"q":"Regular exercise can _____ better health and more energy in daily life.","opts":["look at","listen to","live in","lead to"],"ans":4,"exp":"lead to A は「Aにつながる、Aをもたらす」の定型句で、結果・効果を表す標準動詞句。look at は「見る」、listen to は「聞く」、live in は「住む」で意味カテゴリが異なる。","sMatches":[{"start":0,"end":16,"term":"regular exercise","meaning":"定期的な運動","original":"Regular exercise"},{"start":52,"end":58,"term":"energy","meaning":"活力","original":"energy"},{"start":62,"end":72,"term":"daily life","meaning":"日常生活","original":"daily life"}]},{"q":"Workers in the kitchen always wear plastic _____ for hygiene reasons.","opts":["gloves","glasses","gowns","gates"],"ans":1,"exp":"plastic gloves は「使い捨て手袋」の定型で、衛生管理の場面で使う標準語。glasses は「眼鏡」、gown は「ガウン」、gate は「門」で意味カテゴリが異なる。","sMatches":[{"start":30,"end":34,"term":"wear","meaning":"着る","original":"wear"},{"start":50,"end":69,"term":"for hygiene reasons","meaning":"衛生上の理由で","original":"for hygiene reasons"}]},{"q":"The customer is _____ a fashion magazine while waiting for her order.","opts":["paging through","pointing at","putting on","picking up"],"ans":1,"exp":"page through A は「A（雑誌・本）をパラパラめくる」の定型動詞句で、待ち時間に雑誌を眺める動作の標準語。point at は「指さす」、put on は「身につける」、pick up は「拾い上げる」で意味カテゴリが異なる。","sMatches":[{"start":4,"end":12,"term":"customer","meaning":"顧客","original":"customer"},{"start":23,"end":30,"term":"through","meaning":"～を通じて","original":"through"},{"start":33,"end":49,"term":"fashion magazine","meaning":"ファッション誌","original":"fashion magazine"},{"start":50,"end":55,"term":"while","meaning":"〜する間","original":"while"},{"start":72,"end":77,"term":"order","meaning":"注文","original":"order"}]},{"q":"Please _____ your shoes before entering the traditional Japanese room.","opts":["reduce","remove","repeat","reply"],"ans":2,"exp":"remove A は「Aを取り去る」の定型動詞で、身につけているものを脱ぐ場面でも使う標準語。reduce は「減らす」、repeat は「繰り返す」、reply は「返答する」で意味カテゴリが異なる。","sMatches":[{"start":45,"end":70,"term":"traditional japanese room","meaning":"和室","original":"traditional Japanese room"}]},{"q":"His hand is _____ on the armrest of the chair while he listens to music.","opts":["reaching","raising","running","resting"],"ans":4,"exp":"rest on ~ は「～に置かれている」の定型動詞で、体の一部などが何かに支えられている状態を表す標準語。reach は「届く」、raise は「（他動詞で）上げる」、run は「走る」で意味カテゴリが異なる。","sMatches":[{"start":27,"end":34,"term":"armrest","meaning":"ひじ掛け","original":"armrest"},{"start":48,"end":53,"term":"while","meaning":"〜する間","original":"while"}]},{"q":"The shopping mall was very _____ on the first day of the summer sale.","opts":["clean","curved","crowded","closed"],"ans":3,"exp":"crowded は「（場所が）混雑した」を表す定型形容詞で、人が多い状態を表す標準語。clean は「清潔な」、curved は「曲がった」、closed は「閉じた」で意味カテゴリが異なる。","sMatches":[{"start":4,"end":17,"term":"shopping mall","meaning":"ショッピングモール","original":"shopping mall"},{"start":59,"end":70,"term":"summer sale","meaning":"夏のセール","original":"summer sale"}]},{"q":"The picnic blanket was _____ across the grass under a large tree.","opts":["spread out","stood up","sold out","settled down"],"ans":1,"exp":"be spread out across ~ は「～一面に広げられている」の受動態定型で、布や敷物などが平らに広げられた状態を表す標準表現。stand up は「立ち上がる」、sell out は「売り切れる」、settle down は「落ち着く」で意味カテゴリが異なる。","sMatches":[{"start":4,"end":18,"term":"picnic blanket","meaning":"ピクニック用敷物","original":"picnic blanket"},{"start":45,"end":50,"term":"grass","meaning":"芝生","original":"grass"},{"start":51,"end":56,"term":"under","meaning":"～の下で","original":"under"}]},{"q":"Several large paintings are _____ on the walls of the art gallery.","opts":["hiking","hanging","handing","hunting"],"ans":2,"exp":"hang on the wall は「壁に掛かっている」の定型で、絵画や額が壁面に固定されている状態を表す標準語。hike は「ハイキングする」、hand は「手渡す」、hunt は「狩る」で意味カテゴリが異なる。","sMatches":[{"start":0,"end":7,"term":"several","meaning":"いくつかの","original":"Several"},{"start":56,"end":67,"term":"art gallery","meaning":"画廊","original":"art gallery"}]},{"q":"There is a large _____ of soup simmering on the kitchen stove.","opts":["pot","pet","pad","pin"],"ans":1,"exp":"a pot of soup は「鍋一杯のスープ」の定型表現で、調理容器を指す標準語。pet は「ペット」、pad は「パッド」、pin は「ピン」で意味カテゴリが異なる。","sMatches":[{"start":11,"end":20,"term":"large pot","meaning":"大きな鍋","original":"large pot"},{"start":46,"end":59,"term":"kitchen stove","meaning":"キッチンのコンロ","original":"kitchen stove"}]},{"q":"The audience members are sitting in the front _____ of the concert hall.","opts":["road","roof","room","row"],"ans":4,"exp":"the front row は「最前列」の定型句で、座席の並びを表す標準語。road は「道路」、roof は「屋根」、room は「部屋」で意味カテゴリが異なる。","sMatches":[{"start":4,"end":20,"term":"audience members","meaning":"観客","original":"audience members"},{"start":57,"end":69,"term":"concert hall","meaning":"コンサートホール","original":"concert hall"}]},{"q":"The doctor will _____ the patient carefully before deciding on the treatment.","opts":["erase","employ","examine","explore"],"ans":3,"exp":"examine the patient は「患者を診察する」の定型動詞で、医療現場の標準語。erase は「消す」、employ は「雇用する」で意味カテゴリが異なり、explore は「探索する・検討する」で意味は近いが患者を診る動作には examine が標準。","sMatches":[{"start":28,"end":35,"term":"patient","meaning":"患者","original":"patient"},{"start":36,"end":45,"term":"carefully","meaning":"注意深く","original":"carefully"},{"start":69,"end":78,"term":"treatment","meaning":"治療","original":"treatment"}]},{"q":"The hikers followed the narrow _____ through the forest to the waterfall.","opts":["page","park","path","pad"],"ans":3,"exp":"follow the narrow path は「狭い小道をたどる」の定型表現で、屋外の歩行用通路を指す標準語。page は「（本の）ページ」、park は「公園」、pad は「パッド」で意味カテゴリが異なる。","sMatches":[{"start":24,"end":30,"term":"narrow","meaning":"狭い","original":"narrow"},{"start":36,"end":43,"term":"through","meaning":"～を通じて","original":"through"},{"start":48,"end":54,"term":"forest","meaning":"森","original":"forest"},{"start":62,"end":71,"term":"waterfall","meaning":"滝","original":"waterfall"}]},{"q":"The flowers have been beautifully _____ in the vase on the dining table.","opts":["arrived","arranged","attacked","avoided"],"ans":2,"exp":"arrange flowers は「花を生ける、整える」の定型動詞で、装飾的な配置を表す標準語。arrive は「到着する」（自動詞）、attack は「攻撃する」、avoid は「避ける」で意味カテゴリが異なる。","sMatches":[{"start":22,"end":33,"term":"beautifully","meaning":"美しく","original":"beautifully"},{"start":50,"end":54,"term":"vase","meaning":"花瓶","original":"vase"},{"start":62,"end":74,"term":"dining table","meaning":"食卓","original":"dining table"}]},{"q":"The new chandelier hangs from the high _____ of the hotel lobby.","opts":["corner","ceiling","carpet","curtain"],"ans":2,"exp":"hang from the ceiling は「天井から吊るされる」の定型で、照明器具の設置場所を表す標準語。corner は「角」、carpet は「絨毯」、curtain は「カーテン」で hang from との結びつきが意味的に合わない。","sMatches":[{"start":4,"end":7,"term":"new","meaning":"新しい","original":"new"},{"start":8,"end":18,"term":"chandelier","meaning":"シャンデリア","original":"chandelier"},{"start":54,"end":65,"term":"hotel lobby","meaning":"ホテルのロビー","original":"hotel lobby"}]},{"q":"The photographer carefully _____ the camera to capture the perfect angle.","opts":["positioned","polished","postponed","purchased"],"ans":1,"exp":"position A は「Aを（特定の位置に）配置する」の定型動詞で、撮影機材の設置動作を表す標準語。polish は「磨く」、postpone は「延期する」、purchase は「購入する」で意味カテゴリが異なる。","sMatches":[{"start":4,"end":16,"term":"photographer","meaning":"写真家","original":"photographer"},{"start":17,"end":26,"term":"carefully","meaning":"注意深く","original":"carefully"},{"start":52,"end":59,"term":"capture","meaning":"捉える","original":"capture"},{"start":64,"end":77,"term":"perfect angle","meaning":"完璧な角度","original":"perfect angle"}]},{"q":"He is _____ his coat before stepping out into the cold winter air.","opts":["burning","burying","buttoning","bumping"],"ans":3,"exp":"button A は「Aのボタンを留める」の定型動詞で、衣服を整える動作の標準語。burn は「燃やす」、bury は「埋める」、bump は「ぶつかる」で意味カテゴリが異なる。","sMatches":[{"start":54,"end":69,"term":"cold winter air","meaning":"冷たい冬の空気","original":"cold winter air"}]},{"q":"The balcony is decorated with several colorful _____ in ceramic containers.","opts":["potted plants","post offices","park benches","paper plates"],"ans":1,"exp":"potted plants は「鉢植えの植物」の定型表現で、ベランダや室内の装飾に使う標準語。post office は「郵便局」、park bench は「公園のベンチ」、paper plate は「紙皿」で文脈に合わない。","sMatches":[{"start":4,"end":11,"term":"balcony","meaning":"バルコニー","original":"balcony"},{"start":15,"end":29,"term":"decorated with","meaning":"～で飾られた","original":"decorated with"},{"start":30,"end":37,"term":"several","meaning":"いくつかの","original":"several"}]},{"q":"The maintenance worker is replacing a burned-out _____ in the hallway.","opts":["lightbulb","lifebelt","lipstick","lawnmower"],"ans":1,"exp":"replace a burned-out lightbulb は「切れた電球を交換する」の定型表現で、建物の保守作業の標準語。lifebelt は「救命浮き輪」、lipstick は「口紅」、lawnmower は「芝刈り機」で意味カテゴリが異なる。","sMatches":[{"start":4,"end":22,"term":"maintenance worker","meaning":"保守作業員","original":"maintenance worker"},{"start":38,"end":48,"term":"burned-out","meaning":"焼き切れた","original":"burned-out"},{"start":66,"end":73,"term":"hallway","meaning":"廊下","original":"hallway"}]},{"q":"A small boat could be seen _____ on the calm ocean.","opts":["in the meantime","in the corner","in the distance","in the future"],"ans":3,"exp":"in the distance は「遠くに」の定型句で、視界の遠方を表す場所表現の標準語。in the meantime は「その間に」（時間）、in the corner は「（部屋の）隅に」（特定の狭い場所）で広い海面に合わない、in the future は「将来」（時間）で「見える場所」を表さない。","sMatches":[{"start":2,"end":12,"term":"small boat","meaning":"小さな船","original":"small boat"},{"start":50,"end":60,"term":"calm ocean","meaning":"穏やかな海","original":"calm ocean"}]},{"q":"The passengers were already waiting on the _____ when the train arrived at the station.","opts":["plateau","platform","plastic","plumber"],"ans":2,"exp":"platform は駅の「（列車の発着する）ホーム」の定型名詞。乗客が立つ場所としては on the platform、列車については at the platform がよく使われる。plateau は「高原」、plastic は「プラスチック」、plumber は「配管工」で意味カテゴリが異なる。","sMatches":[{"start":20,"end":27,"term":"already","meaning":"すでに","original":"already"}]},{"q":"The store window has an attractive _____ of the latest summer fashions.","opts":["discount","deadline","decision","display"],"ans":4,"exp":"an attractive display of ~ は「魅力的な～の展示」の定型表現で、商品陳列の標準語。discount は「割引」、deadline は「締め切り」、decision は「決定」で意味カテゴリが異なる。","sMatches":[{"start":4,"end":16,"term":"store window","meaning":"ショーウィンドウ","original":"store window"},{"start":24,"end":34,"term":"attractive","meaning":"魅力的な","original":"attractive"},{"start":50,"end":56,"term":"latest","meaning":"最新の","original":"latest"}]},{"q":"The customer asked the cashier about the price of a small _____ near the counter.","opts":["icon","issue","item","idea"],"ans":3,"exp":"item は「品物、商品」の定型名詞で、店舗での商品を指す標準語。icon は「アイコン、象徴」、issue は「問題、号」、idea は「考え」で意味カテゴリが異なる。","sMatches":[{"start":4,"end":12,"term":"customer","meaning":"顧客","original":"customer"},{"start":23,"end":30,"term":"cashier","meaning":"レジ係","original":"cashier"},{"start":41,"end":46,"term":"price","meaning":"値段","original":"price"},{"start":72,"end":79,"term":"counter","meaning":"カウンター","original":"counter"}]},{"q":"All _____ must stop at the security gate before entering the parking area.","opts":["volumes","villages","victims","vehicles"],"ans":4,"exp":"vehicles must stop は「車両は停止しなければならない」の定型で、交通規則の標準語。volume は「量、巻」、village は「村」、victim は「犠牲者」で意味カテゴリが異なる。","sMatches":[{"start":30,"end":43,"term":"security gate","meaning":"警備ゲート","original":"security gate"},{"start":64,"end":76,"term":"parking area","meaning":"駐車場","original":"parking area"}]},{"q":"The workers are _____ heavy boxes into the back of the delivery truck.","opts":["leaving","locking","losing","loading"],"ans":4,"exp":"load A into B は「BにAを積み込む」の定型動詞で、トラックなどに荷物を載せる動作の標準語。leave は「去る、置いていく」、lock は「鍵をかける」、lose は「失う」で意味カテゴリが異なる。","sMatches":[{"start":24,"end":29,"term":"heavy","meaning":"重い","original":"heavy"},{"start":57,"end":71,"term":"delivery truck","meaning":"配送トラック","original":"delivery truck"}]},{"q":"The old factory wall was built with red _____ over a hundred years ago.","opts":["breads","bricks","brushes","buttons"],"ans":2,"exp":"built with red bricks は「赤レンガで建てられた」の定型で、建材を表す標準語。bread は「パン」、brush は「ブラシ」、button は「ボタン」で意味カテゴリが異なる。","sMatches":[{"start":4,"end":15,"term":"old factory","meaning":"古い工場","original":"old factory"},{"start":47,"end":71,"term":"over a hundred years ago","meaning":"100年以上前","original":"over a hundred years ago"}]},{"q":"The waiter is _____ hot coffee into the small white cup on the table.","opts":["packing","painting","pulling","pouring"],"ans":4,"exp":"pour A into B は「BにAを注ぐ」の定型動詞で、液体を容器に入れる動作の標準語。pack は「梱包する」、paint は「塗る」、pull は「引く」で意味カテゴリが異なる。","sMatches":[{"start":4,"end":10,"term":"waiter","meaning":"給仕、ウェイター","original":"waiter"},{"start":22,"end":32,"term":"hot coffee","meaning":"熱いコーヒー","original":"hot coffee"},{"start":42,"end":57,"term":"small white cup","meaning":"小さな白いカップ","original":"small white cup"}]},{"q":"The hotel staff is _____ the marble floor in the main entrance hall.","opts":["polishing","packing","printing","producing"],"ans":1,"exp":"polish A は「Aを磨く」の定型動詞で、床や金属など表面を光らせる動作の標準語。pack は「梱包する」、print は「印刷する」、produce は「生産する」で意味カテゴリが異なる。","sMatches":[{"start":4,"end":15,"term":"hotel staff","meaning":"ホテルの従業員","original":"hotel staff"},{"start":33,"end":45,"term":"marble floor","meaning":"大理石の床","original":"marble floor"},{"start":53,"end":71,"term":"main entrance hall","meaning":"正面玄関ホール","original":"main entrance hall"}]},{"q":"She is _____ the dining table with a wet cloth after dinner.","opts":["wishing","winning","wiping","writing"],"ans":3,"exp":"wipe A with B は「BでAを拭く」の定型動詞で、表面を清掃する動作の標準語。wish は「願う」、win は「勝つ」、write は「書く」で意味カテゴリが異なる。","sMatches":[{"start":18,"end":30,"term":"dining table","meaning":"食卓","original":"dining table"},{"start":38,"end":47,"term":"wet cloth","meaning":"濡れた布","original":"wet cloth"},{"start":48,"end":60,"term":"after dinner","meaning":"夕食後","original":"after dinner"}]},{"q":"Please use the emergency _____ in case of fire or earthquake.","opts":["error","event","exit","expert"],"ans":3,"exp":"emergency exit は「非常口」の定型表現で、避難経路を指す標準語。error は「誤り」、event は「行事」、expert は「専門家」で意味カテゴリが異なる。","sMatches":[{"start":30,"end":40,"term":"in case of","meaning":"～の場合に","original":"in case of"},{"start":41,"end":45,"term":"fire","meaning":"火事","original":"fire"},{"start":49,"end":59,"term":"earthquake","meaning":"地震","original":"earthquake"}]},{"q":"She is washing the dirty dishes in the kitchen _____ after cooking.","opts":["shelf","sink","seat","sock"],"ans":2,"exp":"kitchen sink は「台所の流し」の定型表現で、皿洗いの場所を指す標準語。shelf は「棚」、seat は「座席」、sock は「靴下」で意味カテゴリが異なる。","sMatches":[{"start":52,"end":65,"term":"after cooking","meaning":"料理の後","original":"after cooking"}]},{"q":"The receptionist warmly _____ all visitors as they enter the office building.","opts":["greets","grabs","groans","grills"],"ans":1,"exp":"greet A は「Aに挨拶する」の定型動詞で、受付業務の標準語。grab は「つかむ」、groan は「うめく」、grill は「焼く、厳しく問いただす」で意味カテゴリが異なる。","sMatches":[{"start":4,"end":16,"term":"receptionist","meaning":"受付係","original":"receptionist"},{"start":17,"end":23,"term":"warmly","meaning":"温かく","original":"warmly"},{"start":35,"end":43,"term":"visitors","meaning":"訪問者","original":"visitors"},{"start":52,"end":57,"term":"enter","meaning":"入る","original":"enter"},{"start":62,"end":77,"term":"office building","meaning":"オフィスビル","original":"office building"}]},{"q":"The musician is carefully tuning his _____ before the concert begins.","opts":["industry","interview","instrument","invitation"],"ans":3,"exp":"tune an instrument は「楽器を調律する」の定型表現で、演奏前の準備動作の標準語。industry は「産業」、interview は「面接」、invitation は「招待」で意味カテゴリが異なる。","sMatches":[{"start":4,"end":12,"term":"musician","meaning":"音楽家","original":"musician"},{"start":16,"end":25,"term":"carefully","meaning":"注意深く","original":"carefully"}]},{"q":"The clerk is _____ the package before calculating the shipping cost.","opts":["weighing","walking","wearing","waving"],"ans":1,"exp":"weigh A は「Aの重さを量る」の定型動詞で、郵便・配送の場面の標準語。walk は「歩く」、wear は「身につけている」、wave は「振る」で意味カテゴリが異なる。","sMatches":[{"start":4,"end":9,"term":"clerk","meaning":"店員","original":"clerk"},{"start":26,"end":33,"term":"package","meaning":"小包、パッケージ","original":"package"},{"start":57,"end":70,"term":"shipping cost","meaning":"送料","original":"shipping cost"}]},{"q":"The shopkeeper placed the fresh vegetables on the _____ to check the weight.","opts":["sale","scarf","scale","screen"],"ans":3,"exp":"place A on the scale は「Aを秤に載せる」の定型表現で、重さを量る場面の標準語。sale は「販売」、scarf は「スカーフ」、screen は「画面」で意味カテゴリが異なる。","sMatches":[{"start":4,"end":14,"term":"shopkeeper","meaning":"店主","original":"shopkeeper"},{"start":26,"end":42,"term":"fresh vegetables","meaning":"新鮮な野菜","original":"fresh vegetables"},{"start":59,"end":75,"term":"check the weight","meaning":"重量を確認する","original":"check the weight"}]},{"q":"The worker is _____ down to pick up the tools from the floor.","opts":["bending","banning","burning","booking"],"ans":1,"exp":"bend down は「身をかがめる」の定型動詞句で、Part 1系の動作描写の標準語。ban は「禁止する」、burn は「燃やす」、book は「予約する」で意味カテゴリが異なる。","sMatches":[{"start":30,"end":37,"term":"pick up","meaning":"拾い上げる","original":"pick up"},{"start":57,"end":62,"term":"floor","meaning":"床","original":"floor"}]},{"q":"The tall trees _____ long shadows on the grass in the late afternoon.","opts":["caught","cast","chose","cost"],"ans":2,"exp":"cast a shadow on ~ は「～に影を落とす」の定型動詞で、光と影の描写の標準語。cast の過去形・過去分詞は同形 cast。catch は「捕まえる」、choose は「選ぶ」、cost は「費用がかかる」で意味カテゴリが異なる。","sMatches":[{"start":4,"end":14,"term":"tall trees","meaning":"高い木々","original":"tall trees"},{"start":40,"end":45,"term":"grass","meaning":"芝生","original":"grass"},{"start":53,"end":67,"term":"late afternoon","meaning":"夕方近く","original":"late afternoon"}]},{"q":"Several small birds are hiding in the thick _____ behind the garden fence.","opts":["baths","bushes","bells","bones"],"ans":2,"exp":"hide in the bushes は「茂みに隠れる」の定型表現で、低木の茂みを指す標準語。複数形が一般的。bath は「浴室」、bell は「鐘」、bone は「骨」で意味カテゴリが異なる。","sMatches":[{"start":0,"end":7,"term":"several","meaning":"いくつかの","original":"Several"},{"start":38,"end":43,"term":"thick","meaning":"密集した","original":"thick"},{"start":62,"end":74,"term":"garden fence","meaning":"庭の柵","original":"garden fence"}]},{"q":"The carpenter is _____ a nail into the wooden board with great force.","opts":["hugging","helping","handing","hammering"],"ans":4,"exp":"hammer a nail into ~ は「～に釘を打ち込む」の定型動詞句で、大工仕事の標準語。hug は「抱きしめる」、help は「手伝う」、hand は「手渡す」で意味カテゴリが異なる。","sMatches":[{"start":4,"end":13,"term":"carpenter","meaning":"大工","original":"carpenter"},{"start":29,"end":33,"term":"nail","meaning":"釘","original":"nail"},{"start":43,"end":55,"term":"wooden board","meaning":"木の板","original":"wooden board"},{"start":56,"end":72,"term":"with great force","meaning":"強い力で","original":"with great force"}]},{"q":"She is _____ the clean towels neatly before putting them in the cupboard.","opts":["finding","folding","following","freezing"],"ans":2,"exp":"fold A neatly は「Aをきれいに畳む」の定型表現で、洗濯物・衣類を整える動作の標準語。find は「見つける」、follow は「ついていく」、freeze は「凍らせる」で意味カテゴリが異なる。","sMatches":[{"start":66,"end":74,"term":"cupboard","meaning":"戸棚","original":"cupboard"}]},{"q":"The books are neatly arranged on the top _____ of the wooden bookcase.","opts":["shelf","shore","shoe","shower"],"ans":1,"exp":"top shelf は「一番上の棚」の定型表現で、本棚の段を指す標準語。shore は「岸」、shoe は「靴」、shower は「シャワー」で意味カテゴリが異なる。","sMatches":[{"start":14,"end":29,"term":"neatly arranged","meaning":"きちんと並べられた","original":"neatly arranged"},{"start":37,"end":46,"term":"top shelf","meaning":"一番上の棚","original":"top shelf"},{"start":54,"end":69,"term":"wooden bookcase","meaning":"木製の本棚","original":"wooden bookcase"}]},{"q":"A large _____ of newspapers was left on the corner of the office desk.","opts":["pine","pipe","page","pile"],"ans":4,"exp":"a large pile of ~ は「～の大きな山、積み重ね」の定型表現で、書類や物の積層を指す標準語。pine は「松」、pipe は「パイプ、管」、page は「（本の）ページ」で意味カテゴリが異なる。","sMatches":[{"start":27,"end":35,"term":"was left","meaning":"置かれていた","original":"was left"},{"start":36,"end":49,"term":"on the corner","meaning":"隅に","original":"on the corner"},{"start":57,"end":68,"term":"office desk","meaning":"事務机","original":"office desk"}]},{"q":"She is leaning on the wooden _____ of the balcony, looking at the garden.","opts":["railing","ceiling","flooring","framing"],"ans":1,"exp":"lean on the railing は「手すりにもたれる」の定型表現で、バルコニーや階段の手すりを指す標準語。ceiling は「天井」、flooring は「床材」、framing は「枠組み」で意味カテゴリが異なる。","sMatches":[{"start":22,"end":28,"term":"wooden","meaning":"木製の","original":"wooden"},{"start":44,"end":51,"term":"balcony","meaning":"バルコニー","original":"balcony"}]},{"q":"The cleaner is _____ the leaves off the path in front of the building.","opts":["sweeping","swimming","swinging","switching"],"ans":1,"exp":"sweep A off B は「BからAを掃き出す」の定型動詞句で、清掃作業の標準語。swim は「泳ぐ」、swing は「振る、揺れる」、switch は「切り替える」で意味カテゴリが異なる。","sMatches":[{"start":4,"end":11,"term":"cleaner","meaning":"清掃員","original":"cleaner"},{"start":28,"end":34,"term":"leaves","meaning":"落ち葉","original":"leaves"},{"start":48,"end":59,"term":"in front of","meaning":"～の前で","original":"in front of"},{"start":64,"end":72,"term":"building","meaning":"建物","original":"building"}]},{"q":"A narrow _____ connects the main building to the parking lot behind it.","opts":["gateway","walkway","hallway","waterway"],"ans":2,"exp":"narrow walkway は「狭い歩道」の定型表現で、建物間をつなぐ屋外の通路を指す標準語。gateway は「入口、関門」、hallway は「（建物内の）廊下」、waterway は「水路」で意味カテゴリが異なる。","sMatches":[{"start":2,"end":8,"term":"narrow","meaning":"狭い","original":"narrow"},{"start":30,"end":43,"term":"main building","meaning":"本館","original":"main building"},{"start":51,"end":62,"term":"parking lot","meaning":"駐車場","original":"parking lot"}]},{"q":"The store clerk is _____ the shelves with new products before opening time.","opts":["staying","stopping","stocking","stretching"],"ans":3,"exp":"stock the shelves は「棚に商品を補充する」の定型表現で、店舗の開店準備の標準語。stay は「滞在する」、stop は「止める」、stretch は「伸ばす」で意味カテゴリが異なる。","sMatches":[{"start":4,"end":15,"term":"store clerk","meaning":"店員","original":"store clerk"},{"start":45,"end":48,"term":"new","meaning":"新しい","original":"new"},{"start":65,"end":77,"term":"opening time","meaning":"開店時間","original":"opening time"}]},{"q":"The _____ at the next table is enjoying a large bowl of pasta and salad.","opts":["driver","dancer","doctor","diner"],"ans":4,"exp":"diner は「食事客」の定型名詞で、レストランで食事をしている人を指す標準語。driver は「運転手」、dancer は「ダンサー」、doctor は「医者」で意味カテゴリが異なる。","sMatches":[{"start":17,"end":27,"term":"next table","meaning":"隣のテーブル","original":"next table"},{"start":40,"end":61,"term":"a large bowl of pasta","meaning":"大きなボウルのパスタ","original":"a large bowl of pasta"}]},{"q":"The gardener is cutting the green _____ in front of the large country house.","opts":["line","lawn","lake","lamp"],"ans":2,"exp":"cut the green lawn は「青々とした芝を刈る」の定型表現で、庭の手入れの標準語。line は「線」、lake は「湖」、lamp は「ランプ」で意味カテゴリが異なる。","sMatches":[{"start":4,"end":12,"term":"gardener","meaning":"庭師","original":"gardener"},{"start":39,"end":50,"term":"in front of","meaning":"～の前で","original":"in front of"},{"start":61,"end":74,"term":"country house","meaning":"田舎の家","original":"country house"}]},{"q":"Each employee has a comfortable _____ with a computer and a desk lamp.","opts":["workshop","workout","workstation","workbook"],"ans":3,"exp":"workstation は「（オフィスの）個人作業スペース」の定型表現で、PC・机を含む作業区画を指す標準語。workshop は「作業場、研修会」、workout は「運動」、workbook は「問題集」で意味カテゴリが異なる。","sMatches":[{"start":5,"end":13,"term":"employee","meaning":"従業員","original":"employee"},{"start":20,"end":31,"term":"comfortable","meaning":"快適な","original":"comfortable"},{"start":66,"end":75,"term":"desk lamp","meaning":"卓上ランプ","original":"desk lamp"}]},{"q":"She is searching for her keys inside her small leather _____ near the door.","opts":["purse","plate","pillow","pencil"],"ans":1,"exp":"leather purse は「革製のハンドバッグ」の定型表現で、主に女性用の手提げを指す。地域によっては「財布」の意味でも使われる。plate は「皿」、pillow は「枕」、pencil は「鉛筆」で意味カテゴリが異なる。","sMatches":[{"start":30,"end":36,"term":"inside","meaning":"～の中で","original":"inside"},{"start":61,"end":74,"term":"near the door","meaning":"ドアの近くで","original":"near the door"}]},{"q":"The workers are _____ snow off the driveway after the heavy storm.","opts":["sharing","shouting","shoveling","showing"],"ans":3,"exp":"shovel snow off ~ は「～からスコップで雪をかき出す」の定型動詞句で、除雪作業の標準語。share は「共有する」、shout は「叫ぶ」、show は「見せる」で意味カテゴリが異なる。","sMatches":[{"start":39,"end":47,"term":"driveway","meaning":"私道、車道","original":"driveway"},{"start":58,"end":69,"term":"heavy storm","meaning":"激しい嵐","original":"heavy storm"}]},{"q":"The technician is _____ a flat-screen TV on the wall of the meeting room.","opts":["marking","mounting","mailing","missing"],"ans":2,"exp":"mount A on B は「BにAを取り付ける、固定する」の定型動詞で、機器・装飾品を壁面などに設置する動作の標準語。mark は「印をつける」、mail は「郵送する」、miss は「逃す」で意味カテゴリが異なる。","sMatches":[{"start":4,"end":14,"term":"technician","meaning":"技術者","original":"technician"},{"start":29,"end":43,"term":"flat-screen tv","meaning":"薄型テレビ","original":"flat-screen TV"},{"start":63,"end":75,"term":"meeting room","meaning":"会議室","original":"meeting room"}]},{"q":"He _____ at his watch quickly before continuing the long phone conversation.","opts":["gathered","glanced","greeted","guessed"],"ans":2,"exp":"glance at A は「Aをちらっと見る」の定型動詞句で、素早い視線の動作の標準語。gather は「集める」、greet は「挨拶する」、guess は「推測する」で意味カテゴリが異なる。","sMatches":[{"start":24,"end":31,"term":"quickly","meaning":"素早く","original":"quickly"},{"start":59,"end":77,"term":"phone conversation","meaning":"電話での会話","original":"phone conversation"}]},{"q":"The gardener filled the green _____ with water from the tap.","opts":["wishing well","walking stick","waiting room","watering can"],"ans":4,"exp":"watering can は「じょうろ」の定型表現で、植物への水やり道具を指す標準語。wishing well は「願いの井戸」、walking stick は「杖」、waiting room は「待合室」で意味カテゴリが異なる。","sMatches":[{"start":4,"end":12,"term":"gardener","meaning":"庭師","original":"gardener"},{"start":63,"end":66,"term":"tap","meaning":"蛇口","original":"tap"}]},{"q":"She is looking for a pair of scissors in the top _____ of the desk.","opts":["driver","dresser","drainer","drawer"],"ans":4,"exp":"top drawer は「一番上の引き出し」の定型表現で、机や家具の収納部を指す標準語。driver は「運転手」、dresser は「化粧台、ドレッサー」、drainer は「水切り」で意味カテゴリが異なる。","sMatches":[{"start":19,"end":37,"term":"a pair of scissors","meaning":"ハサミ1丁","original":"a pair of scissors"},{"start":45,"end":48,"term":"top","meaning":"頂上、最上位","original":"top"}]},{"q":"The technician is _____ the microphone before the live broadcast begins.","opts":["adopting","adjusting","admiring","admitting"],"ans":2,"exp":"adjust A は「Aを調整する」の定型動詞で、機器の微調整動作の標準語。adopt は「採用する」、admire は「賞賛する」、admit は「認める」で意味カテゴリが異なる。","sMatches":[{"start":4,"end":14,"term":"technician","meaning":"技術者","original":"technician"},{"start":32,"end":42,"term":"microphone","meaning":"マイク","original":"microphone"},{"start":54,"end":68,"term":"live broadcast","meaning":"生放送","original":"live broadcast"}]},{"q":"The painter is climbing up a tall _____ to reach the top of the wall.","opts":["lantern","laundry","ladder","library"],"ans":3,"exp":"climb up a ladder は「梯子を登る」の定型表現で、高所作業の道具を指す標準語。lantern は「ランタン」、laundry は「洗濯物」、library は「図書館」で意味カテゴリが異なる。","sMatches":[{"start":4,"end":11,"term":"painter","meaning":"塗装作業員","original":"painter"},{"start":29,"end":33,"term":"tall","meaning":"背の高い","original":"tall"},{"start":44,"end":49,"term":"reach","meaning":"～に達する","original":"reach"},{"start":54,"end":69,"term":"top of the wall","meaning":"壁の上部","original":"top of the wall"}]},{"q":"The food is stored in a large plastic _____ in the refrigerator.","opts":["conference","continent","contract","container"],"ans":4,"exp":"plastic container は「プラスチック容器」の定型表現で、食品保存用の入れ物を指す標準語。conference は「会議」、continent は「大陸」、contract は「契約」で意味カテゴリが異なる。","sMatches":[{"start":12,"end":18,"term":"stored","meaning":"保管された","original":"stored"},{"start":55,"end":67,"term":"refrigerator","meaning":"冷蔵庫","original":"refrigerator"}]},{"q":"A young man is riding a black _____ along the coastal highway.","opts":["microphone","motorcycle","moustache","mountain"],"ans":2,"exp":"ride a motorcycle は「バイクに乗る」の定型表現で、二輪自動車を指す標準語。microphone は「マイク」、moustache は「口ひげ」、mountain は「山」で意味カテゴリが異なる。","sMatches":[{"start":2,"end":11,"term":"young man","meaning":"若い男性","original":"young man"},{"start":51,"end":66,"term":"coastal highway","meaning":"海岸沿いの幹線道路","original":"coastal highway"}]},{"q":"The new books were placed on the wooden _____ in the corner of the library.","opts":["shopping cart","signal light","shelving unit","sleeping bag"],"ans":3,"exp":"shelving unit は「棚ユニット」の定型表現で、複数段の収納家具を指す標準語。shopping cart は「ショッピングカート」、signal light は「信号灯」、sleeping bag は「寝袋」で意味カテゴリが異なる。","sMatches":[{"start":4,"end":7,"term":"new","meaning":"新しい","original":"new"},{"start":33,"end":39,"term":"wooden","meaning":"木製の","original":"wooden"},{"start":61,"end":82,"term":"corner of the library","meaning":"図書館の隅","original":"corner of the library"}]},{"q":"The ancient Greek temple has many tall stone _____ supporting the roof.","opts":["cousins","corners","cottages","columns"],"ans":4,"exp":"stone column は「石柱」の定型表現で、建築物の支柱を指す標準語。cousin は「いとこ」、corner は「角」、cottage は「小屋」で意味カテゴリが異なる。","sMatches":[{"start":4,"end":24,"term":"ancient greek temple","meaning":"古代ギリシャ神殿","original":"ancient Greek temple"},{"start":34,"end":38,"term":"tall","meaning":"背の高い","original":"tall"}]},{"q":"She is heating up some milk on the gas _____ for the morning coffee.","opts":["stove","stage","stamp","storm"],"ans":1,"exp":"gas stove は「ガスコンロ」の定型表現で、台所の調理器具を指す標準語。stage は「舞台」、stamp は「切手」、storm は「嵐」で意味カテゴリが異なる。","sMatches":[{"start":53,"end":67,"term":"morning coffee","meaning":"朝のコーヒー","original":"morning coffee"}]},{"q":"There is a small _____ filled with novels next to her reading chair.","opts":["bottleneck","breakfast","backpack","bookshelf"],"ans":4,"exp":"bookshelf filled with novels は「小説で埋まった本棚」の定型表現で、本を収納する家具を指す標準語。bottleneck は「ボトルネック」、breakfast は「朝食」、backpack は「リュックサック」で意味カテゴリが異なる。","sMatches":[{"start":46,"end":53,"term":"next to","meaning":"～の隣に","original":"next to"},{"start":58,"end":71,"term":"reading chair","meaning":"読書用の椅子","original":"reading chair"}]},{"q":"She took some clean plates from the kitchen _____ to set the table.","opts":["cushion","customer","cupboard","ceremony"],"ans":3,"exp":"kitchen cupboard は「台所の食器棚」の定型表現で、食器や食材を収納する家具を指す標準語。cushion は「クッション」、customer は「顧客」、ceremony は「式典」で意味カテゴリが異なる。","sMatches":[{"start":14,"end":26,"term":"clean plates","meaning":"きれいな皿","original":"clean plates"},{"start":56,"end":69,"term":"set the table","meaning":"食卓を準備する","original":"set the table"}]},{"q":"The passengers are walking on the upper _____ of the cruise ship to enjoy the view.","opts":["desk","deck","deal","dish"],"ans":2,"exp":"upper deck は「（船の）上甲板」の定型表現で、船舶の階層を指す標準語。desk は「机」、deal は「取引」、dish は「皿」で意味カテゴリが異なる。","sMatches":[{"start":52,"end":63,"term":"cruise ship","meaning":"クルーズ船","original":"cruise ship"},{"start":67,"end":81,"term":"enjoy the view","meaning":"景色を楽しむ","original":"enjoy the view"}]},{"q":"A beautiful glass _____ filled with fresh flowers is on the dining table.","opts":["van","vest","view","vase"],"ans":4,"exp":"glass vase filled with flowers は「花が活けられたガラスの花瓶」の定型表現で、装飾用の容器を指す標準語。van は「バン、小型トラック」、vest は「ベスト」、view は「眺め」で意味カテゴリが異なる。","sMatches":[{"start":35,"end":48,"term":"fresh flowers","meaning":"生花","original":"fresh flowers"},{"start":59,"end":71,"term":"dining table","meaning":"食卓","original":"dining table"}]},{"q":"The child is _____ her mother's hand tightly while crossing the busy street.","opts":["holding onto","hearing about","heading for","hanging up"],"ans":1,"exp":"hold onto A は「Aをしっかり握っている」の定型動詞句で、安全のために手を放さない動作の標準語。hear about は「～について聞く」、head for は「～に向かう」、hang up は「電話を切る」で意味カテゴリが異なる。","sMatches":[{"start":44,"end":51,"term":"tightly","meaning":"しっかりと","original":"tightly"},{"start":52,"end":57,"term":"while","meaning":"〜する間","original":"while"},{"start":71,"end":82,"term":"busy street","meaning":"交通量の多い通り","original":"busy street"}]},{"q":"The cleaner filled the plastic _____ with hot water and detergent.","opts":["bucket","basket","blanket","banner"],"ans":1,"exp":"fill the bucket with ~ は「バケツに～を満たす」の定型表現で、清掃用の容器を指す標準語。basket は「かご」、blanket は「毛布」、banner は「横断幕」で意味カテゴリが異なる。","sMatches":[{"start":4,"end":11,"term":"cleaner","meaning":"清掃員","original":"cleaner"},{"start":43,"end":52,"term":"hot water","meaning":"お湯","original":"hot water"},{"start":57,"end":66,"term":"detergent","meaning":"洗剤","original":"detergent"}]},{"q":"Several pieces of modern _____ are displayed on the white walls of the gallery.","opts":["ankle","award","area","artwork"],"ans":4,"exp":"pieces of artwork are displayed は「美術作品が展示されている」の定型表現で、絵画や彫刻などの芸術作品を指す標準語。ankle は「足首」、award は「賞」、area は「地域」で意味カテゴリが異なる。","sMatches":[{"start":0,"end":7,"term":"several","meaning":"いくつかの","original":"Several"},{"start":18,"end":24,"term":"modern","meaning":"現代の","original":"modern"},{"start":37,"end":46,"term":"displayed","meaning":"展示された","original":"displayed"},{"start":73,"end":80,"term":"gallery","meaning":"画廊","original":"gallery"}]},{"q":"Toys are _____ all over the floor of the children's playroom.","opts":["signed","scattered","sealed","shipped"],"ans":2,"exp":"scattered all over ~ は「～一面に散らばっている」の定型表現で、物が無秩序に広がった状態を表す標準語。signed は「署名された」、sealed は「封をされた」、shipped は「発送された」で意味カテゴリが異なる。","sMatches":[{"start":19,"end":37,"term":"all over the floor","meaning":"床一面に","original":"all over the floor"},{"start":56,"end":64,"term":"playroom","meaning":"遊戯室","original":"playroom"}]},{"q":"The student is carrying a heavy black _____ filled with textbooks.","opts":["bookcase","bathroom","backpack","basement"],"ans":3,"exp":"carry a backpack は「リュックサックを背負う」の定型表現で、学生・登山者が使う標準語。bookcase は「本棚」、bathroom は「浴室」、basement は「地下室」で意味カテゴリが異なる。","sMatches":[{"start":4,"end":11,"term":"student","meaning":"学生","original":"student"},{"start":26,"end":31,"term":"heavy","meaning":"重い","original":"heavy"}]},{"q":"She is wearing a warm wool _____ around her neck on the cold winter day.","opts":["scarf","screen","script","sketch"],"ans":1,"exp":"wear a scarf around one's neck は「首にマフラーを巻く」の定型表現で、防寒具を指す標準語。screen は「画面」、script は「台本」、sketch は「下絵」で意味カテゴリが異なる。","sMatches":[{"start":17,"end":21,"term":"warm","meaning":"暖かい","original":"warm"},{"start":22,"end":26,"term":"wool","meaning":"ウール","original":"wool"},{"start":56,"end":71,"term":"cold winter day","meaning":"寒い冬の日","original":"cold winter day"}]},{"q":"The chef carefully removed the _____ of the pot to check the soup.","opts":["lap","leg","lock","lid"],"ans":4,"exp":"remove the lid of the pot は「鍋の蓋を取る」の定型表現で、調理器具の上部カバーを指す標準語。lap は「ひざ」、leg は「脚」、lock は「鍵」で意味カテゴリが異なる。","sMatches":[{"start":4,"end":8,"term":"chef","meaning":"料理人、シェフ","original":"chef"},{"start":9,"end":18,"term":"carefully","meaning":"注意深く","original":"carefully"},{"start":49,"end":54,"term":"check","meaning":"確認する","original":"check"}]},{"q":"A beautifully _____ photograph of the family hangs in the living room.","opts":["fried","framed","folded","freed"],"ans":2,"exp":"framed photograph は「額に入った写真」の定型表現で、装飾的に縁取られた状態を指す標準語。fried は「揚げた」、folded は「折りたたまれた」、freed は「解放された」で意味カテゴリが異なる。","sMatches":[{"start":2,"end":13,"term":"beautifully","meaning":"美しく","original":"beautifully"},{"start":59,"end":70,"term":"living room","meaning":"居間","original":"living room"}]},{"q":"The hotel rooms _____ a beautiful garden with a small fountain in the middle.","opts":["overcome","overhear","overlook","overpay"],"ans":3,"exp":"overlook A は「（高所から）Aを見下ろす、Aを見渡せる場所にある」の定型動詞で、建物・部屋の眺望を表す標準語。overcome は「克服する」、overhear は「立ち聞きする」、overpay は「払いすぎる」で意味カテゴリが異なる。","sMatches":[{"start":57,"end":65,"term":"fountain","meaning":"噴水","original":"fountain"},{"start":66,"end":79,"term":"in the middle","meaning":"中央に","original":"in the middle"}]},{"q":"The old wooden _____ in the study is filled with classic literature.","opts":["bookcase","briefcase","ballpark","bedroom"],"ans":1,"exp":"wooden bookcase は「木製の本棚」の定型表現で、書籍を収納する家具を指す標準語。briefcase は「書類かばん」、ballpark は「野球場」、bedroom は「寝室」で意味カテゴリが異なる。","sMatches":[{"start":8,"end":23,"term":"wooden bookcase","meaning":"木製の本棚","original":"wooden bookcase"},{"start":31,"end":36,"term":"study","meaning":"書斎","original":"study"},{"start":52,"end":70,"term":"classic literature","meaning":"古典文学","original":"classic literature"}]},{"q":"A large chandelier is _____ from the ceiling above the dining table.","opts":["supported","selected","suspended","submitted"],"ans":3,"exp":"be suspended from the ceiling は「天井から吊るされている」の定型表現で、上から下げられた状態を表す標準語。support は「支える」（下から）、select は「選ぶ」、submit は「提出する」で意味カテゴリが異なる。","sMatches":[{"start":8,"end":18,"term":"chandelier","meaning":"シャンデリア","original":"chandelier"},{"start":49,"end":54,"term":"above","meaning":"～の上に","original":"above"},{"start":59,"end":71,"term":"dining table","meaning":"食卓","original":"dining table"}]},{"q":"The waiter is wearing a long-_____ white shirt and a black tie.","opts":["sleeved","shaped","sized","styled"],"ans":1,"exp":"long-sleeved shirt は「長袖のシャツ」の定型表現で、衣服の袖の長さを表す標準形容詞。long-sleeved / short-sleeved の形で「(長さ)-sleeved」という複合形容詞として覚えるのが標準。shaped は「～の形をした」、sized は「～のサイズの」、styled は「～のスタイルの」で sleeve（袖）との結びつきがない。","sMatches":[{"start":4,"end":10,"term":"waiter","meaning":"給仕、ウェイター","original":"waiter"},{"start":37,"end":48,"term":"white shirt","meaning":"白いシャツ","original":"white shirt"},{"start":55,"end":64,"term":"black tie","meaning":"黒いネクタイ","original":"black tie"}]},{"q":"She is resting her head on a soft white _____ while reading a novel.","opts":["pillar","pillow","pencil","pocket"],"ans":2,"exp":"rest one's head on a pillow は「枕に頭を乗せる」の定型表現で、寝具の一つを指す標準語。pillar は「柱」、pencil は「鉛筆」、pocket は「ポケット」で意味カテゴリが異なる。","sMatches":[{"start":29,"end":33,"term":"soft","meaning":"柔らかい","original":"soft"},{"start":47,"end":52,"term":"while","meaning":"〜する間","original":"while"},{"start":63,"end":68,"term":"novel","meaning":"小説","original":"novel"}]},{"q":"A large crowd of _____ gathered to watch the marathon runners pass by.","opts":["speakers","spectators","specialists","sponsors"],"ans":2,"exp":"a crowd of spectators は「観客の群衆」の定型表現で、スポーツや催し物を見る人を指す標準語。speaker は「話者、講演者」、specialist は「専門家」、sponsor は「後援者」で意味カテゴリが異なる。","sMatches":[{"start":67,"end":74,"term":"pass by","meaning":"通り過ぎる","original":"pass by"}]},{"q":"The passengers slowly _____ the stairs from the airplane to the tarmac.","opts":["decided","delivered","descended","demanded"],"ans":3,"exp":"descend the stairs は「階段を降りる」の定型動詞で、上から下への移動を表す標準語。decide は「決める」、deliver は「配達する」、demand は「要求する」で意味カテゴリが異なる。","sMatches":[{"start":15,"end":21,"term":"slowly","meaning":"ゆっくりと","original":"slowly"},{"start":68,"end":74,"term":"tarmac","meaning":"駐機場の舗装路面","original":"tarmac"}]},{"q":"A tall man is standing in the _____ of the office, holding a brown envelope.","opts":["drawer","display","doctor","doorway"],"ans":4,"exp":"stand in the doorway は「戸口に立つ」の定型表現で、ドアのある開口部を指す標準語。drawer は「引き出し」、display は「展示」、doctor は「医者」で意味カテゴリが異なる。","sMatches":[{"start":2,"end":6,"term":"tall","meaning":"背の高い","original":"tall"},{"start":45,"end":51,"term":"office","meaning":"事務所","original":"office"},{"start":63,"end":77,"term":"brown envelope","meaning":"茶封筒","original":"brown envelope"}]},{"q":"Tourists are taking photos near the large stone _____ in the city square.","opts":["furniture","factory","fountain","freezer"],"ans":3,"exp":"stone fountain は「石造の噴水」の定型表現で、広場の中心によくある水の装飾を指す標準語。furniture は「家具」、factory は「工場」、freezer は「冷凍庫」で意味カテゴリが異なる。","sMatches":[{"start":64,"end":75,"term":"city square","meaning":"都市の広場","original":"city square"}]},{"q":"The workers are repairing the broken _____ in front of the old building.","opts":["package","passage","pavement","pattern"],"ans":3,"exp":"pavement は「舗装された路面」を指す標準語で、米語では「車道・路面」、英語では「歩道」の意味でも使われる。package は「小包」、passage は「通路、文章の一節」、pattern は「模様」で意味カテゴリが異なる。","sMatches":[{"start":30,"end":36,"term":"broken","meaning":"壊れた","original":"broken"},{"start":46,"end":57,"term":"in front of","meaning":"～の前で","original":"in front of"},{"start":66,"end":74,"term":"building","meaning":"建物","original":"building"}]},{"q":"The tailor is _____ a button onto the customer's jacket near the window.","opts":["seating","seeing","selling","sewing"],"ans":4,"exp":"sew A onto B は「BにAを縫い付ける」の定型動詞で、衣服の修繕作業の標準語。seat は「座らせる」、see は「見る」、sell は「売る」で意味カテゴリが異なる。","sMatches":[{"start":4,"end":10,"term":"tailor","meaning":"仕立て屋","original":"tailor"},{"start":23,"end":29,"term":"button","meaning":"ボタン","original":"button"},{"start":39,"end":56,"term":"customer's jacket","meaning":"客の上着","original":"customer's jacket"}]},{"q":"The pilot stopped at the small airport to _____ the plane before the long flight.","opts":["recycle","refuel","reduce","review"],"ans":2,"exp":"refuel A は「Aに燃料を補給する」の定型動詞で、航空機・自動車の給油動作の標準語。recycle は「再利用する」、reduce は「減らす」、review は「見直す」で意味カテゴリが異なる。","sMatches":[{"start":4,"end":9,"term":"pilot","meaning":"操縦士","original":"pilot"},{"start":70,"end":81,"term":"long flight","meaning":"長距離飛行","original":"long flight"}]},{"q":"Pedestrians are waiting for the green light at the _____ near the school.","opts":["crosswalk","cupboard","courtyard","classroom"],"ans":1,"exp":"wait at the crosswalk は「横断歩道で待つ」の定型表現で、歩行者用の道路横断箇所を指す標準語。cupboard は「戸棚」、courtyard は「中庭」、classroom は「教室」で意味カテゴリが異なる。","sMatches":[{"start":32,"end":43,"term":"green light","meaning":"青信号","original":"green light"}]},{"q":"She placed several glass _____ of homemade jam on the kitchen counter.","opts":["jets","jars","jobs","jokes"],"ans":2,"exp":"glass jar of jam は「ジャムの瓶」の定型表現で、ジャム・保存食用のガラス容器を指す標準語。jet は「ジェット機、噴射」、job は「仕事」、joke は「冗談」で意味カテゴリが異なる。","sMatches":[{"start":11,"end":18,"term":"several","meaning":"いくつかの","original":"several"},{"start":33,"end":45,"term":"homemade jam","meaning":"自家製ジャム","original":"homemade jam"},{"start":53,"end":68,"term":"kitchen counter","meaning":"台所のカウンター","original":"kitchen counter"}]},{"q":"The workers are _____ wooden boxes one on top of another in the warehouse.","opts":["stretching","starting","stacking","studying"],"ans":3,"exp":"stack A on top of another は「Aを次々と積み重ねる」の定型動詞で、倉庫作業の標準語。stretch は「伸ばす」、start は「始める」、study は「勉強する」で意味カテゴリが異なる。","sMatches":[{"start":25,"end":31,"term":"wooden","meaning":"木製の","original":"wooden"},{"start":45,"end":48,"term":"top","meaning":"頂上、最上位","original":"top"},{"start":67,"end":76,"term":"warehouse","meaning":"倉庫","original":"warehouse"}]},{"q":"The large ship is approaching the _____ to unload its cargo.","opts":["deck","drum","duck","dock"],"ans":4,"exp":"approach the dock は「波止場に近づく」の定型表現で、船が接岸する埠頭を指す標準語。deck は「甲板」、drum は「ドラム」、duck は「アヒル」で意味カテゴリが異なる。","sMatches":[{"start":10,"end":14,"term":"ship","meaning":"出荷する、発送する、船","original":"ship"},{"start":42,"end":48,"term":"unload","meaning":"荷を下ろす","original":"unload"},{"start":53,"end":58,"term":"cargo","meaning":"貨物","original":"cargo"}]},{"q":"The gardener is _____ on the grass to plant new flowers in the soil.","opts":["knocking","knowing","keeping","kneeling"],"ans":4,"exp":"kneel on the grass は「芝生にひざまずく」の定型動詞で、Part 1系の動作描写の標準語。knock は「ノックする」、know は「知っている」、keep は「保つ」で意味カテゴリが異なる。","sMatches":[{"start":4,"end":12,"term":"gardener","meaning":"庭師","original":"gardener"},{"start":32,"end":37,"term":"grass","meaning":"芝生","original":"grass"},{"start":41,"end":46,"term":"plant","meaning":"植える","original":"plant"},{"start":47,"end":50,"term":"new","meaning":"新しい","original":"new"},{"start":66,"end":70,"term":"soil","meaning":"土壌","original":"soil"}]},{"q":"She is slowly walking down the wooden _____, while holding the railing carefully.","opts":["staircase","statement","suitcase","sunlight"],"ans":1,"exp":"walk down the staircase は「階段を降りる」の定型表現で、階段全体を指す標準語。statement は「声明」、suitcase は「スーツケース」、sunlight は「日光」で意味カテゴリが異なる。","sMatches":[{"start":7,"end":13,"term":"slowly","meaning":"ゆっくりと","original":"slowly"},{"start":31,"end":37,"term":"wooden","meaning":"木製の","original":"wooden"},{"start":49,"end":54,"term":"while","meaning":"〜する間","original":"while"},{"start":67,"end":74,"term":"railing","meaning":"手すり","original":"railing"},{"start":75,"end":84,"term":"carefully","meaning":"注意深く","original":"carefully"}]},{"q":"The cook is _____ the soup in the large pot with a wooden spoon.","opts":["sharing","shutting","stirring","studying"],"ans":3,"exp":"stir the soup は「スープをかき混ぜる」の定型動詞で、調理動作の標準語。share は「共有する」、shut は「閉じる」、study は「勉強する」で意味カテゴリが異なる。","sMatches":[{"start":4,"end":8,"term":"cook","meaning":"料理人","original":"cook"},{"start":37,"end":46,"term":"large pot","meaning":"大きな鍋","original":"large pot"},{"start":54,"end":66,"term":"wooden spoon","meaning":"木製のスプーン","original":"wooden spoon"}]},{"q":"The friendly _____ at the restaurant brought us the menu and water immediately.","opts":["sender","server","singer","seller"],"ans":2,"exp":"server at the restaurant は「飲食店の給仕係」の定型表現で、客に料理を運ぶ人を指す標準語。近年のTOEICでは waiter / waitress よりも性別を区別しない server が標準的に使われる。同様に、brother / sister をまとめて sibling（きょうだい）、husband / wife をまとめて spouse（配偶者）と表現する傾向もある。sender は「送り主」、singer は「歌手」、seller は「売り手」で意味カテゴリが異なる。","sMatches":[{"start":4,"end":12,"term":"friendly","meaning":"親切な","original":"friendly"},{"start":27,"end":37,"term":"restaurant","meaning":"レストラン","original":"restaurant"},{"start":53,"end":57,"term":"menu","meaning":"メニュー","original":"menu"},{"start":68,"end":79,"term":"immediately","meaning":"すぐに","original":"immediately"}]},{"q":"The workers are _____ heavy boxes from the back of the delivery truck.","opts":["unpacking","untying","unloading","unlocking"],"ans":3,"exp":"unload A from B は「BからAを降ろす」の定型動詞で、トラックから荷物を下ろす動作の標準語。unpack は「（梱包を）解く」（中身を取り出す動作で from a truck と結びつかない）、untie は「ほどく」、unlock は「鍵を開ける」で意味カテゴリが異なる。","sMatches":[{"start":26,"end":31,"term":"heavy","meaning":"重い","original":"heavy"},{"start":59,"end":73,"term":"delivery truck","meaning":"配送トラック","original":"delivery truck"}]},{"q":"The businessman is carrying a black leather _____ as he leaves the office.","opts":["brochure","bracelet","briefcase","bridge"],"ans":3,"exp":"leather briefcase は「革製の書類かばん」の定型表現で、ビジネスマンが書類を運ぶかばんを指す標準語。brochure は「パンフレット」、bracelet は「腕輪」、bridge は「橋」で意味カテゴリが異なる。","sMatches":[{"start":4,"end":15,"term":"businessman","meaning":"ビジネスマン","original":"businessman"},{"start":60,"end":66,"term":"leaves","meaning":"落ち葉","original":"leaves"},{"start":71,"end":77,"term":"office","meaning":"事務所","original":"office"}]},{"q":"A _____ is waiting to cross the busy road at the traffic light.","opts":["pedestrian","painting","palace","parade"],"ans":1,"exp":"pedestrian is waiting to cross は「歩行者が横断を待っている」の定型表現で、道路を歩く人を指す標準語。painting は「絵画」、palace は「宮殿」、parade は「行進」で意味カテゴリが異なる。","sMatches":[{"start":27,"end":32,"term":"cross","meaning":"渡る","original":"cross"},{"start":37,"end":46,"term":"busy road","meaning":"交通量の多い道","original":"busy road"},{"start":54,"end":67,"term":"traffic light","meaning":"信号","original":"traffic light"}]},{"q":"The accident happened at the busy _____ in the center of the city.","opts":["introduction","interview","invitation","intersection"],"ans":4,"exp":"busy intersection は「交通量の多い交差点」の定型表現で、複数の道路が交わる場所を指す標準語。introduction は「導入」、interview は「面接」、invitation は「招待」で意味カテゴリが異なる。","sMatches":[{"start":4,"end":12,"term":"accident","meaning":"事故","original":"accident"},{"start":54,"end":72,"term":"center of the city","meaning":"市の中心部","original":"center of the city"}]},{"q":"The cat is sleeping comfortably on the soft brown _____ in the living room.","opts":["cube","cliff","crowd","couch"],"ans":4,"exp":"sleep on the couch は「ソファで寝る」の定型表現で、長椅子・ソファを指す標準語。cube は「立方体」、cliff は「崖」、crowd は「群衆」で意味カテゴリが異なる。","sMatches":[{"start":20,"end":31,"term":"comfortably","meaning":"心地よく","original":"comfortably"},{"start":39,"end":49,"term":"soft brown","meaning":"柔らかな茶色の","original":"soft brown"},{"start":63,"end":74,"term":"living room","meaning":"居間","original":"living room"}]},{"q":"The young child is sitting on her grandmother's _____ while listening to a story.","opts":["lap","lamp","leaf","line"],"ans":1,"exp":"sit on someone's lap は「（人の）ひざに座る」の定型表現で、座ったときの太ももの上部を指す標準語。lamp は「ランプ」、leaf は「葉」、line は「線」で意味カテゴリが異なる。","sMatches":[{"start":4,"end":15,"term":"young child","meaning":"幼い子ども","original":"young child"},{"start":34,"end":45,"term":"grandmother","meaning":"祖母","original":"grandmother"},{"start":52,"end":57,"term":"while","meaning":"〜する間","original":"while"}]},{"q":"She is typing a long email on her new _____ at the coffee shop.","opts":["lantern","laundry","laptop","lawyer"],"ans":3,"exp":"type on a laptop は「ノートパソコンで入力する」の定型表現で、持ち運び可能なコンピュータを指す標準語。lantern は「ランタン」、laundry は「洗濯物」、lawyer は「弁護士」で意味カテゴリが異なる。","sMatches":[{"start":16,"end":26,"term":"long email","meaning":"長いメール","original":"long email"},{"start":34,"end":37,"term":"new","meaning":"新しい","original":"new"},{"start":52,"end":63,"term":"coffee shop","meaning":"喫茶店","original":"coffee shop"}]},{"q":"The _____ at the supermarket scanned each item and gave her a receipt.","opts":["chairman","cashier","carpenter","customer"],"ans":2,"exp":"cashier at the supermarket は「スーパーのレジ係」の定型表現で、会計を担当する従業員を指す標準語。chairman は「議長」、carpenter は「大工」、customer は「顧客」（払う側）で意味カテゴリが異なる。","sMatches":[{"start":44,"end":48,"term":"item","meaning":"商品","original":"item"},{"start":64,"end":71,"term":"receipt","meaning":"レシート","original":"receipt"}]},{"q":"The photographer is _____ behind the bushes to take a close-up of the bird.","opts":["crashing","crossing","creating","crouching"],"ans":4,"exp":"crouch behind ~ は「～の陰にしゃがむ」の定型動詞で、Part 1系の動作描写の標準語。crash は「衝突する」、cross は「渡る」、create は「創造する」で意味カテゴリが異なる。","sMatches":[{"start":4,"end":16,"term":"photographer","meaning":"写真家","original":"photographer"},{"start":58,"end":66,"term":"close-up","meaning":"接写","original":"close-up"}]},{"q":"The barber is carefully _____ the customer's hair with a pair of scissors.","opts":["trying","trimming","training","traveling"],"ans":2,"exp":"trim A's hair は「Aの髪を整える、刈り揃える」の定型動詞で、理髪店の作業の標準語。try は「試みる」、train は「訓練する」、travel は「旅行する」で意味カテゴリが異なる。","sMatches":[{"start":4,"end":10,"term":"barber","meaning":"理髪師","original":"barber"},{"start":14,"end":23,"term":"carefully","meaning":"注意深く","original":"carefully"},{"start":37,"end":45,"term":"customer","meaning":"顧客","original":"customer"},{"start":58,"end":76,"term":"a pair of scissors","meaning":"ハサミ1丁","original":"a pair of scissors"}]},{"q":"The construction workers are _____ the new road with smooth black asphalt.","opts":["painting","paying","packing","paving"],"ans":4,"exp":"pave A with B は「BでAを舗装する」の定型動詞で、道路工事の標準語。paint は「塗る」、pay は「払う」、pack は「梱包する」で意味カテゴリが異なる。","sMatches":[{"start":40,"end":43,"term":"new","meaning":"新しい","original":"new"},{"start":54,"end":60,"term":"smooth","meaning":"滑らかな","original":"smooth"},{"start":67,"end":74,"term":"asphalt","meaning":"アスファルト","original":"asphalt"}]},{"q":"He parked his black car in the long _____ in front of his suburban house.","opts":["downtown","doorway","driveway","drugstore"],"ans":3,"exp":"park in the driveway は「私道に駐車する」の定型表現で、住宅の門から玄関までの私有通路を指す標準語。downtown は「中心街」、doorway は「戸口」、drugstore は「薬局」で意味カテゴリが異なる。","sMatches":[{"start":45,"end":56,"term":"in front of","meaning":"～の前で","original":"in front of"},{"start":61,"end":75,"term":"suburban house","meaning":"郊外の住宅","original":"suburban house"}]},{"q":"She is sitting on a tall wooden _____ at the kitchen counter while having breakfast.","opts":["stove","stool","stream","string"],"ans":2,"exp":"sit on a stool は「スツールに座る」の定型表現で、背もたれのない高めの椅子を指す標準語。stove は「コンロ」、stream は「小川」、string は「ひも」で意味カテゴリが異なる。","sMatches":[{"start":20,"end":24,"term":"tall","meaning":"背の高い","original":"tall"},{"start":25,"end":31,"term":"wooden","meaning":"木製の","original":"wooden"},{"start":45,"end":60,"term":"kitchen counter","meaning":"台所のカウンター","original":"kitchen counter"},{"start":61,"end":66,"term":"while","meaning":"〜する間","original":"while"}]}];
 QUESTIONS.push(...QUESTIONS_DATA);
+
 
 // =============================================================================
 // QUIZ LOGIC
 // =============================================================================
 (function() {
   // ============================================================
-  // SESSION CONFIG — 各回ごとにここを書き換える
+  // SESSION CONFIG
   // ============================================================
-  const SESSION_NUMBER = 1;     // 第何回か（1〜15）
-  const SESSION_TITLE = '';     // 回のサブタイトル（任意、空欄可）例: '金フレ 頻出50語'
+  const SESSION_NUMBER = 5;
+  const SESSION_TITLE = '';
   // ============================================================
 
   const STORAGE_KEY = 'toeic_quiz_progress_v2_s' + SESSION_NUMBER;
-  const TOTAL = 0; // will be set after data loaded
+  const HISTORY_KEY = 'toeic_quiz_history_v2_s' + SESSION_NUMBER;
+  const TEACHER_ID = '22';
+  const TEACHER_NAME = '22';
   const app = document.getElementById('app');
 
+  // ============================================================
   // Fisher–Yates shuffle
+  // ============================================================
   function shuffleArray(arr) {
     const a = arr.slice();
     for (let i = a.length - 1; i > 0; i--) {
@@ -1422,29 +1195,33 @@ QUESTIONS.push(...QUESTIONS_DATA);
     }
     return a;
   }
-
   function makeOrder() {
     return shuffleArray(Array.from({length: QUESTIONS.length}, (_, i) => i));
   }
 
-  // Get the current question based on shuffled order
-  function currentQ() {
-    return QUESTIONS[state.order[state.index]];
-  }
-
+  // ============================================================
+  // STATE
+  // ============================================================
   let state = {
-    mode: 'start',      // 'start' | 'quiz' | 'result' | 'review'
-    index: 0,           // current position in shuffled order (0-99)
-    answers: [],        // index = position in shuffled order
+    mode: 'start',         // 'start' | 'quiz' | 'result' | 'retry'
+    index: 0,
+    answers: [],           // [{chosen, correct} | null] indexed by position in shuffled order
     answered: false,
-    reviewList: [],     // positions in shuffled order
-    reviewPos: 0,
     studentName: '',
     studentId: '',
     completedAt: null,
-    order: [],          // shuffled indices into QUESTIONS array
+    order: [],
+    rateMode: 'normal',    // 'normal' (1.15x) | 'slow' (0.85x)
+    // Retry phase
+    retryList: [],         // positions in original order that were wrong
+    retryAnswers: [],      // parallel to retryList: {chosen, correct} | null
+    retryIndex: 0,
+    retryCompletedAt: null,
   };
 
+  // ============================================================
+  // LocalStorage I/O
+  // ============================================================
   function save() {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify({
@@ -1454,10 +1231,15 @@ QUESTIONS.push(...QUESTIONS_DATA);
         studentId: state.studentId,
         completedAt: state.completedAt,
         order: state.order,
+        rateMode: state.rateMode,
+        mode: state.mode,
+        retryList: state.retryList,
+        retryAnswers: state.retryAnswers,
+        retryIndex: state.retryIndex,
+        retryCompletedAt: state.retryCompletedAt,
       }));
     } catch(e) {}
   }
-
   function load() {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
@@ -1465,49 +1247,80 @@ QUESTIONS.push(...QUESTIONS_DATA);
       return JSON.parse(raw);
     } catch(e) { return null; }
   }
-
   function clearSave() {
     try { localStorage.removeItem(STORAGE_KEY); } catch(e) {}
   }
-
-  function countAnswered() {
-    return state.answers.filter(a => a != null).length;
+  function loadHistory() {
+    try {
+      const raw = localStorage.getItem(HISTORY_KEY);
+      if (!raw) return null;
+      return JSON.parse(raw);
+    } catch(e) { return null; }
+  }
+  function saveHistory(record) {
+    // record = { score, correct, total, completedAt, studentName, studentId }
+    try { localStorage.setItem(HISTORY_KEY, JSON.stringify(record)); } catch(e) {}
   }
 
-  function countCorrect() {
-    return state.answers.filter(a => a && a.correct).length;
+  // ============================================================
+  // Counters
+  // ============================================================
+  function countAnswered() { return state.answers.filter(a => a != null).length; }
+  function countCorrect() { return state.answers.filter(a => a && a.correct).length; }
+  function countWrong() { return state.answers.filter(a => a && !a.correct).length; }
+  function isTeacher() {
+    return state.studentId === TEACHER_ID && state.studentName === TEACHER_NAME;
   }
 
-  function countWrong() {
-    return state.answers.filter(a => a && !a.correct).length;
-  }
-
+  // ============================================================
+  // Render dispatcher
+  // ============================================================
   function render() {
+    if (typeof closePopup === 'function') closePopup();
     if (state.mode === 'start') renderStart();
     else if (state.mode === 'quiz') renderQuiz();
     else if (state.mode === 'result') renderResult();
-    else if (state.mode === 'review') renderReview();
+    else if (state.mode === 'retry') renderRetry();
     window.scrollTo({top:0, behavior:'instant'});
   }
 
+  // ============================================================
+  // Header (with rate toggle and teacher badge)
+  // ============================================================
   function renderHeader(showMeta) {
     const answered = countAnswered();
     const total = QUESTIONS.length;
     const correct = countCorrect();
     const percent = answered > 0 ? Math.round((correct / answered) * 100) : 0;
     const sessionLabel = `第${SESSION_NUMBER}回`;
+    const showToolbar = state.mode !== 'start';
     return `
       <div class="header">
         <div class="brand">
           <span class="brand-session">${sessionLabel}</span>
-          <span class="brand-main">TOEIC Vocab &amp; Grammar</span>
+          <span class="brand-main">「T」用語彙</span>
           ${SESSION_TITLE ? `<span class="brand-sub">${escapeHtml(SESSION_TITLE)}</span>` : ''}
+          ${isTeacher() ? '<span class="teacher-badge">✨ Teacher</span>' : ''}
         </div>
-        ${showMeta ? `<div class="meta">${answered}/${total} · ${percent}%</div>` : ''}
+        <div class="header-right">
+          ${showMeta ? `<div class="meta">${answered}/${total} · ${percent}%</div>` : ''}
+          ${showToolbar ? `
+            <div class="rate-control">
+              <span class="rate-control-label">音声速度</span>
+              <div class="rate-segment">
+                <button class="rate-segment-btn ${state.rateMode === 'normal' ? 'active' : ''}" data-action="set-rate-normal">速い</button>
+                <button class="rate-segment-btn ${state.rateMode === 'slow' ? 'active' : ''}" data-action="set-rate-slow">ゆっくり</button>
+              </div>
+            </div>
+          ` : ''}
+        </div>
       </div>
     `;
   }
 
+  // ============================================================
+  // Progress bar
+  // ============================================================
   function renderProgress() {
     const answered = countAnswered();
     const total = QUESTIONS.length;
@@ -1527,27 +1340,46 @@ QUESTIONS.push(...QUESTIONS_DATA);
     `;
   }
 
+  function renderRetryProgress() {
+    const total = state.retryList.length;
+    const answered = state.retryAnswers.filter(a => a != null).length;
+    const correct = state.retryAnswers.filter(a => a && a.correct).length;
+    const wrong = state.retryAnswers.filter(a => a && !a.correct).length;
+    const percent = (answered / total) * 100;
+    return `
+      <div class="progress-wrap">
+        <div class="progress-bar">
+          <div class="progress-fill" style="width:${percent}%"></div>
+        </div>
+        <div class="progress-stats">
+          <span>Q.${state.retryIndex + 1} <strong>/ ${total}</strong></span>
+          <span>正答 <strong>${correct}</strong> · 誤答 <strong>${wrong}</strong></span>
+        </div>
+      </div>
+    `;
+  }
+
+  // ============================================================
+  // Start screen
+  // ============================================================
   function renderStart() {
     const saved = load();
     const hasSaved = saved && saved.answers && saved.answers.some(a => a != null);
     const answered = hasSaved ? saved.answers.filter(a => a != null).length : 0;
     const correct = hasSaved ? saved.answers.filter(a => a && a.correct).length : 0;
+    const history = loadHistory();
 
     app.innerHTML = `
       ${renderHeader(false)}
       <div class="start">
         <div class="start-eyebrow">Practice Set · for Japanese Learners</div>
-        <h1 class="start-title">TOEIC 語彙・文法</h1>
-        <div class="start-title-en">100 Questions in Business Context</div>
-        <p class="start-desc">
-          Part 5 形式の短文穴埋め問題集。ビジネス頻出語彙とコロケーション、文法項目を網羅した100問。
-          1問ずつ即時に正誤判定と解説が表示され、スコアは自動で保存される。
-        </p>
+        <h1 class="start-title">「T」用語彙</h1>
+        <div class="start-title-en">143 Questions for TOEIC Part 1 / Part 5</div>
 
         <div class="start-specs">
           <div class="spec">
             <div class="spec-label">Questions</div>
-            <div class="spec-value">100</div>
+            <div class="spec-value">143</div>
           </div>
           <div class="spec">
             <div class="spec-label">Format</div>
@@ -1566,14 +1398,20 @@ QUESTIONS.push(...QUESTIONS_DATA);
           </div>
         ` : ''}
 
+        ${history && !hasSaved ? `
+          <div class="resume-note">
+            最後の達成記録：<strong>${history.score}%</strong> (${history.correct}/${history.total}) — ${escapeHtml(history.studentName || '')}
+          </div>
+        ` : ''}
+
         <div class="name-form">
+          <div class="name-field">
+            <label class="name-label" for="input-id">Student ID <span class="jp">学籍番号（必須）</span></label>
+            <input type="text" id="input-id" class="name-input" placeholder="例：2026001" value="${escapeHtml(saved && saved.studentId ? saved.studentId : '')}" autocomplete="off" required>
+          </div>
           <div class="name-field">
             <label class="name-label" for="input-name">Student Name <span class="jp">氏名（必須）</span></label>
             <input type="text" id="input-name" class="name-input" placeholder="例：山田 太郎" value="${escapeHtml(saved && saved.studentName ? saved.studentName : '')}" autocomplete="name" required>
-          </div>
-          <div class="name-field">
-            <label class="name-label" for="input-id">Student ID <span class="jp">学籍番号（任意）</span></label>
-            <input type="text" id="input-id" class="name-input" placeholder="例：2026001" value="${escapeHtml(saved && saved.studentId ? saved.studentId : '')}" autocomplete="off">
           </div>
           <div class="name-error" id="name-error"></div>
         </div>
@@ -1591,6 +1429,14 @@ QUESTIONS.push(...QUESTIONS_DATA);
           `}
         </div>
 
+        <div class="start-notes">
+          <div class="start-notes-label">Notes · 注意事項</div>
+          <p>全 ${QUESTIONS.length} 問。途中で閉じても続きから再開できます。</p>
+          <p>正解の例文中の<span class="underline-demo">下線の語</span>をタップすると、意味が表示されます。</p>
+          <p>間違えた問題は最後にもう一度挑戦できます。</p>
+          <p>すべて終わったら、結果画面のスクリーンショットを撮って先生に提出してください。</p>
+        </div>
+
         <div class="footer">© Kaoruko Takechi 2026</div>
       </div>
     `;
@@ -1605,31 +1451,45 @@ QUESTIONS.push(...QUESTIONS_DATA);
         const idVal = idInput ? idInput.value.trim() : '';
 
         if (act === 'start' || act === 'restart') {
+          if (!idVal) {
+            if (errorEl) errorEl.textContent = '学籍番号を入力してください。';
+            if (idInput) idInput.focus();
+            return;
+          }
           if (!nameVal) {
             if (errorEl) errorEl.textContent = '氏名を入力してください。';
             if (nameInput) nameInput.focus();
             return;
           }
-          state.studentName = nameVal;
           state.studentId = idVal;
+          state.studentName = nameVal;
           state.completedAt = null;
           state.answers = new Array(QUESTIONS.length).fill(null);
           state.order = makeOrder();
           state.index = 0;
           state.answered = false;
           state.mode = 'quiz';
+          state.retryList = [];
+          state.retryAnswers = [];
+          state.retryIndex = 0;
+          state.retryCompletedAt = null;
           clearSave();
           save();
           render();
         } else if (act === 'resume') {
+          if (!idVal) {
+            if (errorEl) errorEl.textContent = '学籍番号を入力してください。';
+            if (idInput) idInput.focus();
+            return;
+          }
           if (!nameVal) {
             if (errorEl) errorEl.textContent = '氏名を入力してください。';
             if (nameInput) nameInput.focus();
             return;
           }
           const s = load();
-          state.studentName = nameVal;
           state.studentId = idVal;
+          state.studentName = nameVal;
           state.completedAt = s && s.completedAt ? s.completedAt : null;
           state.answers = s && s.answers && s.answers.length === QUESTIONS.length
             ? s.answers
@@ -1639,7 +1499,19 @@ QUESTIONS.push(...QUESTIONS_DATA);
             : makeOrder();
           state.index = s && typeof s.index === 'number' ? Math.min(s.index, QUESTIONS.length - 1) : 0;
           state.answered = state.answers[state.index] != null;
-          state.mode = 'quiz';
+          state.rateMode = (s && s.rateMode) || 'normal';
+          state.retryList = (s && s.retryList) || [];
+          state.retryAnswers = (s && s.retryAnswers) || [];
+          state.retryIndex = (s && typeof s.retryIndex === 'number') ? s.retryIndex : 0;
+          state.retryCompletedAt = (s && s.retryCompletedAt) || null;
+          // Resume to the appropriate phase
+          if (s && s.mode === 'retry') {
+            state.mode = 'retry';
+          } else if (state.completedAt && countAnswered() === QUESTIONS.length) {
+            state.mode = 'result';
+          } else {
+            state.mode = 'quiz';
+          }
           save();
           render();
         }
@@ -1647,8 +1519,14 @@ QUESTIONS.push(...QUESTIONS_DATA);
     });
   }
 
+  // ============================================================
+  // Quiz screen
+  // ============================================================
+  function currentQ() {
+    return QUESTIONS[state.order[state.index]];
+  }
+
   function renderQuiz() {
-    // Safety: if order is missing (old save), generate now
     if (!state.order || state.order.length !== QUESTIONS.length) {
       state.order = makeOrder();
       save();
@@ -1681,6 +1559,7 @@ QUESTIONS.push(...QUESTIONS_DATA);
           `;
         }).join('')}
       </div>
+      ${(!answered && isTeacher()) ? renderTeacherHint(q) : ''}
       ${answered ? renderFeedback(q, existing) : ''}
       <div class="nav">
         <button class="nav-quit" data-action="quit">一時中断して最初に戻る</button>
@@ -1693,6 +1572,7 @@ QUESTIONS.push(...QUESTIONS_DATA);
       <div class="footer">© Kaoruko Takechi 2026</div>
     `;
 
+    bindCommonHandlers();
     app.querySelectorAll('.option:not([disabled])').forEach(el => {
       el.addEventListener('click', () => {
         const num = parseInt(el.dataset.num, 10);
@@ -1701,15 +1581,18 @@ QUESTIONS.push(...QUESTIONS_DATA);
         state.answered = true;
         save();
         render();
+        // session5: 選択肢クリック時に正解例文をUS音声で自動再生
+        const fullSentence = q.q.replace('_____', q.opts[q.ans - 1]);
+        speakSentence(fullSentence, 'en-US');
       });
     });
-
     app.querySelectorAll('[data-action]').forEach(el => {
       el.addEventListener('click', () => {
         const act = el.dataset.action;
         if (act === 'next') {
           if (state.index === QUESTIONS.length - 1) {
             state.mode = 'result';
+            recordHistoryIfNew();
           } else {
             state.index++;
             state.answered = state.answers[state.index] != null;
@@ -1724,31 +1607,139 @@ QUESTIONS.push(...QUESTIONS_DATA);
     });
   }
 
+  function renderTeacherHint(q) {
+    const letter = String.fromCharCode(64 + q.ans);
+    const word = q.opts[q.ans - 1];
+    return `<div class="teacher-hint">👁 Teacher view — Correct: (${letter}) <strong>${escapeHtml(word)}</strong></div>`;
+  }
+
+  // ============================================================
+  // Feedback (after answer)
+  // ============================================================
   function renderFeedback(q, ans) {
     const isCorrect = ans.correct;
     const letter = String.fromCharCode(64 + q.ans);
+    const correctWord = q.opts[q.ans - 1];
+    const fullSentence = q.q.replace(/_____/g, correctWord);
     return `
       <div class="feedback ${isCorrect ? 'correct' : 'wrong'}">
         <div class="feedback-verdict">
           ${isCorrect ? 'Correct' : 'Incorrect'}
-          <span class="feedback-verdict-jp">${isCorrect ? '正解' : '不正解'} · 正答は (${letter}) <span class="feedback-correct-answer">${escapeHtml(q.opts[q.ans - 1])}</span></span>
+          <span class="feedback-verdict-jp">${isCorrect ? '正解' : '不正解'} · 正答は (${letter}) <span class="feedback-correct-answer">${escapeHtml(correctWord)}</span></span>
+        </div>
+        <div class="feedback-sentence ${isCorrect ? '' : 'wrong-sentence'}">
+          <span class="feedback-sentence-text">${renderTextWithMatches(fullSentence, q.sMatches || [])}</span>
+          <div class="accent-btns">
+            ${renderAccentButtons(fullSentence)}
+          </div>
         </div>
         <div class="feedback-body">${escapeHtml(q.exp)}</div>
       </div>
     `;
   }
 
+  // ============================================================
+  // Speech (manual only, applies rateMode)
+  // ============================================================
+  const ACCENTS = [
+    { code: 'en-US', label: 'US', flag: '🇺🇸' },
+    { code: 'en-GB', label: 'UK', flag: '🇬🇧' },
+  ];
+
+  function getVoiceForAccent(accentCode) {
+    const voices = window.speechSynthesis.getVoices();
+    const code = accentCode.replace('_', '-');
+    let v = voices.find(v => v.lang.replace('_', '-') === code);
+    if (!v) v = voices.find(v => v.lang.replace('_', '-').startsWith(code));
+    if (!v) v = voices.find(v => v.lang.startsWith('en'));
+    return v || null;
+  }
+
+  function speakSentence(text, accentCode) {
+    try {
+      if (!('speechSynthesis' in window)) return;
+      window.speechSynthesis.cancel();
+      setTimeout(() => {
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = accentCode || 'en-US';
+        utterance.rate = state.rateMode === 'slow' ? 0.85 : 1.15;
+        utterance.pitch = 1;
+        const voice = getVoiceForAccent(accentCode || 'en-US');
+        if (voice) utterance.voice = voice;
+        window.speechSynthesis.speak(utterance);
+      }, 100);
+    } catch(e) {}
+  }
+
+  function renderAccentButtons(fullSentence) {
+    const escaped = escapeHtml(fullSentence);
+    return ACCENTS.map(a =>
+      `<button class="accent-btn" data-speak="${escaped}" data-accent="${a.code}" title="${a.label} English">${a.flag}<span class="accent-label">${a.label}</span></button>`
+    ).join('');
+  }
+
+  if ('speechSynthesis' in window) {
+    window.speechSynthesis.getVoices();
+    window.speechSynthesis.onvoiceschanged = () => { window.speechSynthesis.getVoices(); };
+  }
+
+  // ============================================================
+  // Common bindings (rate toggle, accent buttons)
+  // ============================================================
+  function bindCommonHandlers() {
+    app.querySelectorAll('.accent-btn').forEach(el => {
+      el.addEventListener('click', () => {
+        const text = el.dataset.speak;
+        const accent = el.dataset.accent;
+        if (text) speakSentence(text, accent);
+      });
+    });
+    app.querySelectorAll('[data-action="set-rate-normal"]').forEach(el => {
+      el.addEventListener('click', () => {
+        if (state.rateMode !== 'normal') {
+          state.rateMode = 'normal';
+          save();
+          render();
+        }
+      });
+    });
+    app.querySelectorAll('[data-action="set-rate-slow"]').forEach(el => {
+      el.addEventListener('click', () => {
+        if (state.rateMode !== 'slow') {
+          state.rateMode = 'slow';
+          save();
+          render();
+        }
+      });
+    });
+    bindClickableWords();
+  }
+
+  // ============================================================
+  // Result screen
+  // ============================================================
+  function recordHistoryIfNew() {
+    if (state.completedAt) return;
+    state.completedAt = new Date().toISOString();
+    const correct = countCorrect();
+    const total = QUESTIONS.length;
+    const score = total > 0 ? Math.round((correct / total) * 100) : 0;
+    saveHistory({
+      score, correct, total,
+      completedAt: state.completedAt,
+      studentName: state.studentName,
+      studentId: state.studentId,
+    });
+    save();
+  }
+
   function renderResult() {
+    if (!state.completedAt) recordHistoryIfNew();
+
     const answered = countAnswered();
     const correct = countCorrect();
     const wrong = answered - correct;
     const percent = answered > 0 ? Math.round((correct / answered) * 100) : 0;
-
-    // Set completion timestamp on first arrival at result screen
-    if (!state.completedAt) {
-      state.completedAt = new Date().toISOString();
-      save();
-    }
 
     let msg = '';
     if (percent >= 90) msg = 'Excellent — 9割超え。この水準を維持。';
@@ -1757,15 +1748,38 @@ QUESTIONS.push(...QUESTIONS_DATA);
     else if (percent >= 40) msg = 'Building — 復習モードで間違いを潰そう。';
     else msg = 'Starting out — まずは解説を読み込んで、再挑戦を。';
 
-    const wrongIndices = state.answers
+    const wrongPositions = state.answers
       .map((a, i) => (a && !a.correct) ? i : -1)
       .filter(i => i >= 0);
 
     const completedDate = new Date(state.completedAt);
-    const completedStr = completedDate.toLocaleString('ja-JP', {
-      year: 'numeric', month: 'long', day: 'numeric',
-      hour: '2-digit', minute: '2-digit'
+    const completedStr = completedDate.toLocaleDateString('ja-JP', {
+      year: 'numeric', month: 'long', day: 'numeric'
     });
+
+    // Score comparison: compare current with previous history (excluding self)
+    const history = loadHistory();
+    let comparisonHtml = '';
+    if (history && history.completedAt !== state.completedAt) {
+      const delta = percent - history.score;
+      let deltaClass = 'same';
+      let deltaSign = '±';
+      if (delta > 0) { deltaClass = 'up'; deltaSign = '+'; }
+      else if (delta < 0) { deltaClass = 'down'; deltaSign = ''; }
+      const prevDate = new Date(history.completedAt);
+      const prevStr = prevDate.toLocaleDateString('ja-JP', {month: 'long', day: 'numeric'});
+      comparisonHtml = `
+        <div class="score-comparison">
+          <div class="score-comparison-label">Compared to last attempt · 前回比較</div>
+          <div class="score-comparison-row">
+            <span>${prevStr}：<strong>${history.score}%</strong> (${history.correct}/${history.total})</span>
+            <span>→</span>
+            <span>今回：<strong>${percent}%</strong> (${correct}/${QUESTIONS.length})</span>
+            <span class="score-delta ${deltaClass}">${deltaSign}${delta}pt</span>
+          </div>
+        </div>
+      `;
+    }
 
     app.innerHTML = `
       ${renderHeader(false)}
@@ -1783,7 +1797,7 @@ QUESTIONS.push(...QUESTIONS_DATA);
         <div class="submit-notice-body">
           <strong>この画面全体をスクリーンショットして、先生に提出してください。</strong><br>
           氏名・学籍番号・正答率・完了日時がこの1画面に収まっています。
-          <div class="submit-notice-caution">※ 下の「間違いを復習」を押すと別画面に移ります。スクリーンショットは<u>この画面</u>を撮ってください。</div>
+          <div class="submit-notice-caution">※ 下の「間違いを再挑戦」を押すと別画面に移ります。スクリーンショットは<u>この画面</u>を撮ってください。</div>
         </div>
       </div>
 
@@ -1812,31 +1826,40 @@ QUESTIONS.push(...QUESTIONS_DATA);
         </div>
 
         <p class="results-msg">${msg}</p>
+        ${comparisonHtml}
 
-        <div class="btn-row">
-          ${wrong > 0 ? `<button class="btn" data-action="review">間違いを復習 <span class="btn-arrow">→</span></button>` : ''}
-          <button class="btn btn-ghost" data-action="restart">最初から解き直す</button>
+        <div class="btn-row" style="margin-top:24px;">
+          ${wrong > 0 ? `<button class="btn" data-action="retry-wrong">📝 間違えた ${wrong}問を再挑戦 <span class="btn-arrow">→</span></button>` : ''}
+          <button class="btn btn-ghost" data-action="restart-all">🔄 最初から解き直す</button>
         </div>
 
         <div class="footer">© Kaoruko Takechi 2026</div>
       </div>
     `;
 
+    bindCommonHandlers();
     app.querySelectorAll('[data-action]').forEach(el => {
       el.addEventListener('click', () => {
         const act = el.dataset.action;
-        if (act === 'review') {
-          state.reviewList = wrongIndices;
-          state.reviewPos = 0;
-          state.mode = 'review';
+        if (act === 'retry-wrong') {
+          state.retryList = wrongPositions.slice();
+          state.retryAnswers = new Array(state.retryList.length).fill(null);
+          state.retryIndex = 0;
+          state.retryCompletedAt = null;
+          state.mode = 'retry';
+          save();
           render();
-        } else if (act === 'restart') {
-          // Keep name/id but reset progress, re-shuffle for new attempt
+        } else if (act === 'restart-all') {
+          // Keep id/name. Reset everything else, re-shuffle.
           state.answers = new Array(QUESTIONS.length).fill(null);
           state.order = makeOrder();
           state.index = 0;
           state.answered = false;
           state.completedAt = null;
+          state.retryList = [];
+          state.retryAnswers = [];
+          state.retryIndex = 0;
+          state.retryCompletedAt = null;
           state.mode = 'quiz';
           save();
           render();
@@ -1845,58 +1868,212 @@ QUESTIONS.push(...QUESTIONS_DATA);
     });
   }
 
-  function renderReview() {
-    if (state.reviewList.length === 0) {
+  // ============================================================
+  // Retry mode (re-attempt wrong questions)
+  // ============================================================
+  function currentRetryQ() {
+    const pos = state.retryList[state.retryIndex];
+    return QUESTIONS[state.order[pos]];
+  }
+
+  function renderRetry() {
+    if (state.retryList.length === 0) {
       state.mode = 'result';
       render();
       return;
     }
-
-    const qPos = state.reviewList[state.reviewPos];   // position in shuffled order
-    const q = QUESTIONS[state.order[qPos]];            // resolve to actual question
-    const existing = state.answers[qPos];
-    const reviewTotal = state.reviewList.length;
+    const q = currentRetryQ();
+    const total = state.retryList.length;
+    const existing = state.retryAnswers[state.retryIndex];
+    const answered = existing != null;
+    const originalPos = state.retryList[state.retryIndex];
 
     app.innerHTML = `
       ${renderHeader(false)}
-      <div class="review-header">
-        <div class="review-title">Review<span class="review-title-jp">間違えた問題の復習</span></div>
-        <div class="review-count">${state.reviewPos + 1} / ${reviewTotal}</div>
+      <div class="retry-banner">
+        <span class="retry-banner-label">Retry</span>
+        <strong>間違えた${total}問の再挑戦中</strong> — もう一度解いて、定着を確認しよう。
       </div>
-      <div class="question-num">Question ${qPos + 1}</div>
+      ${renderRetryProgress()}
+      <div class="question-num">Question ${originalPos + 1} (re-attempt)</div>
       <div class="question">${escapeHtml(q.q)}</div>
       <div class="options">
         ${q.opts.map((opt, i) => {
           const num = i + 1;
           const letter = String.fromCharCode(65 + i);
-          let cls = 'option dimmed';
-          if (num === q.ans) cls = 'option correct';
-          else if (existing && num === existing.chosen) cls = 'option wrong';
+          let cls = 'option';
+          if (answered) {
+            cls += ' dimmed';
+            if (num === q.ans) cls = 'option correct';
+            else if (num === existing.chosen) cls = 'option wrong';
+          }
           return `
-            <button class="${cls}" disabled>
+            <button class="${cls}" data-num="${num}" ${answered ? 'disabled' : ''}>
               <span class="option-letter">(${letter})</span>
               <span class="option-text">${escapeHtml(opt)}</span>
             </button>
           `;
         }).join('')}
       </div>
-      ${renderFeedback(q, existing || {chosen: 0, correct: false})}
+      ${(!answered && isTeacher()) ? renderTeacherHint(q) : ''}
+      ${answered ? renderFeedback(q, existing) : ''}
       <div class="nav">
-        <button class="nav-quit" data-action="result">結果に戻る</button>
-        <div style="display:flex;gap:10px;">
-          ${state.reviewPos > 0 ? `<button class="btn btn-ghost" data-action="prev">← 前</button>` : ''}
-          ${state.reviewPos < reviewTotal - 1 ? `<button class="btn" data-action="next">次 →</button>` : `<button class="btn" data-action="result">完了 →</button>`}
-        </div>
+        <button class="nav-quit" data-action="back-to-result">結果に戻る</button>
+        ${answered ? `
+          <button class="btn" data-action="retry-next">
+            ${state.retryIndex === total - 1 ? '結果画面に戻る' : '次の問題'} <span class="btn-arrow">→</span>
+          </button>
+        ` : ''}
       </div>
       <div class="footer">© Kaoruko Takechi 2026</div>
     `;
 
+    bindCommonHandlers();
+    app.querySelectorAll('.option:not([disabled])').forEach(el => {
+      el.addEventListener('click', () => {
+        const num = parseInt(el.dataset.num, 10);
+        const correct = num === q.ans;
+        state.retryAnswers[state.retryIndex] = { chosen: num, correct: correct };
+        save();
+        render();
+        // session5: 選択肢クリック時に正解例文をUS音声で自動再生
+        const fullSentence = q.q.replace('_____', q.opts[q.ans - 1]);
+        speakSentence(fullSentence, 'en-US');
+      });
+    });
     app.querySelectorAll('[data-action]').forEach(el => {
       el.addEventListener('click', () => {
         const act = el.dataset.action;
-        if (act === 'next') { state.reviewPos++; render(); }
-        else if (act === 'prev') { state.reviewPos--; render(); }
-        else if (act === 'result') { state.mode = 'result'; render(); }
+        if (act === 'retry-next') {
+          if (state.retryIndex === state.retryList.length - 1) {
+            // 再挑戦完了 → 初回結果画面に戻る（高専仕様：再挑戦は内部復習扱い、スコアには反映しない）
+            state.mode = 'result';
+          } else {
+            state.retryIndex++;
+          }
+          save();
+          render();
+        } else if (act === 'back-to-result') {
+          state.mode = 'result';
+          render();
+        }
+      });
+    });
+  }
+
+
+  // ============================================================
+  // Dictionary popup: renderTextWithMatches
+  // ============================================================
+  // matches: [{start, end, term, meaning, original}] (sorted by start)
+  // Returns HTML with clickable spans for matched words.
+  function renderTextWithMatches(text, matches) {
+    if (!matches || matches.length === 0) {
+      return escapeHtml(text);
+    }
+    // Sort by start
+    const sorted = matches.slice().sort((a, b) => a.start - b.start);
+    let html = '';
+    let cursor = 0;
+    for (const m of sorted) {
+      if (m.start < cursor) continue; // skip overlapping
+      // Plain text before this match
+      if (m.start > cursor) {
+        html += escapeHtml(text.substring(cursor, m.start));
+      }
+      // Matched word as clickable
+      const word = text.substring(m.start, m.end);
+      const dataMeaning = escapeHtml(m.meaning).replace(/'/g, "&#39;");
+      const dataTerm = escapeHtml(m.term).replace(/'/g, "&#39;");
+      html += `<span class="clickable-word" data-term="${dataTerm}" data-meaning="${dataMeaning}">${escapeHtml(word)}</span>`;
+      cursor = m.end;
+    }
+    // Trailing plain text
+    if (cursor < text.length) {
+      html += escapeHtml(text.substring(cursor));
+    }
+    return html;
+  }
+
+  // Popup management
+  let activePopupEl = null;
+  let activeWordEl = null;
+
+  function closePopup() {
+    if (activePopupEl) {
+      activePopupEl.remove();
+      activePopupEl = null;
+    }
+    if (activeWordEl) {
+      activeWordEl.classList.remove('active');
+      activeWordEl = null;
+    }
+    document.removeEventListener('click', onDocClickToClose, true);
+    document.removeEventListener('keydown', onEscToClose);
+  }
+
+  function onDocClickToClose(e) {
+    if (activePopupEl && !activePopupEl.contains(e.target) && !e.target.classList.contains('clickable-word')) {
+      closePopup();
+    }
+  }
+
+  function onEscToClose(e) {
+    if (e.key === 'Escape') closePopup();
+  }
+
+  function showPopup(wordEl) {
+    closePopup();
+    const term = wordEl.dataset.term || '';
+    const meaning = wordEl.dataset.meaning || '';
+    if (!meaning) return;
+
+    const popup = document.createElement('div');
+    popup.className = 'word-popup';
+    popup.innerHTML = `
+      <button class="word-popup-close" type="button" aria-label="閉じる">×</button>
+      <div class="word-popup-headword">${escapeHtml(term)}</div>
+      <div class="word-popup-meaning">${escapeHtml(meaning)}</div>
+    `;
+    document.body.appendChild(popup);
+
+    // Position below the word
+    const rect = wordEl.getBoundingClientRect();
+    const popupRect = popup.getBoundingClientRect();
+    let left = rect.left;
+    let top = rect.bottom + 6;
+    // Adjust if overflowing right
+    if (left + popupRect.width > window.innerWidth - 12) {
+      left = Math.max(12, window.innerWidth - popupRect.width - 12);
+    }
+    // Adjust if overflowing bottom (show above)
+    if (top + popupRect.height > window.innerHeight - 12) {
+      top = Math.max(12, rect.top - popupRect.height - 6);
+    }
+    popup.style.left = left + 'px';
+    popup.style.top = top + 'px';
+
+    activePopupEl = popup;
+    activeWordEl = wordEl;
+    wordEl.classList.add('active');
+
+    popup.querySelector('.word-popup-close').addEventListener('click', (e) => {
+      e.stopPropagation();
+      closePopup();
+    });
+
+    // Use capture to catch clicks before they reach buttons
+    setTimeout(() => {
+      document.addEventListener('click', onDocClickToClose, true);
+      document.addEventListener('keydown', onEscToClose);
+    }, 0);
+  }
+
+  function bindClickableWords() {
+    app.querySelectorAll('.clickable-word').forEach(el => {
+      el.addEventListener('click', (e) => {
+        e.stopPropagation();
+        showPopup(el);
       });
     });
   }
@@ -1910,18 +2087,17 @@ QUESTIONS.push(...QUESTIONS_DATA);
       .replace(/'/g,'&#39;');
   }
 
-  // Initialize on load
-  document.addEventListener('DOMContentLoaded', () => {
+  // ============================================================
+  // Initialize
+  // ============================================================
+  function init() {
     state.answers = new Array(QUESTIONS.length).fill(null);
     render();
-  });
-
-  // also run immediately in case DOMContentLoaded already fired
+  }
   if (document.readyState === 'loading') {
-    // wait
+    document.addEventListener('DOMContentLoaded', init);
   } else {
-    state.answers = new Array(QUESTIONS.length).fill(null);
-    render();
+    init();
   }
 })();
 </script>

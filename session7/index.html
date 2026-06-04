@@ -1304,6 +1304,20 @@ const AWAWA_PETS=[
           state.runs[t]={order:r.order.slice(),
             answers:r.answers.map(a=>(a&&typeof a==='object'&&typeof a.chosen==='number')?{chosen:a.chosen,correct:!!a.correct}:null),
             done:!!r.done,completedAt:r.completedAt||null};}}}
+    if(typeof s.track==='number'&&s.track>=0&&s.track<2){
+      const n=trackTotal(s.track);
+      state.track=s.track;
+      state.index=(typeof s.index==='number'&&s.index>=0&&s.index<n)?s.index:Math.max(0,state.runs[s.track].answers.findIndex(a=>a==null));
+      if(state.index<0)state.index=0;
+    }
+    if(typeof s.retryTrack==='number'&&s.retryTrack>=0&&s.retryTrack<2){
+      const n=trackTotal(s.retryTrack);
+      const list=Array.isArray(s.retryList)?s.retryList.filter(x=>typeof x==='number'&&x>=0&&x<n&&x%1===0):[];
+      state.retryTrack=s.retryTrack;
+      state.retryList=list;
+      state.retryAnswers=Array.isArray(s.retryAnswers)?list.map((_,i)=>{const a=s.retryAnswers[i];return(a&&typeof a==='object'&&typeof a.chosen==='number')?{chosen:a.chosen,correct:!!a.correct}:null;}):Array(list.length).fill(null);
+      state.retryIndex=(typeof s.retryIndex==='number'&&s.retryIndex>=0&&s.retryIndex<list.length)?s.retryIndex:0;
+    }
     state.mode=(state.studentId&&state.studentName)?'hub':'gate';
   }
   function isTeacher(){return state.studentId===TEACHER_ID&&state.studentName===TEACHER_NAME;}
@@ -1314,6 +1328,10 @@ const AWAWA_PETS=[
   function overallCorrect(){let c=0;for(let t=0;t<2;t++)if(state.runs[t].done)c+=trackCorrect(t);return c;}
   function overallTotal(){return trackTotal(0)+trackTotal(1);}
   function allPerfect(){return trackPerfect(0)&&trackPerfect(1);}
+  function canResumeTrack(t){const r=runOf(t);return state.track===t&&!r.done&&validOrder(r.order,trackTotal(t))&&r.answers.some(a=>a!=null);}
+  function canResumeRetry(){return typeof state.retryTrack==='number'&&state.retryList.length>0&&state.retryAnswers.some(a=>a!=null);}
+  function resumeTrack(t){if(!canResumeTrack(t))return;state.track=t;state.mode='quiz';save();render();}
+  function resumeRetry(){if(!canResumeRetry())return;state.mode='retry';save();render();}
 
   function render(){closePopup();
     if(state.mode==='gate')renderGate();
@@ -1403,6 +1421,7 @@ const AWAWA_PETS=[
         ${perfect?`<div class="track-perfect-tag">🎉 Perfect! 全問正解</div>`:''}
         <div class="track-enter">${done?'もう一度挑戦する':'始める'} →</div>
       </div>
+      ${canResumeTrack(t.id)?`<button class="retry-entry" data-action="resume-track" data-track="${t.id}">▶ 続きから始める：${t.name}</button>`:''}
       <button class="retry-entry" data-action="retry-track" data-track="${t.id}" ${wrong.length?'':'disabled'}>🔄 誤答のやり直し：${t.name}${wrong.length?`（${wrong.length}問）`:'（なし）'}</button>
       <div class="track-gap"></div>`;
     }
@@ -1434,6 +1453,7 @@ const AWAWA_PETS=[
         <div class="hub-eyebrow">Kinzemi Vocabulary · Session 7</div>
         <div class="hub-title">セットを選ぶ</div>
         ${submitBlock}
+        ${canResumeRetry()?`<button class="retry-entry" data-action="resume-retry">▶ 誤答のやり直しを続きから始める：${TRACKS[state.retryTrack].name}</button><div class="track-gap"></div>`:''}
         ${tracksHTML}
         <div class="btn-row" style="margin-top:8px;flex-direction:column;align-items:stretch;gap:6px;">
           <button class="btn btn-ghost" data-action="to-gate">← 学籍番号・氏名の入力、注意書きの確認に戻る</button>
@@ -1442,6 +1462,8 @@ const AWAWA_PETS=[
         <div class="footer">© Kaoruko Takechi 2026</div>
       </div>`;
     app.querySelectorAll('[data-action="enter-track"]').forEach(el=>el.addEventListener('click',()=>{startTrack(+el.dataset.track);}));
+    app.querySelectorAll('[data-action="resume-track"]').forEach(el=>el.addEventListener('click',()=>{resumeTrack(+el.dataset.track);}));
+    app.querySelectorAll('[data-action="resume-retry"]').forEach(el=>el.addEventListener('click',()=>{resumeRetry();}));
     app.querySelectorAll('[data-action="retry-track"]').forEach(el=>el.addEventListener('click',()=>{if(el.disabled)return;startRetry(+el.dataset.track);}));
     app.querySelectorAll('[data-action="to-gate"]').forEach(el=>el.addEventListener('click',()=>{state.mode='gate';save();render();}));
     bindCommon();

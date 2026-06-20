@@ -8,7 +8,7 @@
 <meta name="googlebot" content="noindex, nofollow">
 <meta name="GPTBot" content="noindex, nofollow">
 <meta name="ClaudeBot" content="noindex, nofollow">
-<title>近ゼミ 第10回 英単語クイズ 100問</title>
+<title>「T」用語彙 第10回 語彙クイズ 100問</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@500;700&display=swap" rel="stylesheet">
@@ -1258,7 +1258,7 @@ const AWAWA_PETS=[
 <script>
 (function(){
   const SESSION_LABEL = '第10回';
-  const APP_TITLE_SUB = '近ゼミ 英単語';
+  const APP_TITLE_SUB = '「T」用語彙';
   const STORAGE_KEY = 'kinzemi_s10_vocab_dual_v1';
   const TEACHER_ID = '22', TEACHER_NAME = '22';
   const TRACKS = [
@@ -1307,7 +1307,13 @@ const AWAWA_PETS=[
     if(typeof s.track==='number'&&s.track>=0&&s.track<2){
       const n=trackTotal(s.track);
       state.track=s.track;
-      state.index=(typeof s.index==='number'&&s.index>=0&&s.index<n)?s.index:Math.max(0,state.runs[s.track].answers.findIndex(a=>a==null));
+      const next=state.runs[s.track].answers.findIndex(a=>a==null);
+      const allAnswered=(next<0 && state.runs[s.track].answers.length===n && n>0);
+      if(allAnswered && !state.runs[s.track].done){
+        state.index=n-1;
+      }else{
+        state.index=(typeof s.index==='number'&&s.index>=0&&s.index<n)?s.index:((next>=0)?next:0);
+      }
       if(state.index<0)state.index=0;
     }
     if(typeof s.retryTrack==='number'&&s.retryTrack>=0&&s.retryTrack<2){
@@ -1328,9 +1334,19 @@ const AWAWA_PETS=[
   function overallCorrect(){let c=0;for(let t=0;t<2;t++)if(state.runs[t].done)c+=trackCorrect(t);return c;}
   function overallTotal(){return trackTotal(0)+trackTotal(1);}
   function allPerfect(){return trackPerfect(0)&&trackPerfect(1);}
-  function canResumeTrack(t){const r=runOf(t);return state.track===t&&!r.done&&validOrder(r.order,trackTotal(t))&&r.answers.some(a=>a!=null);}
+  function canResumeTrack(t){const r=runOf(t);return !r.done&&validOrder(r.order,trackTotal(t));}
   function canResumeRetry(){return typeof state.retryTrack==='number'&&state.retryList.length>0&&state.retryAnswers.some(a=>a!=null);}
-  function resumeTrack(t){if(!canResumeTrack(t))return;state.track=t;state.mode='quiz';save();render();}
+  function resumeTrack(t){
+    if(!canResumeTrack(t))return;
+    const r=runOf(t);
+    const next=r.answers.findIndex(a=>a==null);
+    state.track=t;
+    // 全問回答済みだが「結果を見る」を押していない場合は、最後の問題へ戻す。
+    // ここを0にすると、最後のフィードバックから離脱した学生がQ1へ戻される。
+    state.index=(next>=0)?next:Math.max(0,trackTotal(t)-1);
+    state.mode='quiz';
+    save();render();
+  }
   function resumeRetry(){if(!canResumeRetry())return;state.mode='retry';save();render();}
 
   function render(){closePopup();
@@ -1339,7 +1355,7 @@ const AWAWA_PETS=[
     else if(state.mode==='quiz')renderQuiz();
     else if(state.mode==='result')renderResult();
     else if(state.mode==='retry')renderRetry();
-    window.scrollTo({top:0,behavior:'instant'});}
+    window.scrollTo({top:0,behavior:'auto'});}
 
   function headerHTML(showMeta,metaText){
     return `<div class="header">
@@ -1362,8 +1378,8 @@ const AWAWA_PETS=[
   function renderGate(){
     app.innerHTML=headerHTML(false,'')+`
       <div class="start">
-        <div class="start-eyebrow">Kinzemi Vocabulary · Session 10</div>
-        <h1 class="start-title">近ゼミ 第10回 英単語クイズ</h1>
+        <div class="start-eyebrow">T Vocabulary · Session 10</div>
+        <h1 class="start-title">「T」用語彙 第10回</h1>
         <div class="start-title-en">100 Questions · Two Context Sets</div>
         <div class="name-form">
           <div class="name-field"><label class="name-label">学籍番号 <span style="color:var(--accent)">必須</span></label>
@@ -1412,16 +1428,18 @@ const AWAWA_PETS=[
     for(const t of TRACKS){
       const total=trackTotal(t.id),done=state.runs[t.id].done,perfect=trackPerfect(t.id),cor=trackCorrect(t.id);
       const pct=done?Math.round(cor/total*100):0;
+      const started=canResumeTrack(t.id);
+      const answeredN=state.runs[t.id].answers.filter(a=>a!=null).length;
       const wrong=state.runs[t.id].answers.map((a,i)=>(a&&!a.correct)?i:-1).filter(i=>i>=0);
       tracksHTML+=`
       <div class="track-card ${perfect?'perfect':''}" data-action="enter-track" data-track="${t.id}">
-        <div class="track-top"><span class="track-name">${t.name}</span><span class="track-badge ${done?'done':''}">${done?'実施済み':'未着手'}</span></div>
+        <div class="track-top"><span class="track-name">${t.name}</span><span class="track-badge ${done?'done':''}">${done?'実施済み':(started?'途中':'未着手')}</span></div>
         <div class="track-desc">${t.desc}</div>
-        ${done?`<div class="track-stat">直近の通し結果 ${pct}% ・ 正答 ${cor} / ${total}</div>`:`<div class="track-stat muted">未着手</div>`}
+        ${done?`<div class="track-stat">直近の通し結果 ${pct}% ・ 正答 ${cor} / ${total}</div>`:(started?`<div class="track-stat muted">途中 ${answeredN} / ${total}</div>`:`<div class="track-stat muted">未着手</div>`)}
         ${perfect?`<div class="track-perfect-tag">🎉 Perfect! 全問正解</div>`:''}
-        <div class="track-enter">${done?'もう一度挑戦する':'始める'} →</div>
+        <div class="track-enter">${done?'もう一度挑戦する':(started?'続きから始める':'始める')} →</div>
       </div>
-      ${canResumeTrack(t.id)?`<button class="retry-entry" data-action="resume-track" data-track="${t.id}">▶ 続きから始める：${t.name}</button>`:''}
+      ${started?`<button class="retry-entry" data-action="resume-track" data-track="${t.id}">▶ 続きから始める：${t.name}</button>`:''}
       <button class="retry-entry" data-action="retry-track" data-track="${t.id}" ${wrong.length?'':'disabled'}>🔄 誤答のやり直し：${t.name}${wrong.length?`（${wrong.length}問）`:'（なし）'}</button>
       <div class="track-gap"></div>`;
     }
@@ -1450,7 +1468,7 @@ const AWAWA_PETS=[
       `;
     app.innerHTML=headerHTML(false,'')+`
       <div class="hub">
-        <div class="hub-eyebrow">Kinzemi Vocabulary · Session 10</div>
+        <div class="hub-eyebrow">T Vocabulary · Session 10</div>
         <div class="hub-title">セットを選ぶ</div>
         ${submitBlock}
         ${canResumeRetry()?`<button class="retry-entry" data-action="resume-retry">▶ 誤答のやり直しを続きから始める：${TRACKS[state.retryTrack].name}</button><div class="track-gap"></div>`:''}
@@ -1461,7 +1479,11 @@ const AWAWA_PETS=[
         </div>
         <div class="footer">© Kaoruko Takechi 2026</div>
       </div>`;
-    app.querySelectorAll('[data-action="enter-track"]').forEach(el=>el.addEventListener('click',()=>{startTrack(+el.dataset.track);}));
+    app.querySelectorAll('[data-action="enter-track"]').forEach(el=>el.addEventListener('click',()=>{
+      const t=+el.dataset.track;
+      if(canResumeTrack(t))resumeTrack(t);
+      else startTrack(t);
+    }));
     app.querySelectorAll('[data-action="resume-track"]').forEach(el=>el.addEventListener('click',()=>{resumeTrack(+el.dataset.track);}));
     app.querySelectorAll('[data-action="resume-retry"]').forEach(el=>el.addEventListener('click',()=>{resumeRetry();}));
     app.querySelectorAll('[data-action="retry-track"]').forEach(el=>el.addEventListener('click',()=>{if(el.disabled)return;startRetry(+el.dataset.track);}));

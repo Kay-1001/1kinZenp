@@ -1268,8 +1268,12 @@
   .celebrate-sub { font-family:var(--serif-jp); font-size:.95rem; color:var(--muted); text-align:center; }
   @media (prefers-reduced-motion:reduce){ .conf-piece,.celebrate-medal,.celebrate-medal-ring,.celebrate-title{animation:none;} .conf-piece{display:none;} }
 
+
+/* retained-result navigation must remain usable on narrow screens */
+.header-right { flex-wrap: wrap; }
+#saved-submission { display:block; width:100%; max-width:100%; margin:8px 0 16px; padding:10px; font:inherit; }
 </style>
-<meta name="kinzemi-build" content="caed8d6c-692e-451e-b4f0-d29b43e2b88c"></head>
+<meta name="kinzemi-build" content="caed8d6c-692e-451e-b4f0-d29b43e2b88c"><meta name="kinzemi-retention-patch" content="1.1-20261018"></head>
 <body>
 <div class="app" id="app"></div>
 <script>
@@ -1314,56 +1318,140 @@ const AWAWA_PETS=[
   }
   function awawaHeight(pct){ if(pct>=100) return 0; return Math.round(48 + (100-pct)/100*48); } // 48〜96px
 
-  let state=null;
-  function freshState(){return{mode:'gate',track:null,index:0,studentName:'',studentId:'',rateMode:'normal',
-    runs:[{order:[],answers:[],done:false,completedAt:null},{order:[],answers:[],done:false,completedAt:null}],
-    retryTrack:null,retryList:[],retryAnswers:[],retryIndex:0};}
-  function save(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(state));}catch(e){}}
-  function load(){try{const r=localStorage.getItem(STORAGE_KEY);return r?JSON.parse(r):null;}catch(e){return null;}}
+  // KINZEMI_RETAINED_RESULTS_V1 (delivery patch 1.1, 2026-10-18).
+  // Current attempts, completed scores and cumulative mistakes are stored separately.
+  const RETENTION_KEY = STORAGE_KEY + ':retained-results-v1';
+  const PRE_RETENTION_KEY = STORAGE_KEY + ':before-retention-v1';
+  const CONTENT_TAG = contentTag(JSON.stringify(QUESTIONS.map(q=>[q.track,q.q,q.opts,q.ans])));
+  let state=null, storageWarning='', storageBlocked=false;
+  function contentTag(text){let h=2166136261;for(let i=0;i<text.length;i++){h^=text.charCodeAt(i);h=Math.imul(h,16777619);}return (h>>>0).toString(16);}
+  function emptyRun(){return {order:[],answers:[],done:false,completedAt:null};}
+  function freshState(){return{schemaVersion:2,contentTag:CONTENT_TAG,mode:'gate',track:null,index:0,studentName:'',studentId:'',rateMode:'normal',
+    runs:[emptyRun(),emptyRun()],completedRuns:[null,null],mistakeIds:[[],[]],submissions:[],selectedSubmissionId:null,
+    retryTrack:null,retryList:[],retryQuestionIds:[],retryAnswers:[],retryIndex:0,retryDone:false};}
+  function copyRun(r){return r?{order:r.order.slice(),answers:r.answers.map(a=>a?{chosen:a.chosen,correct:a.correct}:null),done:r.done,completedAt:r.completedAt}:null;}
+  function validAnswer(a){return a&&typeof a==='object'&&Number.isInteger(a.chosen)&&a.chosen>=1&&a.chosen<=4&&typeof a.correct==='boolean';}
+  function validDate(x){return typeof x==='string'&&Number.isFinite(Date.parse(x));}
+  function normalizeRun(r,t){
+    const n=trackTotal(t);if(!r||!validOrder(r.order,n)||!Array.isArray(r.answers)||r.answers.length!==n)return null;
+    const answers=r.answers.map(a=>validAnswer(a)?{chosen:a.chosen,correct:a.correct}:null);
+    return {order:r.order.slice(),answers,done:r.done===true&&answers.every(a=>a!==null),completedAt:validDate(r.completedAt)?r.completedAt:null};
+  }
+  function validIds(ids,t){const n=trackTotal(t);return [...new Set((Array.isArray(ids)?ids:[]).filter(i=>Number.isInteger(i)&&i>=0&&i<n))].sort((a,b)=>a-b);}
+  function rememberMistakes(t,r){if(!r)return;const ids=r.answers.flatMap((a,i)=>a&&!a.correct?[r.order[i]]:[]);state.mistakeIds[t]=validIds([...state.mistakeIds[t],...ids],t);}
+  function completedRunOf(t){return state.completedRuns[t]&&state.completedRuns[t].done?state.completedRuns[t]:null;}
+  function selectNewerRun(old,r){if(!r||!r.done)return old;if(!old)return copyRun(r);const a=Date.parse(old.completedAt)||0,b=Date.parse(r.completedAt)||0;return b>=a?copyRun(r):old;}
+  function validSubmission(s){
+    return s&&s.studentId===state.studentId&&s.studentName===state.studentName&&s.contentTag===CONTENT_TAG&&typeof s.id==='string'&&
+      Array.isArray(s.tracks)&&s.tracks.length===2&&s.tracks.every((r,t)=>r&&r.track===t&&r.total===trackTotal(t)&&Number.isInteger(r.correct)&&r.correct>=0&&r.correct<=r.total)&&
+      s.total===overallTotal()&&s.correct===s.tracks.reduce((n,r)=>n+r.correct,0)&&s.percent===Math.round(s.correct/s.total*100);
+  }
+  function sameOwner(s){return s&&s.studentId===state.studentId&&s.studentName===state.studentName&&s.contentTag===CONTENT_TAG;}
+  function mergeRetention(s){
+    if(!sameOwner(s))return;
+    for(let t=0;t<2;t++){
+      state.mistakeIds[t]=validIds([...state.mistakeIds[t],...validIds(s.mistakeIds&&s.mistakeIds[t],t)],t);
+      const r=normalizeRun(s.completedRuns&&s.completedRuns[t],t);
+      state.completedRuns[t]=selectNewerRun(state.completedRuns[t],r);
+    }
+    const known=new Set(state.submissions.map(x=>x.id));
+    for(const x of Array.isArray(s.submissions)?s.submissions:[])if(validSubmission(x)&&!known.has(x.id)){state.submissions.push(x);known.add(x.id);}
+    state.submissions.sort((a,b)=>(Date.parse(a.completedAt)||0)-(Date.parse(b.completedAt)||0));
+  }
+  function updateSubmission(){
+    if(!state.studentId||!state.studentName||!completedRunOf(0)||!completedRunOf(1))return;
+    const rs=state.completedRuns;
+    const id=contentTag(JSON.stringify(rs.map(r=>[r.order,r.answers,r.completedAt])));
+    if(state.submissions.some(s=>s.id===id))return;
+    const tracks=rs.map((r,t)=>({track:t,total:trackTotal(t),correct:r.answers.filter(a=>a&&a.correct).length,completedAt:r.completedAt}));
+    const dates=tracks.map(t=>t.completedAt).filter(validDate);
+    const completedAt=dates.length===2?dates.sort((a,b)=>Date.parse(a)-Date.parse(b))[1]:null;
+    const correct=tracks.reduce((n,t)=>n+t.correct,0),total=overallTotal();
+    state.submissions.push({id,contentTag:CONTENT_TAG,studentId:state.studentId,studentName:state.studentName,tracks,correct,total,percent:Math.round(correct/total*100),completedAt});
+    state.selectedSubmissionId=id;
+  }
+  function syncRetention(){
+    for(let t=0;t<2;t++){rememberMistakes(t,state.runs[t]);state.completedRuns[t]=selectNewerRun(state.completedRuns[t],state.runs[t].done?state.runs[t]:null);}
+    updateSubmission();
+  }
+  function readStored(key){try{const raw=localStorage.getItem(key);return raw?JSON.parse(raw):null;}catch(e){storageWarning='このブラウザーの保存記録を読み込めません。既存データを保護するため保存を保留しています。';storageBlocked=true;return null;}}
+  function save(){
+    syncRetention();if(storageBlocked)return false;
+    try{
+      const retained=readStored(RETENTION_KEY);if(storageBlocked)return false;mergeRetention(retained);updateSubmission();
+      localStorage.setItem(RETENTION_KEY,JSON.stringify({schemaVersion:1,contentTag:CONTENT_TAG,studentId:state.studentId,studentName:state.studentName,
+        completedRuns:state.completedRuns,mistakeIds:state.mistakeIds,submissions:state.submissions}));
+      localStorage.setItem(STORAGE_KEY,JSON.stringify(state));storageWarning='';return true;
+    }catch(e){storageWarning='記録を端末に保存できませんでした。画面を閉じる前に総合結果をスクリーンショットで保存してください。';return false;}
+  }
+  function load(){return readStored(STORAGE_KEY);}
   function hydrate(){
-    const s=load();state=freshState();
-    if(!s||typeof s!=='object')return;
+    let s=load();state=freshState();
+    // A retained copy can still be displayed if the main write failed or the main record is absent.
+    // A malformed main record remains write-protected by readStored().
+    if(!s||typeof s!=='object'){
+      const retained=readStored(RETENTION_KEY);
+      if(retained&&retained.contentTag===CONTENT_TAG&&typeof retained.studentId==='string'&&typeof retained.studentName==='string'){
+        s={...retained,schemaVersion:2,runs:[]};
+      }else return;
+    }
     state.studentName=typeof s.studentName==='string'?s.studentName:'';
     state.studentId=typeof s.studentId==='string'?s.studentId:'';
-    state.rateMode=(s.rateMode==='slow')?'slow':'normal';
-    if(Array.isArray(s.runs)&&s.runs.length===2){
-      for(let t=0;t<2;t++){const r=s.runs[t],n=TRACK_QIDX[t].length;
-        if(r&&validOrder(r.order,n)&&Array.isArray(r.answers)&&r.answers.length===n){
-          state.runs[t]={order:r.order.slice(),
-            answers:r.answers.map(a=>(a&&typeof a==='object'&&typeof a.chosen==='number')?{chosen:a.chosen,correct:!!a.correct}:null),
-            done:!!r.done,completedAt:r.completedAt||null};}}}
-    if(typeof s.track==='number'&&s.track>=0&&s.track<2){
-      const n=trackTotal(s.track);
-      state.track=s.track;
-      const next=state.runs[s.track].answers.findIndex(a=>a==null);
-      const allAnswered=(next<0 && state.runs[s.track].answers.length===n && n>0);
-      if(allAnswered && !state.runs[s.track].done){
-        state.index=n-1;
-      }else{
-        state.index=(typeof s.index==='number'&&s.index>=0&&s.index<n)?s.index:((next>=0)?next:0);
-      }
-      if(state.index<0)state.index=0;
+    state.rateMode=s.rateMode==='slow'?'slow':'normal';
+    if(s.contentTag&&s.contentTag!==CONTENT_TAG){storageBlocked=true;storageWarning='保存記録と教材の問題版が異なります。記録を上書きせず保留しています。';state.mode='gate';return;}
+    // One-time backup of the untouched legacy record. No clear()/removeItem() is used.
+    if(s.schemaVersion!==2&&!storageBlocked){
+      try{
+        if(!localStorage.getItem(PRE_RETENTION_KEY))localStorage.setItem(PRE_RETENTION_KEY,localStorage.getItem(STORAGE_KEY));
+      }catch(e){storageBlocked=true;storageWarning='更新前の記録のバックアップを保存できませんでした。元の記録を保護するため、保存を保留しています。';}
     }
-    if(typeof s.retryTrack==='number'&&s.retryTrack>=0&&s.retryTrack<2){
-      const n=trackTotal(s.retryTrack);
-      const list=Array.isArray(s.retryList)?s.retryList.filter(x=>typeof x==='number'&&x>=0&&x<n&&x%1===0):[];
-      state.retryTrack=s.retryTrack;
-      state.retryList=list;
-      state.retryAnswers=Array.isArray(s.retryAnswers)?list.map((_,i)=>{const a=s.retryAnswers[i];return(a&&typeof a==='object'&&typeof a.chosen==='number')?{chosen:a.chosen,correct:!!a.correct}:null;}):Array(list.length).fill(null);
-      state.retryIndex=(typeof s.retryIndex==='number'&&s.retryIndex>=0&&s.retryIndex<list.length)?s.retryIndex:0;
+    for(let t=0;t<2;t++)state.runs[t]=normalizeRun(s.runs&&s.runs[t],t)||emptyRun();
+    mergeRetention({...s,contentTag:s.contentTag||CONTENT_TAG});
+    mergeRetention(readStored(RETENTION_KEY));
+    if(Number.isInteger(s.track)&&s.track>=0&&s.track<2){state.track=s.track;const n=trackTotal(s.track),r=state.runs[s.track],next=r.answers.findIndex(a=>a===null);state.index=Number.isInteger(s.index)&&s.index>=0&&s.index<n?s.index:Math.max(0,next);}
+    if(Number.isInteger(s.retryTrack)&&s.retryTrack>=0&&s.retryTrack<2){
+      const t=s.retryTrack,n=trackTotal(t),r=state.runs[t];state.retryTrack=t;
+      // Legacy retryList stored SHUFFLED POSITIONS. Migrate once to stable question indices.
+      let ids=Array.isArray(s.retryQuestionIds)?s.retryQuestionIds:(Array.isArray(s.retryList)&&validOrder(r.order,n)?s.retryList.map(pos=>r.order[pos]):[]);
+      const seen=new Set(),records=[];
+      ids.forEach((id,i)=>{if(Number.isInteger(id)&&id>=0&&id<n&&!seen.has(id)){seen.add(id);records.push({id,a:validAnswer(s.retryAnswers&&s.retryAnswers[i])?s.retryAnswers[i]:null});}});
+      state.retryQuestionIds=records.map(x=>x.id);state.retryList=state.retryQuestionIds.slice();state.retryAnswers=records.map(x=>x.a);
+      state.retryIndex=Number.isInteger(s.retryIndex)&&s.retryIndex>=0&&s.retryIndex<records.length?s.retryIndex:0;
+      state.retryDone=s.retryDone===true;
     }
-    state.mode=(state.studentId&&state.studentName)?'hub':'gate';
+    syncRetention();
+    if(state.submissions.some(x=>x.id===s.selectedSubmissionId))state.selectedSubmissionId=s.selectedSubmissionId;
+    state.mode=(state.studentId&&state.studentName)?'hub':'gate';save();
+  }
+  function selectedSubmission(){return state.submissions.find(x=>x.id===state.selectedSubmissionId)||state.submissions[state.submissions.length-1]||null;}
+  function completionText(iso){return validDate(iso)?new Date(iso).toLocaleString('ja-JP',{timeZone:'Asia/Tokyo',year:'numeric',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit'})+' JST':'記録日時不明';}
+  function submissionCardHTML(s){return `<div class="submit-card" id="submit-card">
+      <div class="submit-card-flag">提出用 · この枠をスクリーンショット</div>
+      <div class="submit-card-row"><span class="submit-card-key">氏名</span><span class="submit-card-val">${esc(s.studentName)}</span></div>
+      <div class="submit-card-row"><span class="submit-card-key">学籍番号</span><span class="submit-card-val">${esc(s.studentId)}</span></div>
+      <div class="submit-card-row"><span class="submit-card-key">完了日時</span><span class="submit-card-val">${esc(completionText(s.completedAt))}</span></div>
+      <div class="submit-card-score"><div class="submit-card-pct">${s.percent}<sup>%</sup></div><div class="submit-card-detail">総合達成度 ・ 正答 ${s.correct} / ${s.total}（セット1とセット2の合算）</div></div>
+      <div class="submit-card-detail">${s.tracks.map((r,t)=>`${TRACKS[t].name}：${r.correct} / ${r.total}`).join('　')}</div>
+    </div>`;}
+  function renderSubmission(){
+    const s=selectedSubmission();if(!s){state.mode='hub';renderHub();return;}
+    app.innerHTML=headerHTML(false,'')+`<div class="hub"><h1 class="hub-title">総合結果を見る（提出用）</h1>
+      ${state.submissions.length>1?`<label>保存済みの結果 <select id="saved-submission">${state.submissions.slice().reverse().map(x=>`<option value="${esc(x.id)}" ${x.id===s.id?'selected':''}>${esc(completionText(x.completedAt))} ・ ${x.percent}%</option>`).join('')}</select></label>`:''}
+      ${submissionCardHTML(s)}<p class="submit-howto">この枠をスクリーンショットして提出してください。再挑戦・復習中も保存済みの結果を確認できます。</p>
+      <button class="btn btn-ghost" data-action="saved-hub">セット選択・誤答の復習に戻る</button></div>`;
+    app.querySelector('#saved-submission')?.addEventListener('change',e=>{state.selectedSubmissionId=e.target.value;save();render();});
+    app.querySelector('[data-action="saved-hub"]')?.addEventListener('click',()=>{state.mode='hub';save();render();});bindCommon();
   }
   function isTeacher(){return state.studentId===TEACHER_ID&&state.studentName===TEACHER_NAME;}
   function runOf(t){return state.runs[t];}
   function trackTotal(t){return TRACK_QIDX[t].length;}
-  function trackCorrect(t){return runOf(t).answers.filter(a=>a&&a.correct).length;}
-  function trackPerfect(t){const r=runOf(t);return r.done&&r.answers.length===trackTotal(t)&&r.answers.every(a=>a!=null)&&trackCorrect(t)===trackTotal(t);}
-  function overallCorrect(){let c=0;for(let t=0;t<2;t++)if(state.runs[t].done)c+=trackCorrect(t);return c;}
+  function trackCorrect(t){const r=completedRunOf(t)||runOf(t);return r.answers.filter(a=>a&&a.correct).length;}
+  function trackPerfect(t){const r=completedRunOf(t);return !!r&&trackCorrect(t)===trackTotal(t);}
+  function overallCorrect(){let c=0;for(let t=0;t<2;t++)if(completedRunOf(t))c+=trackCorrect(t);return c;}
   function overallTotal(){return trackTotal(0)+trackTotal(1);}
   function allPerfect(){return trackPerfect(0)&&trackPerfect(1);}
   function canResumeTrack(t){const r=runOf(t);return !r.done&&validOrder(r.order,trackTotal(t));}
-  function canResumeRetry(){return typeof state.retryTrack==='number'&&state.retryList.length>0&&state.retryAnswers.some(a=>a!=null);}
+  function canResumeRetry(){return Number.isInteger(state.retryTrack)&&state.retryQuestionIds.length>0&&!state.retryDone;}
   function resumeTrack(t){
     if(!canResumeTrack(t))return;
     const r=runOf(t);
@@ -1383,6 +1471,8 @@ const AWAWA_PETS=[
     else if(state.mode==='quiz')renderQuiz();
     else if(state.mode==='result')renderResult();
     else if(state.mode==='retry')renderRetry();
+    else if(state.mode==='retry-result')renderRetryResult();
+    else if(state.mode==='submission')renderSubmission();
     window.scrollTo({top:0,behavior:'auto'});}
 
   function headerHTML(showMeta,metaText){
@@ -1435,15 +1525,14 @@ const AWAWA_PETS=[
       const prevId=state.studentId, prevName=state.studentName;
       readNames(); if(!chkNames())return;
       const changed = (state.studentId!==prevId) || (state.studentName!==prevName);
-      const hasProgress = state.runs[0].done || state.runs[1].done ||
+      const hasProgress = state.submissions.length>0 || state.completedRuns.some(Boolean) || state.mistakeIds.some(x=>x.length>0) || state.runs[0].done || state.runs[1].done ||
                           state.runs[0].answers.some(a=>a!=null) || state.runs[1].answers.some(a=>a!=null);
       if(changed && hasProgress){
         if(!confirm('氏名または学籍番号を変更すると、これまでの達成度はすべてリセットされます。よろしいですか？')){
           // キャンセル時は旧値に戻してとどまる
           state.studentId=prevId; state.studentName=prevName; render(); return;
         }
-        state.runs=[{order:[],answers:[],done:false,completedAt:null},{order:[],answers:[],done:false,completedAt:null}];
-        state.retryTrack=null; state.retryList=[]; state.retryAnswers=[]; state.retryIndex=0;
+        const id=state.studentId,name=state.studentName,rate=state.rateMode;state=freshState();state.studentId=id;state.studentName=name;state.rateMode=rate;
       }
       state.mode='hub'; save(); render();
     });
@@ -1451,90 +1540,58 @@ const AWAWA_PETS=[
   }
 
   function renderHub(){
-    const oc=overallCorrect(),ot=overallTotal(),op=ot>0?Math.round(oc/ot*100):0;
+    syncRetention();const oc=overallCorrect(),ot=overallTotal(),op=ot?Math.round(oc/ot*100):0;
     let tracksHTML='';
     for(const t of TRACKS){
-      const total=trackTotal(t.id),done=state.runs[t.id].done,perfect=trackPerfect(t.id),cor=trackCorrect(t.id);
-      const pct=done?Math.round(cor/total*100):0;
-      const started=canResumeTrack(t.id);
-      const answeredN=state.runs[t.id].answers.filter(a=>a!=null).length;
-      const wrong=state.runs[t.id].answers.map((a,i)=>(a&&!a.correct)?i:-1).filter(i=>i>=0);
-      tracksHTML+=`
-      <div class="track-card ${perfect?'perfect':''}" data-action="enter-track" data-track="${t.id}">
-        <div class="track-top"><span class="track-name">${t.name}</span><span class="track-badge ${done?'done':''}">${done?'実施済み':(started?'途中':'未着手')}</span></div>
+      const total=trackTotal(t.id),done=!!completedRunOf(t.id),perfect=trackPerfect(t.id),cor=trackCorrect(t.id),pct=done?Math.round(cor/total*100):0;
+      const started=canResumeTrack(t.id),answeredN=state.runs[t.id].answers.filter(a=>a!=null).length,wrong=state.mistakeIds[t.id];
+      tracksHTML+=`<div class="track-card ${perfect?'perfect':''}" data-action="enter-track" data-track="${t.id}" role="button" tabindex="0">
+        <div class="track-top"><span class="track-name">${t.name}</span><span class="track-badge ${done?'done':''}">${started?(done?'再挑戦中':'途中'):(done?'実施済み':'未着手')}</span></div>
         <div class="track-desc">${t.desc}</div>
-        ${done?`<div class="track-stat">直近の通し結果 ${pct}% ・ 正答 ${cor} / ${total}</div>`:(started?`<div class="track-stat muted">途中 ${answeredN} / ${total}</div>`:`<div class="track-stat muted">未着手</div>`)}
-        ${perfect?`<div class="track-perfect-tag">🎉 Perfect! 全問正解</div>`:''}
-        <div class="track-enter">${done?'もう一度挑戦する':(started?'続きから始める':'始める')} →</div>
-      </div>
-      ${started?`<div class="btn-row" style="margin-top:8px;margin-bottom:8px;">
-        <button class="retry-entry" style="flex:1;margin-top:0;" data-action="resume-track" data-track="${t.id}">▶ 続きから始める：${t.name}</button>
-        <button class="retry-entry" style="flex:1;margin-top:0;" data-action="restart-track" data-track="${t.id}">最初からやり直す</button>
-      </div>`:''}
-      <button class="retry-entry" data-action="retry-track" data-track="${t.id}" ${wrong.length?'':'disabled'}>🔄 誤答のやり直し：${t.name}${wrong.length?`（${wrong.length}問）`:'（なし）'}</button>
-      <div class="track-gap"></div>`;
+        ${done?`<div class="track-stat">保存済みの通し結果 ${pct}% ・ 正答 ${cor} / ${total}</div>`:''}
+        ${started?`<div class="track-stat muted">途中 ${answeredN} / ${total}${done?'（前回成績は保持中）':''}</div>`:''}
+        ${perfect?'<div class="track-perfect-tag">🎉 Perfect! 全問正解</div>':''}
+        <div class="track-enter">${started?'続きから始める':done?'保存した結果を見る':'始める'} →</div></div>
+        ${started||done?`<div class="btn-row" style="margin-top:8px;margin-bottom:8px;"><button class="retry-entry" style="flex:1;margin-top:0;" data-action="restart-track" data-track="${t.id}">${done?'前回成績を残して、もう一度挑戦する':'最初からやり直す'}</button></div>`:''}
+        <button class="retry-entry" data-action="retry-track" data-track="${t.id}" ${wrong.length?'':'disabled'}>🔄 誤答のやり直し：${t.name}${wrong.length?`（履歴 ${wrong.length}問）`:'（なし）'}</button><div class="track-gap"></div>`;
     }
-    const bothDone = state.runs[0].done && state.runs[1].done;
-    const fmtToday = `${new Date().getFullYear()}年${new Date().getMonth()+1}月${new Date().getDate()}日`;
-    const submitBlock = bothDone ? `
-        <div class="submit-card" id="submit-card">
-          <div class="submit-card-flag">提出用 · この枠をスクリーンショット</div>
-          <div class="submit-card-row"><span class="submit-card-key">氏名</span><span class="submit-card-val">${esc(state.studentName||'(未入力)')}</span></div>
-          <div class="submit-card-row"><span class="submit-card-key">学籍番号</span><span class="submit-card-val">${esc(state.studentId||'(未入力)')}</span></div>
-          <div class="submit-card-row"><span class="submit-card-key">完了日</span><span class="submit-card-val">${fmtToday}</span></div>
-          <div class="submit-card-score">
-            <div class="submit-card-pct" ${allPerfect()?'style="color:var(--correct)"':''}>${op}<sup>%</sup></div>
-            <div class="submit-card-detail">総合達成度 ・ 正答 ${oc} / ${ot}（セット1とセット2の合算）</div>
-          </div>
-        </div>
-        <p class="submit-howto">この枠（氏名・学籍番号・達成度がそろっています）を画面ごとスクリーンショットして提出してください。氏名と学籍番号が必ず写るように撮ってください。</p>
-        ${allPerfect()?`<p class="allperfect-static">🎉 両セットとも全問正解 — 総合達成度100%</p>`:''}
-      ` : `
-        <div class="overall-card">
-          <div class="overall-label">総合達成度（途中経過）</div>
-          <div class="overall-big">${op}<sup>%</sup></div>
-          <div class="overall-sub">正答 ${oc} / ${ot}　（各セットの直近の通し結果を合算）</div>
-        </div>
-        <div class="pending-note">📌 提出用の画面は、<u>両方のセットを終えると</u>ここに表示されます。いまはまだ提出段階ではありません。残りのセットを進めてください。</div>
-      `;
-    app.innerHTML=headerHTML(false,'')+`
-      <div class="hub">
-        <div class="hub-eyebrow">KisoEn Vocabulary · Session 4</div>
-        <div class="hub-title">セットを選ぶ</div>
-        ${submitBlock}
-        ${canResumeRetry()?`<button class="retry-entry" data-action="resume-retry">▶ 誤答のやり直しを続きから始める：${TRACKS[state.retryTrack].name}</button><div class="track-gap"></div>`:''}
-        ${tracksHTML}
-        <div class="btn-row" style="margin-top:8px;flex-direction:column;align-items:stretch;gap:6px;">
-          <button class="btn btn-ghost" data-action="to-gate">← 学籍番号・氏名の入力、注意書きの確認に戻る</button>
-          <p class="gate-back-note">氏名・学籍番号のタイプミスを直したいときに使えます。ただし、氏名または学籍番号を変更すると、これまでの達成度はすべてリセットされ、最初からやり直しになります。</p>
-        </div>
-        <div class="footer">© Kaoruko Takechi 2026</div>
-      </div>`;
-    app.querySelectorAll('[data-action="enter-track"]').forEach(el=>el.addEventListener('click',()=>{
-      const t=+el.dataset.track;
-      if(canResumeTrack(t))resumeTrack(t);
-      else startTrack(t);
-    }));
-    app.querySelectorAll('[data-action="resume-track"]').forEach(el=>el.addEventListener('click',()=>{resumeTrack(+el.dataset.track);}));
-    app.querySelectorAll('[data-action="restart-track"]').forEach(el=>el.addEventListener('click',()=>{restartTrackFromBeginning(+el.dataset.track);}));
-    app.querySelectorAll('[data-action="resume-retry"]').forEach(el=>el.addEventListener('click',()=>{resumeRetry();}));
-    app.querySelectorAll('[data-action="retry-track"]').forEach(el=>el.addEventListener('click',()=>{if(el.disabled)return;startRetry(+el.dataset.track);}));
-    app.querySelectorAll('[data-action="to-gate"]').forEach(el=>el.addEventListener('click',()=>{state.mode='gate';save();render();}));
-    bindCommon();
+    const last=state.submissions[state.submissions.length-1];
+    const submitBlock=last?submissionCardHTML(last)+`<p class="submit-howto">保存済みの総合結果です。画面を離れたり再挑戦を始めたりしても、上の「総合結果を見る」から再表示できます。</p>`:
+      `<div class="overall-card"><div class="overall-label">総合達成度（途中経過）</div><div class="overall-big">${op}<sup>%</sup></div><div class="overall-sub">正答 ${oc} / ${ot}（完了した各セットの直近の通し結果）</div></div><div class="pending-note">両方のセットを終えると提出用の総合結果が保存されます。</div>`;
+    app.innerHTML=headerHTML(false,'')+`<div class="hub"><div class="hub-eyebrow">KisoEn Vocabulary · Session 4</div><div class="hub-title">セットを選ぶ</div>
+      ${submitBlock}${canResumeRetry()?`<button class="retry-entry" data-action="resume-retry">▶ 誤答のやり直しを続きから始める：${TRACKS[state.retryTrack].name}</button><div class="track-gap"></div>`:''}
+      ${tracksHTML}<p class="gate-back-note">誤答の履歴は復習して正解しても残ります。誤答のやり直しは練習で、達成度は変わりません。</p>
+      <div class="btn-row" style="margin-top:8px;flex-direction:column;align-items:stretch;gap:6px;"><button class="btn btn-ghost" data-action="to-gate">← 学籍番号・氏名の入力、注意書きの確認に戻る</button><p class="gate-back-note">同じ氏名・学籍番号で画面を行き来しても記録は残ります。変更時は確認後にその端末の学習記録をリセットします。</p></div><div class="footer">© Kaoruko Takechi 2026</div></div>`;
+    app.querySelectorAll('[data-action="enter-track"]').forEach(el=>{
+      const enter=()=>{const t=+el.dataset.track;if(canResumeTrack(t))resumeTrack(t);else if(completedRunOf(t)){state.track=t;state.mode='result';save();render();}else startTrack(t);};
+      el.addEventListener('click',enter);el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();enter();}});
+    });
+    app.querySelectorAll('[data-action="restart-track"]').forEach(el=>el.addEventListener('click',()=>restartTrackFromBeginning(+el.dataset.track)));
+    app.querySelector('[data-action="resume-retry"]')?.addEventListener('click',resumeRetry);
+    app.querySelectorAll('[data-action="retry-track"]').forEach(el=>el.addEventListener('click',()=>{if(!el.disabled)startRetry(+el.dataset.track);}));
+    app.querySelector('[data-action="to-gate"]')?.addEventListener('click',()=>{state.mode='gate';save();render();});bindCommon();
   }
   function readNames(){const i=document.getElementById('in-id'),n=document.getElementById('in-name');if(i)state.studentId=i.value.trim();if(n)state.studentName=n.value.trim();}
   function chkNames(){if(!state.studentId||!state.studentName){alert('学籍番号と氏名を入力してください。');return false;}return true;}
-  function startTrack(t){const n=trackTotal(t);state.runs[t]={order:shuffle(Array.from({length:n},(_,i)=>i)),answers:Array(n).fill(null),done:false,completedAt:null};state.track=t;state.index=0;state.mode='quiz';save();render();}
-  function restartTrackFromBeginning(t){
-    if(!canResumeTrack(t))return;
-    if(!confirm('保存済みの解答・進捗を消して、問題1から始めます。\n氏名・学籍番号は残ります。\nよろしいですか？'))return;
-    const n=trackTotal(t), oldOrder=runOf(t).order.slice();
-    state.runs[t]={order:validOrder(oldOrder,n)?oldOrder:Array.from({length:n},(_,i)=>i),answers:Array(n).fill(null),done:false,completedAt:null};
-    if(state.retryTrack===t){state.retryTrack=null;state.retryList=[];state.retryAnswers=[];state.retryIndex=0;}
+  function startTrack(t){
+    if(!Number.isInteger(t)||t<0||t>=2)return;
+    syncRetention();const n=trackTotal(t);state.runs[t]={order:shuffle(Array.from({length:n},(_,i)=>i)),answers:Array(n).fill(null),done:false,completedAt:null};
     state.track=t;state.index=0;state.mode='quiz';save();render();
   }
-  function startRetry(t){const w=state.runs[t].answers.map((a,i)=>(a&&!a.correct)?i:-1).filter(i=>i>=0);if(!w.length)return;state.retryTrack=t;state.retryList=w.slice();state.retryAnswers=Array(w.length).fill(null);state.retryIndex=0;state.mode='retry';save();render();}
+  function restartTrackFromBeginning(t){
+    if(!Number.isInteger(t)||t<0||t>=2)return;
+    if(!confirm('このセットを問題1から始めます。\n保存済みの成績・総合結果・誤答履歴は残ります。現在の途中経過だけを新しくします。\nよろしいですか？'))return;
+    startTrack(t);
+  }
+  function startRetry(t){
+    syncRetention();const w=validIds(state.mistakeIds[t],t);if(!w.length)return;
+    state.retryTrack=t;state.retryQuestionIds=w;state.retryList=w.slice();state.retryAnswers=Array(w.length).fill(null);state.retryIndex=0;state.retryDone=false;state.mode='retry';save();render();
+  }
   function quizQuestion(t,pos){return QUESTIONS[TRACK_QIDX[t][runOf(t).order[pos]]];}
+  function finishMainRun(t){
+    const r=runOf(t);if(!validOrder(r.order,trackTotal(t))||!r.answers.every(a=>a!==null))return;
+    if(!r.done){r.done=true;r.completedAt=new Date().toISOString();}syncRetention();state.mode='result';save();render();
+  }
 
   function renderQuiz(){
     const t=state.track,r=runOf(t),total=trackTotal(t);
@@ -1560,7 +1617,7 @@ const AWAWA_PETS=[
       r.answers[state.index]={chosen:num,correct:correct};save();render();
       if(q.full)speak(q.full,'en-US');}));
     app.querySelector('[data-action="next"]')?.addEventListener('click',()=>{state.index++;save();render();});
-    app.querySelector('[data-action="finish"]')?.addEventListener('click',()=>{r.done=true;r.completedAt=new Date().toISOString();state.mode='result';save();render();});
+    app.querySelector('[data-action="finish"]')?.addEventListener('click',()=>finishMainRun(t));
     app.querySelector('[data-action="to-hub"]')?.addEventListener('click',()=>{state.mode='hub';save();render();});
     bindCommon();bindPopup();
   }
@@ -1576,7 +1633,7 @@ const AWAWA_PETS=[
 
   function renderResult(){
     const t=state.track,total=trackTotal(t),cor=trackCorrect(t),wrong=total-cor,pct=total>0?Math.round(cor/total*100):0,perfect=(cor===total);
-    const wrongPos=runOf(t).answers.map((a,i)=>(a&&!a.correct)?i:-1).filter(i=>i>=0);
+    const wrongPos=state.mistakeIds[t];
     const bigWin = perfect && allPerfect();   // このセット満点で、両セットとも満点に到達した瞬間
     const miniWin = perfect && !bigWin;        // このセットだけ満点（全体はまだ）
     // 間違えた問題のやり直し（練習）終了直後は、通常の結果画面とは別トーンにする。
@@ -1618,7 +1675,7 @@ const AWAWA_PETS=[
           <div class="submit-notice-body">提出用は「総合得点・達成度」の画面です。両セットを終えてから、セット選択画面の上部にある総合達成度をスクリーンショットして提出してください。
           <div class="submit-notice-caution">※ この画面は${TRACKS[t].name}の結果です。下の「ハブに戻る」で総合達成度を確認できます。</div></div></div>`;
     app.innerHTML=headerHTML(false,'')+`
-      <div class="student-banner"><div><span class="student-name-jp">Student</span> <span class="student-name">${esc(state.studentName||'(名前未入力)')}</span>${state.studentId?`<span class="student-id"> · ${esc(state.studentId)}</span>`:''}</div><div class="student-datetime">${fmtDate(runOf(t).completedAt)}</div></div>
+      <div class="student-banner"><div><span class="student-name-jp">Student</span> <span class="student-name">${esc(state.studentName||'(名前未入力)')}</span>${state.studentId?`<span class="student-id"> · ${esc(state.studentId)}</span>`:''}</div><div class="student-datetime">${esc(completionText((completedRunOf(t)||runOf(t)).completedAt))}</div></div>
       ${noticeHTML}
       <div class="results">
         ${headBlock}
@@ -1633,7 +1690,7 @@ const AWAWA_PETS=[
         </div>
         <p class="results-msg">${msg}</p>
         <div class="btn-row" style="margin-top:24px;">
-          ${wrongPos.length?`<button class="btn" data-action="result-retry">📝 間違えた ${wrongPos.length}問を復習 <span class="btn-arrow">→</span></button>`:''}
+          ${wrongPos.length?`<button class="btn" data-action="result-retry">📝 過去に間違えた ${wrongPos.length}問を復習 <span class="btn-arrow">→</span></button>`:''}
           <button class="btn btn-ghost" data-action="result-hub">🔄 ハブに戻る（総合達成度）</button>
         </div>
         <div class="footer">© Kaoruko Takechi 2026</div>
@@ -1646,9 +1703,9 @@ const AWAWA_PETS=[
     bindCommon();
   }
 
-  function retryQuestion(){const t=state.retryTrack,pos=state.retryList[state.retryIndex];return QUESTIONS[TRACK_QIDX[t][runOf(t).order[pos]]];}
+  function retryQuestion(){const t=state.retryTrack,id=state.retryQuestionIds[state.retryIndex];return QUESTIONS[TRACK_QIDX[t][id]];}
   function renderRetry(){
-    const t=state.retryTrack,totalR=state.retryList.length,q=retryQuestion(),rec=state.retryAnswers[state.retryIndex],answered=rec!=null;
+    const t=state.retryTrack,totalR=state.retryQuestionIds.length,q=retryQuestion(),rec=state.retryAnswers[state.retryIndex],answered=rec!=null;
     app.innerHTML=headerHTML(true,`やり直し：${TRACKS[t].name}`)+`
       <div class="retry-banner"><span class="retry-banner-label">これは練習です。達成度は更新されません。</span>間違えた ${totalR} 問を順に復習します。</div>
       <div class="question-num">Review ${state.retryIndex+1} / ${totalR}</div>
@@ -1658,16 +1715,25 @@ const AWAWA_PETS=[
         return `<button class="${cls}" data-num="${num}" ${answered?'disabled':''}><span class="option-letter">(${L})</span><span class="option-text">${esc(opt)}</span></button>`;}).join('')}</div>
       ${answered?feedbackHTML(q,rec):''}
       <div class="nav"><button class="nav-quit" data-action="to-hub">中断してハブに戻る</button>
-        ${answered?`<button class="btn" data-action="${state.retryIndex===totalR-1?'r-back':'r-next'}">${state.retryIndex===totalR-1?'結果画面に戻る':'次へ'} <span class="btn-arrow">→</span></button>`:''}</div>
+        ${answered?`<button class="btn" data-action="${state.retryIndex===totalR-1?'r-back':'r-next'}">${state.retryIndex===totalR-1?'練習結果を見る':'次へ'} <span class="btn-arrow">→</span></button>`:''}</div>
       <div class="footer">© Kaoruko Takechi 2026</div>`;
     app.querySelectorAll('.option:not([disabled])').forEach(el=>el.addEventListener('click',()=>{
       clearYatta();if(state.retryAnswers[state.retryIndex]!=null)return;
       const num=+el.dataset.num,correct=(num===q.ans);state.retryAnswers[state.retryIndex]={chosen:num,correct:correct};save();render();
       if(q.full)speak(q.full,'en-US');}));
     app.querySelector('[data-action="r-next"]')?.addEventListener('click',()=>{state.retryIndex++;save();render();});
-    app.querySelector('[data-action="r-back"]')?.addEventListener('click',()=>{state.suppressAwawaOnce=true;state.mode='result';state.track=state.retryTrack;save();render();});
+    app.querySelector('[data-action="r-back"]')?.addEventListener('click',()=>{state.retryDone=true;state.mode='retry-result';save();render();});
     app.querySelector('[data-action="to-hub"]')?.addEventListener('click',()=>{state.mode='hub';save();render();});
     bindCommon();bindPopup();
+  }
+
+  function renderRetryResult(){
+    const t=state.retryTrack,n=state.retryQuestionIds.length,cor=state.retryAnswers.filter(a=>a&&a.correct).length;
+    app.innerHTML=headerHTML(false,'')+`<div class="results"><div class="results-eyebrow">Review · ${TRACKS[t].name}</div><h1 class="results-title">誤答の復習が終わりました。</h1>
+      <p>今回の練習：正答 ${cor} / ${n}</p><p class="results-msg">本編の達成度・総合結果・誤答履歴はそのままです。同じ問題を何度でも復習できます。</p>
+      <div class="btn-row"><button class="btn" data-action="practice-again">同じ誤答をもう一度練習する</button><button class="btn btn-ghost" data-action="practice-hub">セット選択に戻る</button></div></div>`;
+    app.querySelector('[data-action="practice-again"]')?.addEventListener('click',()=>startRetry(t));
+    app.querySelector('[data-action="practice-hub"]')?.addEventListener('click',()=>{state.mode='hub';save();render();});bindCommon();
   }
 
   let voiceCache=[];
@@ -1721,6 +1787,13 @@ const AWAWA_PETS=[
   }
   function accentBtns(full){const e=esc(full);return `<button class="accent-btn" data-speak="${e}" data-accent="en-US">🇺🇸<span class="accent-label">US</span></button><button class="accent-btn" data-speak="${e}" data-accent="en-GB">🇬🇧<span class="accent-label">UK</span></button>`;}
   function bindCommon(){
+    const header=app.querySelector('.header-right');
+    if(header&&state.submissions.length&&!app.querySelector('[data-action="view-submission"]')){
+      const b=document.createElement('button');b.className='retry-entry';b.style.cssText='margin:4px 0;padding:8px 12px;';b.dataset.action='view-submission';b.textContent='総合結果を見る（提出用）';
+      b.addEventListener('click',()=>{state.mode='submission';save();render();});header.appendChild(b);
+    }
+    if(storageWarning&&!app.querySelector('[data-storage-warning]')){const warning=document.createElement('div');warning.dataset.storageWarning='true';warning.className='pending-note';warning.setAttribute('role','alert');warning.textContent=storageWarning;app.prepend(warning);}
+
     app.querySelectorAll('.accent-btn').forEach(el=>el.addEventListener('click',()=>{const t=el.dataset.speak,a=el.dataset.accent;if(t)speak(t,a);}));
     app.querySelector('[data-action="rate-normal"]')?.addEventListener('click',()=>{if(state.rateMode!=='normal'){state.rateMode='normal';save();render();}});
     app.querySelector('[data-action="rate-slow"]')?.addEventListener('click',()=>{if(state.rateMode!=='slow'){state.rateMode='slow';save();render();}});

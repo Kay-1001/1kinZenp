@@ -1269,7 +1269,7 @@
   @media (prefers-reduced-motion:reduce){ .conf-piece,.celebrate-medal,.celebrate-medal-ring,.celebrate-title{animation:none;} .conf-piece{display:none;} }
 
 </style>
-<meta name="kinzemi-build" content="cdf93a89-850a-4cfd-92b0-cc68868c3715"></head>
+<meta name="kinzemi-build" content="64a492ee-72e7-4468-81ef-dcd5f4546451"><meta name="kinzemi-audio-progress-migration" content="1"><style>.audio-update-notice{margin:0 0 16px;padding:10px 12px;border:1px solid var(--rule,#d9e2ef);border-radius:8px;font-size:13px;line-height:1.65;color:var(--ink-soft,#586b87);background:var(--paper,#fff)}</style><meta name="kinzemi-audio-review" content="2"><style>[data-audio-review]{margin:14px 0;padding:12px;border:1px solid var(--line,#d9e2ef);border-radius:10px;background:var(--surface,#fff)}[data-audio-review] .btn{font-size:14px}[data-audio-status]{margin:8px 0 0;font-size:13px;line-height:1.6;color:var(--muted,#586b87)}.nav .btn:disabled,.accent-btn:disabled,.rate-segment-btn:disabled,[data-action="review-audio"]:disabled,[data-action="to-hub"]:disabled{opacity:.45;cursor:not-allowed}</style></head>
 <body>
 <div class="app" id="app"></div>
 <script>
@@ -1315,14 +1315,16 @@ const AWAWA_PETS=[
   function awawaHeight(pct){ if(pct>=100) return 0; return Math.round(48 + (100-pct)/100*48); } // 48〜96px
 
   let state=null;
-  function freshState(){return{mode:'gate',track:null,index:0,studentName:'',studentId:'',rateMode:'normal',
+  function freshState(){return{audioReviewMigration:1,mode:'gate',track:null,index:0,studentName:'',studentId:'',rateMode:'normal',
     runs:[{order:[],answers:[],done:false,completedAt:null},{order:[],answers:[],done:false,completedAt:null}],
     retryTrack:null,retryList:[],retryAnswers:[],retryIndex:0};}
   function save(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(state));}catch(e){}}
   function load(){try{const r=localStorage.getItem(STORAGE_KEY);return r?JSON.parse(r):null;}catch(e){return null;}}
   function hydrate(){
     const s=load();state=freshState();
-    if(!s||typeof s!=='object')return;
+    const legacyAudioExemption=!!s&&typeof s==='object'&&s.audioReviewMigration!==1;
+    const keepExistingAudio=a=>legacyAudioExemption&&Number.isInteger(a.chosen)&&a.chosen>=1&&a.chosen<=4;
+    if(!s||typeof s!=='object'){save();return;}
     state.studentName=typeof s.studentName==='string'?s.studentName:'';
     state.studentId=typeof s.studentId==='string'?s.studentId:'';
     state.rateMode=(s.rateMode==='slow')?'slow':'normal';
@@ -1330,7 +1332,7 @@ const AWAWA_PETS=[
       for(let t=0;t<2;t++){const r=s.runs[t],n=TRACK_QIDX[t].length;
         if(r&&validOrder(r.order,n)&&Array.isArray(r.answers)&&r.answers.length===n){
           state.runs[t]={order:r.order.slice(),
-            answers:r.answers.map(a=>(a&&typeof a==='object'&&typeof a.chosen==='number')?{chosen:a.chosen,correct:!!a.correct}:null),
+            answers:r.answers.map(a=>(a&&typeof a==='object'&&typeof a.chosen==='number')?{chosen:a.chosen,correct:!!a.correct,initialAudio:keepExistingAudio(a)||a.initialAudio===true,reviewAudio:keepExistingAudio(a)||a.reviewAudio===true}:null),
             done:!!r.done,completedAt:r.completedAt||null};}}}
     if(typeof s.track==='number'&&s.track>=0&&s.track<2){
       const n=trackTotal(s.track);
@@ -1349,10 +1351,11 @@ const AWAWA_PETS=[
       const list=Array.isArray(s.retryList)?s.retryList.filter(x=>typeof x==='number'&&x>=0&&x<n&&x%1===0):[];
       state.retryTrack=s.retryTrack;
       state.retryList=list;
-      state.retryAnswers=Array.isArray(s.retryAnswers)?list.map((_,i)=>{const a=s.retryAnswers[i];return(a&&typeof a==='object'&&typeof a.chosen==='number')?{chosen:a.chosen,correct:!!a.correct}:null;}):Array(list.length).fill(null);
+      state.retryAnswers=Array.isArray(s.retryAnswers)?list.map((_,i)=>{const a=s.retryAnswers[i];return(a&&typeof a==='object'&&typeof a.chosen==='number')?{chosen:a.chosen,correct:!!a.correct,initialAudio:keepExistingAudio(a)||a.initialAudio===true,reviewAudio:keepExistingAudio(a)||a.reviewAudio===true}:null;}):Array(list.length).fill(null);
       state.retryIndex=(typeof s.retryIndex==='number'&&s.retryIndex>=0&&s.retryIndex<list.length)?s.retryIndex:0;
     }
     state.mode=(state.studentId&&state.studentName)?'hub':'gate';
+    save();
   }
   function isTeacher(){return state.studentId===TEACHER_ID&&state.studentName===TEACHER_NAME;}
   function runOf(t){return state.runs[t];}
@@ -1367,7 +1370,7 @@ const AWAWA_PETS=[
   function resumeTrack(t){
     if(!canResumeTrack(t))return;
     const r=runOf(t);
-    const next=r.answers.findIndex(a=>a==null);
+    const next=r.answers.findIndex(a=>a==null||a.initialAudio!==true||a.reviewAudio!==true);
     state.track=t;
     // 全問回答済みだが「結果を見る」を押していない場合は、最後の問題へ戻す。
     // ここを0にすると、最後のフィードバックから離脱した学生がQ1へ戻される。
@@ -1375,9 +1378,9 @@ const AWAWA_PETS=[
     state.mode='quiz';
     save();render();
   }
-  function resumeRetry(){if(!canResumeRetry())return;state.mode='retry';save();render();}
+  function resumeRetry(){if(!canResumeRetry())return;const pending=state.retryAnswers.findIndex(a=>a==null||a.initialAudio!==true||a.reviewAudio!==true);state.retryIndex=pending>=0?pending:Math.max(0,state.retryList.length-1);state.mode='retry';save();render();}
 
-  function render(){closePopup();
+  function render(){if(speechBusy())return;stopReviewSpeech();closePopup();
     if(state.mode==='gate')renderGate();
     else if(state.mode==='hub')renderHub();
     else if(state.mode==='quiz')renderQuiz();
@@ -1386,7 +1389,7 @@ const AWAWA_PETS=[
     window.scrollTo({top:0,behavior:'auto'});}
 
   function headerHTML(showMeta,metaText){
-    return `<div class="header">
+    return `<p class="audio-update-notice" role="note">更新前の学習記録は保持されています。回答済みの問題は音声の聴き直し不要です。未回答の問題から、回答後に完成英文をもう一度聞いて進みます。</p><div class="header">
       <div class="brand"><span class="brand-session">${SESSION_LABEL}</span><span class="brand-main">${APP_TITLE_SUB}</span>${isTeacher()?'<span class="teacher-badge">✨ Teacher</span>':''}</div>
       <div class="header-right">
         ${showMeta?`<span class="meta">${metaText}</span>`:''}
@@ -1420,7 +1423,7 @@ const AWAWA_PETS=[
         </div>
         <div class="start-notes">
           <div class="start-notes-label">Notes · 注意事項</div>
-          <ul class="notes-list">
+          <ul class="notes-list"><li>回答後は完成英文の音声をもう一度、最後まで聞いてから次の問題へ進みます。再生中は音声の切り替えや画面移動はできません。解説や語注は確認できます。</li>
             <li>学籍番号と氏名を入れてから「セットを選ぶ」を押してください。次の画面でセット1・セット2を選べます。</li>
             <li>解説中の<span class="underline-demo">下線の語</span>をタップすると、意味が表示されます。</li>
             <li>間違えた問題は、各セットの下の「誤答のやり直し」で復習できます。これは練習で、達成度は変わりません。</li>
@@ -1551,17 +1554,17 @@ const AWAWA_PETS=[
       ${answered?feedbackHTML(q,rec):''}
       <div class="nav">
         <button class="nav-quit" data-action="to-hub">一時中断してハブに戻る</button>
-        ${answered?`<button class="btn" data-action="${state.index===total-1?'finish':'next'}">${state.index===total-1?'結果を見る':'次の問題'} <span class="btn-arrow">→</span></button>`:''}
+        ${answered?`<button class="btn" data-action="${state.index===total-1?'finish':'next'}" ${rec.reviewAudio===true?'':'disabled'} aria-describedby="audio-review-status">${state.index===total-1?'結果を見る':'次の問題'} <span class="btn-arrow">→</span></button>`:''}
       </div>
       <div class="footer">© Kaoruko Takechi 2026</div>`;
     app.querySelectorAll('.option:not([disabled])').forEach(el=>el.addEventListener('click',()=>{
       clearYatta();if(r.answers[state.index]!=null)return;
       const num=+el.dataset.num,correct=(num===q.ans);
       r.answers[state.index]={chosen:num,correct:correct};save();render();
-      if(q.full)speak(q.full,'en-US');}));
-    app.querySelector('[data-action="next"]')?.addEventListener('click',()=>{state.index++;save();render();});
-    app.querySelector('[data-action="finish"]')?.addEventListener('click',()=>{r.done=true;r.completedAt=new Date().toISOString();state.mode='result';save();render();});
-    app.querySelector('[data-action="to-hub"]')?.addEventListener('click',()=>{state.mode='hub';save();render();});
+      if(q.full)playInitialAudio();}));
+    app.querySelector('[data-action="next"]')?.addEventListener('click',()=>{if(!reviewAudioReady())return;state.index++;save();render();});
+    app.querySelector('[data-action="finish"]')?.addEventListener('click',()=>{if(!reviewAudioReady())return;r.done=true;r.completedAt=new Date().toISOString();state.mode='result';save();render();});
+    app.querySelector('[data-action="to-hub"]')?.addEventListener('click',()=>{if(speechBusy())return;state.mode='hub';save();render();});
     bindCommon();bindPopup();
   }
   function feedbackHTML(q,rec){const isC=rec.correct,L='ABCD'[q.ans-1],cw=q.opts[q.ans-1];
@@ -1569,7 +1572,7 @@ const AWAWA_PETS=[
       <div class="feedback-verdict">${isC?'Correct':'Incorrect'}<span class="feedback-verdict-jp">${isC?'正解':'不正解'} · 正答は (${L}) <span class="feedback-correct-answer">${esc(cw)}</span></span></div>
       <div class="feedback-sentence ${isC?'':'wrong-sentence'}"><span class="feedback-sentence-text">${renderMatches(q.full,q.sMatches||[],q.svMatches)}</span>
         <div class="accent-btns">${accentBtns(q.full)}</div></div>
-      <div class="feedback-body">${esc(q.exp)}</div></div>`;}
+      ${reviewAudioHTML(rec)}<div class="feedback-body">${esc(q.exp)}</div></div>`;}
 
   function scoreComment(p){if(p>=90)return'Excellent — 文句なし。よく仕上がっています。';if(p>=75)return'Strong — 安定した実力。誤答を見直して完璧に。';if(p>=60)return'Good — あと一歩。間違えた語を復習しましょう。';if(p>=40)return'Keep going — 解説をよく読んで再挑戦を。';return'Review — まず解説を丁寧に確認しましょう。';}
   function fmtDate(iso){const d=iso?new Date(iso):new Date();return `${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日`;}
@@ -1658,15 +1661,15 @@ const AWAWA_PETS=[
         return `<button class="${cls}" data-num="${num}" ${answered?'disabled':''}><span class="option-letter">(${L})</span><span class="option-text">${esc(opt)}</span></button>`;}).join('')}</div>
       ${answered?feedbackHTML(q,rec):''}
       <div class="nav"><button class="nav-quit" data-action="to-hub">中断してハブに戻る</button>
-        ${answered?`<button class="btn" data-action="${state.retryIndex===totalR-1?'r-back':'r-next'}">${state.retryIndex===totalR-1?'結果画面に戻る':'次へ'} <span class="btn-arrow">→</span></button>`:''}</div>
+        ${answered?`<button class="btn" data-action="${state.retryIndex===totalR-1?'r-back':'r-next'}" ${rec.reviewAudio===true?'':'disabled'} aria-describedby="audio-review-status">${state.retryIndex===totalR-1?'結果画面に戻る':'次へ'} <span class="btn-arrow">→</span></button>`:''}</div>
       <div class="footer">© Kaoruko Takechi 2026</div>`;
     app.querySelectorAll('.option:not([disabled])').forEach(el=>el.addEventListener('click',()=>{
       clearYatta();if(state.retryAnswers[state.retryIndex]!=null)return;
       const num=+el.dataset.num,correct=(num===q.ans);state.retryAnswers[state.retryIndex]={chosen:num,correct:correct};save();render();
-      if(q.full)speak(q.full,'en-US');}));
-    app.querySelector('[data-action="r-next"]')?.addEventListener('click',()=>{state.retryIndex++;save();render();});
-    app.querySelector('[data-action="r-back"]')?.addEventListener('click',()=>{state.suppressAwawaOnce=true;state.mode='result';state.track=state.retryTrack;save();render();});
-    app.querySelector('[data-action="to-hub"]')?.addEventListener('click',()=>{state.mode='hub';save();render();});
+      if(q.full)playInitialAudio();}));
+    app.querySelector('[data-action="r-next"]')?.addEventListener('click',()=>{if(!reviewAudioReady())return;state.retryIndex++;save();render();});
+    app.querySelector('[data-action="r-back"]')?.addEventListener('click',()=>{if(!reviewAudioReady())return;state.suppressAwawaOnce=true;state.mode='result';state.track=state.retryTrack;save();render();});
+    app.querySelector('[data-action="to-hub"]')?.addEventListener('click',()=>{if(speechBusy())return;state.mode='hub';save();render();});
     bindCommon();bindPopup();
   }
 
@@ -1690,27 +1693,85 @@ const AWAWA_PETS=[
     if(!v&&target.startsWith('en-'))v=vs.find(x=>langOf(x).startsWith('en-')||langOf(x)==='en');
     return v||null;
   }
-  function speak(text,code,attempt=0){
-    try{
-      if(!('speechSynthesis' in window)||!text)return;
-      const synth=window.speechSynthesis;
-      const target=code||'en-US';
-      if(!voiceCache.length){
-        refreshVoices();
-        if(!voiceCache.length&&attempt<1){setTimeout(()=>speak(text,target,attempt+1),180);return;}
-      }
-      synth.cancel();
-      setTimeout(()=>{
-        const u=new SpeechSynthesisUtterance(text);
-        u.lang=target;
-        u.rate=state.rateMode==='slow'?0.85:1.15;
-        u.pitch=1;
-        const v=getVoice(target);
-        if(v){u.voice=v;u.lang=v.lang||target;}
-        synth.speak(u);
-      },90);
-    }catch(e){}
+  // This code is inserted inside the lesson closure, beside its speech functions.
+  let reviewSpeechSerial=0,reviewSpeech=null;
+  function currentReviewRecord(){
+    if(state.mode==='quiz')return runOf(state.track).answers[state.index]||null;
+    if(state.mode==='retry')return state.retryAnswers[state.retryIndex]||null;
+    return null;
   }
+  function speechBusy(){return reviewSpeech!==null;}
+  function reviewAudioReady(){const rec=currentReviewRecord();return !speechBusy()&&rec?.initialAudio===true&&rec?.reviewAudio===true;}
+  function reviewAudioHTML(rec){
+    return `<div data-audio-review><button class="btn btn-ghost" data-action="review-audio">▶ 完成英文を${rec.initialAudio===true?'もう一度':''}聞く</button><p id="audio-review-status" data-audio-status role="status" aria-live="polite"></p></div>`;
+  }
+  function updateReviewControls(message){
+    const busy=speechBusy(),ready=reviewAudioReady(),rec=currentReviewRecord(),status=app.querySelector('[data-audio-status]');
+    app.querySelectorAll('[data-action="next"],[data-action="finish"],[data-action="r-next"],[data-action="r-back"]').forEach(el=>{el.disabled=!ready;});
+    app.querySelectorAll('.accent-btn,[data-action="review-audio"],[data-action="rate-normal"],[data-action="rate-slow"],[data-action="to-hub"]').forEach(el=>{el.disabled=busy;});
+    const button=app.querySelector('[data-action="review-audio"]');
+    if(button)button.textContent=busy?'音声を再生中…':`▶ 完成英文を${rec?.initialAudio===true?'もう一度':''}聞く`;
+    if(status)status.textContent=message||(busy?'音声が終わるまでお待ちください。解説や語注は確認できます。':ready?'聞き終わりました。次へ進めます。':rec?.initialAudio===true?'最初の音声が終わりました。完成英文をもう一度、最後まで聞いてください。':'最初の音声を最後まで聞いてください。再生できなかった場合は、上のボタンで再試行できます。');
+  }
+  function stopReviewSpeech(force=false){
+    // Application controls never cancel an active utterance. Only an audio
+    // error/start failure may force cleanup, without awarding listening credit.
+    if(speechBusy()&&!force)return;
+    reviewSpeechSerial++;
+    const previous=reviewSpeech;reviewSpeech=null;
+    if(previous)clearTimeout(previous.startTimer);
+    try{if('speechSynthesis' in window)window.speechSynthesis.cancel();}catch(e){}
+    if(previous)updateReviewControls();
+  }
+  function playInitialAudio(code){
+    if(speechBusy())return;
+    const record=currentReviewRecord();if(!record)return;
+    const question=state.mode==='quiz'?quizQuestion(state.track,state.index):retryQuestion();
+    speak(question.full,code||'en-US',0,record,'initial');
+  }
+  function playReviewAudio(code){
+    if(speechBusy())return;
+    const record=currentReviewRecord();if(!record)return;
+    // A reload or device interruption cannot skip the first full playback.
+    if(record.initialAudio!==true){playInitialAudio(code);return;}
+    const question=state.mode==='quiz'?quizQuestion(state.track,state.index):retryQuestion();
+    speak(question.full,code||'en-US',0,record);
+  }
+  function speak(text,code,attempt=0,record=null,phase='review'){
+    if(speechBusy())return;
+    stopReviewSpeech();
+    if(!text)return;
+    const token=reviewSpeechSerial;
+    const failMessage='音声を最後まで再生できませんでした。端末の音声設定を確認し、上の再生ボタンで再試行してください。';
+    if(!('speechSynthesis' in window)||typeof SpeechSynthesisUtterance==='undefined'){
+      if(record)updateReviewControls(failMessage);return;
+    }
+    try{
+      const u=new SpeechSynthesisUtterance(text),target=code||'en-US';
+      u.lang=target;u.rate=state.rateMode==='slow'?0.85:1.15;u.pitch=1;
+      const voice=getVoice(target);if(voice){u.voice=voice;u.lang=voice.lang||target;}
+      const playback={token,record,phase,utterance:u,started:false,startTimer:null};
+      reviewSpeech=playback;
+      const current=()=>reviewSpeech===playback&&reviewSpeechSerial===token&&(!record||currentReviewRecord()===record);
+      const fail=()=>{if(!current())return;stopReviewSpeech(true);updateReviewControls(failMessage);};
+      u.onstart=()=>{if(!current())return;playback.started=true;clearTimeout(playback.startTimer);updateReviewControls(phase==='initial'?'最初の音声を再生中です。終わると、もう一度聞けます。':'完成英文を再生中です。解説・語注を見ながら、最後まで聞いてください。');};
+      u.onend=()=>{
+        if(!current())return;
+        clearTimeout(playback.startTimer);reviewSpeech=null;
+        if(record&&playback.started){
+          if(phase==='initial')record.initialAudio=true;
+          else if(record.initialAudio===true)record.reviewAudio=true;
+          save();
+        }
+        updateReviewControls(playback.started?undefined:failMessage);
+      };
+      u.onerror=fail;
+      updateReviewControls('完成英文の音声を準備しています。');
+      playback.startTimer=setTimeout(()=>{if(!playback.started)fail();},10000);
+      window.speechSynthesis.speak(u);
+    }catch(e){stopReviewSpeech(true);updateReviewControls(failMessage);}
+  }
+
   if('speechSynthesis' in window){
     refreshVoices();
     if(typeof window.speechSynthesis.addEventListener==='function'){
@@ -1721,9 +1782,11 @@ const AWAWA_PETS=[
   }
   function accentBtns(full){const e=esc(full);return `<button class="accent-btn" data-speak="${e}" data-accent="en-US">🇺🇸<span class="accent-label">US</span></button><button class="accent-btn" data-speak="${e}" data-accent="en-GB">🇬🇧<span class="accent-label">UK</span></button>`;}
   function bindCommon(){
-    app.querySelectorAll('.accent-btn').forEach(el=>el.addEventListener('click',()=>{const t=el.dataset.speak,a=el.dataset.accent;if(t)speak(t,a);}));
-    app.querySelector('[data-action="rate-normal"]')?.addEventListener('click',()=>{if(state.rateMode!=='normal'){state.rateMode='normal';save();render();}});
-    app.querySelector('[data-action="rate-slow"]')?.addEventListener('click',()=>{if(state.rateMode!=='slow'){state.rateMode='slow';save();render();}});
+    app.querySelector('[data-action="review-audio"]')?.addEventListener('click',()=>playReviewAudio('en-US'));
+    updateReviewControls();
+    app.querySelectorAll('.accent-btn').forEach(el=>el.addEventListener('click',()=>{const t=el.dataset.speak,a=el.dataset.accent;if(t){if(el.closest('.feedback-sentence')&&currentReviewRecord())playReviewAudio(a);else speak(t,a);}}));
+    app.querySelector('[data-action="rate-normal"]')?.addEventListener('click',()=>{if(speechBusy())return;if(state.rateMode!=='normal'){state.rateMode='normal';save();render();}});
+    app.querySelector('[data-action="rate-slow"]')?.addEventListener('click',()=>{if(speechBusy())return;if(state.rateMode!=='slow'){state.rateMode='slow';save();render();}});
   }
 
   function renderMatches(text,sMatches,svMatches){
